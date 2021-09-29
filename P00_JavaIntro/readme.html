@@ -1,0 +1,214 @@
+<meta charset="utf-8" lang="en">  <!-- this line allows UTF-8 characters in the .html file -->
+
+
+                    **P00_JavaIntro**
+
+
+<!--
+
+General
+========
+
+For each of your team's implementations, explain the following (where appropriate and applicable):
+
+- details on calling conventions, input and output data formats, limitations, bugs, and special features.
+- negative aspects of your program (limitations, known bugs)
+- positive aspects (extensions, special features, extra credit)
+- describe your choice of modularization (abstractions), data structures, and algorithms
+- explain anything you did that is likely to be different from what other students may have done
+- justify any design decisions for which the rationale isn't immediately clear
+
+Feel free to modify the structure of this `readme.html` file to fit the current assignment and to fit how you wish to present your findings.
+
+Take a look at the [Markdeep Feature Demo](https://casual-effects.com/markdeep/features.md.html) to see how you can markup this document.
+
+
+
+Submission
+-----------
+
+Use the CSE LogHistory Plug-in to create a zip file containing all your code, this `readme.html` document, and any additional files of evidence (ex: screenshots).
+If you create a zip by other means, it will include all the files under `tests` and might miss some important files (ex: `.log/history.log`).
+The former will make for a very large zip file; the latter will cause you to lose points.
+
+
+-->
+
+
+
+Author
+=============
+
+
+<!-- fill out the following table with your information -->
+<!-- Note: wrapping table in div.noheader will hide the table's header -->
+<!-- Note: wrapping table in div.firstcol will style the first column different from other columns -->
+<div class="noheader firstcol">
+                  |             
+------------------|-------------
+name              | Joshua Shinkle
+computer + OS     | Ubuntu Linux Lab Machine
+time to complete  | 2 hours
+partner           | None
+additional help   | Dr. Brandle
+</div>
+
+
+
+
+Implementations
+===================
+I learned that if the size of the data is small, both algorithms are efficient and effective. In fact, the brute force search may even be preferred as the data can be structured in any way
+and always achieve the same result. However, I learned that with data of any decent size, the binary algorithm is much more efficient. The two algorithms are the same in speed and correctness
+with small data. They both iterate through checklist, searching for each value in whitelist. They differ in that while brute force search iterates in a linear fashion through whitelist, binary
+search iterates through whitelist in a logarithmic fashion. The algorithms also differ in that while binary search sorts the data, brute force search does not. Their final difference is in runtime
+with large data; binary search is exceedingly faster. When run on the tiny data set without sorting first, the brute force search performs exactly the same as if the data were sorted. The brute
+force program does not examine the structure of the data and therefore is unaffected by whether or not it's sorted. When run on the tiny data set without sorting first, the binary search finishes
+with the same runtime, but it finishes with an incorrect result. The binary search algorithm depends on the data being sorted in order to function properly. That's why it produces an incorrect
+result when the data isn't sorted.
+<!--
+Provide a summary of how the algorithm or data structure works.
+Describe briefly how you implemented each class/function/data structure/algorithm/etc.
+How did you check whether the program was working correctly?
+Did you test parts individually?
+How long did it take to run each implementation against each set of data?
+How does the length/structure of the data impact the runtime of the algorithm?
+Do the results surprise you?
+Provide a short explanation on what you learned about these two implementations.
+How are they the same? How are they different?
+What happens to when you run each implementation (Brute Force and Binary Search) on the tiny data sets without sorting first?
+-->
+
+<!-- ... -->
+
+
+Brute Force Search
+---------------------
+
+The brute force search iterates through checklist and whitelist in a linear fashion, checking if each value of checklist is or is not in whitelist. I implemented the brute force search class
+with a for loop that iterates through a list parameter to the class (whitelist) and compares each value in the list to a "key" parameter passed into the class (value in checklist being searched
+for) to determine if "key" is in whitelist. I checked the program's correctness with two output tests: a test with tiny lists and a test with large lists. I tested parts individually by writing
+the program incrementally, testing its output to the tests against what I expected to receive. My program almost instantly finished against the tiny set of data. However, it took a very long time
+against the large set of data. The larger the data, the longer the runtime of the algorithm. Furthermore, because the algorithm doesn't consider the structure of the data, changing the data
+structure has no effect on the runtime. The results don't surprise me. A linear search is expected to take a long time with large data and vice versa.
+
+Binary Search
+-----------------
+The binary search sorts the whitelist, iterates through checklist in a linear fashion, and iterates through whitelist logarithmically, searching for each value of checklist in whitelist. Binary
+search compares the value we are searching for from checklist with the middle of whitelist. If the "key" value is greater than the middle, we "throw away" the lower half of the data and repeat and
+vice versa. I implemented the binary search class with a while loop and a low, high, and mid variable. The mid variable is recalculated each time through the loop and the compared with a "key"
+parameter passed into the class (value in checklist being searched for). Depending on whether the "key" argument is greater or less than the mid variable, the high or low value is adjusted. I
+checked the program's correctness with two output tests: a test with tiny lists and a test with large lists. I tested parts individually by writing the program incrementally, testing its output
+to the tests against what I expected to receive. My program almost instantly finished against the tiny set of data and took a quick <5 seconds to finish against the large set of data. The length
+of the data doesn't greatly affect the runtime of the algorithm, although as the data increases in size the runtime also increases but only a small amount. The structure of the data does affect
+the algorithm. The data must be sorted otherwise the search will not function properly and will return incorrect results. The results do surprise me. While I knew by runtime complexity that as
+the size of data increased the binary search would out-perform the brute force search, I had no idea that it would out-perform it to this degree. While I was unsure when running brute force if
+it "would ever finish", binary search shocked me and finished in under 5 seconds.
+<!-- ... -->
+
+
+Runtimes
+---------
+
+<!-- ... -->
+
+
+<!-- update the table below with your input sizes and runtimes -->
+<!-- create additional rows as needed (should run more than 2 tests!) -->
+algorithm | whitelist sz | checklist sz | time (secs)
+----------|--------------|--------------|-------------
+brute     | 15 | 18 | 0.015
+binary    | 15 | 18 | 0.015
+brute     | 1000000 | 10000000 | 1054.591
+binary    | 1000000 | 10000000 | 4.909
+
+
+
+
+
+Known bugs / limitations
+-------------------------
+I didn't have any troublesome bugs. The runtime of the brute force search with large test input was the only limitation. The search took an unreasonably long amount of time. The limitation is
+due to the nature of the algorithm not my implementation. I know I did not miss a bug because I ran two different tests of different size against each algorithm and my code returned the same
+result as Dr. Brandle's code. I ran two tests per algorithm to ensure my implementations are correct: one test with tiny input and one test with very large input.
+<!--
+What bugs or limitations were troublesome?
+What bugs or limitations still remain?
+Are these bugs or limitations a problem in your implementation, algorithm, or something else?
+How do you know that you did not miss a bug?
+What additional tests did you run to ensure that your implementations are correct?
+-->
+
+<!-- ... -->
+
+
+Reflection
+===========
+I followed along with Dr. Brandle during the scheduled lab and finished during that class period. Dr. Brandle and my class conceptually discussed why the binary search is faster and the halting
+problem that comes with the Brute Force large test output. This assignment was decently easy, and I therefore did not encounter any serious problems. The majority of the time for this assignment
+was spent discussing the two algorithms and studying their different test outputs. Writing the code was easy and fast with next to no errors or debugging. I enjoyed this assignment as it
+helped me visual the importance of efficiency when it comes to runtime complexity. I also enjoyed learning about the halting problem from Dr. Brandle.
+<!--
+Describe whatever help (if any) that you received.
+Don't include readings, lectures, but do include any help from people (including course staff, lab TAs, classmates, and friends) and attribute them by name.
+How did you discuss the problem with others? (ex: white-board algorithms, looking over code for bugs, looking at print out results, etc.)
+Describe any serious problems you encountered.
+How much time did you spend writing new code, debugging code, thinking about the algorithms, discussing with someone else, running tests, writing comments and documentation, etc.?
+List any other comments here.
+Feel free to provide any feedback on how much you learned from doing the assignment, and whether you enjoyed doing it.
+-->
+
+<!-- ... -->
+
+
+
+
+
+
+<!--   Feel free to modify the following to fit a theme of your choosing   -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> <!-- a sans-serif font -->
+<style>  /* A TAYLOR-INSPIRED THEME */
+    body {font-family:'Open Sans',sans-serif;}
+    .md a:link, .md a:visited {color:hsl(252,23.0%,44.3%); font-family:'Open Sans',sans-serif;}
+    .md table.table th {background-color:hsl(252,23.0%,44.3%);}
+    .md .noheader th {display:none;}
+    .md .firstcol td:first-child {white-space:pre;color:white;vertical-align:top;font-weight:bold;border-color:black;background:hsl(252,23.0%,54.3%);}
+    .md .firstcol tr:nth-child(even) td:first-child {background:hsl(252,23.0%,44.3%);}
+    .md div.tilde { margin: 5px 0 20px; }
+</style>
+
+
+<!-- ****************************** -->
+<!--    Leave the content below     -->
+<!-- ****************************** -->
+
+<!-- The script and style below are added for clarity and to workaround a bug -->
+<script>
+    // this is a hack to workaround a bug in Markdeep+Mathjax, where
+    // `&#36;`` is automatically converted to `\(`` and `\)`` too soon.
+    // the following code will replace the innerHTML of all elements
+    // with class "dollar" with a dollar sign.
+    setTimeout(function() {
+        var dollars = document.getElementsByClassName('dollar');
+        for(var i = 0; i < dollars.length; i++) {
+            dollars[i].innerHTML = '&#' + '36;'; // split to prevent conversion to $
+        }
+    }, 1000);
+</script>
+<style>
+    /* adding some styling to <code> tags (but not <pre><code> coding blocks!) */
+    :not(pre) > code {
+        background-color: rgba(0,0,0,0.05);
+        outline: 1px solid rgba(0,0,0,0.15);
+        margin-left: 0.25em;
+        margin-right: 0.25em;
+    }
+    /* fixes table of contents of medium-length document from looking weird if admonitions are behind */
+    .md div.mediumTOC { background: white; }
+    .md div.admonition { position: initial !important; }
+</style>
+
+<!--   Leave the following Markdeep formatting code, as this will format your text above to look nice in a wed browser   -->
+<style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style>
+<script src="https://casual-effects.com/markdeep/latest/markdeep.min.js"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible");</script>

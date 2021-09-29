@@ -1,0 +1,263 @@
+<meta charset="utf-8" lang="en">  <!-- this line allows UTF-8 characters in the .html file -->
+
+
+                    **P01_Hex**
+
+
+<!--
+
+General
+========
+
+For each of your team's implementations, explain the following (where appropriate and applicable):
+
+- details on calling conventions, input and output data formats, limitations, bugs, and special features.
+- negative aspects of your program (limitations, known bugs)
+- positive aspects (extensions, special features)
+- describe your choice of modularization (abstractions), data structures, and algorithms
+- explain anything you did that is likely to be different from what other students may have done
+- justify any design decisions for which the rationale isn't immediately clear
+
+Feel free to modify the structure of this `readme.html` file to fit the current assignment and to fit how you wish to present your findings.
+
+Take a look at the [Markdeep Feature Demo](https://casual-effects.com/markdeep/features.md.html) to see how you can markup this document.
+
+
+!!! note: Math Typesetting
+    Surround your math with double dollar signs to have [MathJax](https://www.mathjax.org/) typeset it beautifully.
+    To add a tilde in math mode (using dollar signs), use the `\sim` command.
+    If an exponent has more than one character, you must surround it with curly braces.
+    In the example below, the exponent for $T$ must use curly braces, but they aren't required for $N$.
+
+    $$ \sim T^{1.2} N^2 $$
+
+    Note: Typesetting like this is optional; feel free to use plain text if you'd like.
+
+
+Submission
+-----------
+
+Use the CSE LogHistory Plug-in to create a zip file containing all your code, this `readme.html` document, and any additional files of evidence (ex: screenshots).
+If you create a zip by other means, it will include all the files under `tests` and might miss some important files (ex: `.log/history.log`).
+The former will make for a very large zip file; the latter will cause you to lose points.
+
+
+-->
+
+
+Author
+=============
+
+
+<!-- fill out the following table with your information -->
+<!-- Note: wrapping table in div.noheader will hide the table's header -->
+<!-- Note: wrapping table in div.firstcol will style the first column different from other columns -->
+<div class="noheader firstcol">
+                  |             
+------------------|-------------
+name              | Joshua Shinkle
+computer + OS     | Ubuntu Linux Lab Machine
+time to complete  | 11 hours
+partner           | None
+additional help   | See Reflection
+</div>
+
+
+
+
+
+Implementations
+===================
+
+<!--
+Describe how you implemented `HexBoard.java`.
+How did you check whether the game was won by a player?
+-->
+
+<!-- ... -->
+I implemented HexBoard.java with three union finds and a one dimensional board array which is large enough to contain every tile and the four extra team-specific nodes (one for each side of the board/two per team). HexBoard
+has several smaller methods but the main idea of it is to set the tile selected by the user to the player's team and then to check every surrounding hex, including the extra team-specific nodes, for tiles of the same team 
+and then union with them. I determine if the game was won by using the union data type method connected() and passing the two team-specific nodes. I determined if a tile was on the winning path by using the connected()
+method on the second and third union data type instances and passing the tile in question and the team-specific node of each union data type instance (two connected() calls: one takes the second union instance which deals
+with the top side team node and one takes the third union instance which deals with the bottom side team node). 
+
+`QuickFindUF` Runtimes
+----------------------
+
+<!--
+Report the runtimes of `HexBoard` using `QuickFindUF` in the tables below.
+First, hold constant the value of $T$ (number of games played), but vary the value of $N$ (size of board).
+Then, hold constant the value of $N$, but vary the value of $T$.
+
+Finally, give a formula using tilde notation for the running time (seconds) of `HexBoardStats.java` as a function of both $N$ (size of board) and $T$ (number of games).
+Model the running time as a power law and be sure to give both the coefficient and exponent of the leading term.
+Your coefficients should be based on _empirical data_ and rounded to two significant digits.
+For example, $5.3 * 10^{-8} * N^{5.0} T^{1.5}$.
+-->
+
+
+<div style="float:right">(keeping $T$ constant)</div>
+
+ $T$ | $N$ | time (secs)
+:---:|:---:|:----------:
+  10000  |  5   | 0.127
+  10000  |  10  | 0.263
+  10000  |  15  | 0.817
+  10000  |  20  | 2.152
+  10000  |  25  | 4.418
+
+
+<div style="float:right">(keeping $N$ constant)</div>
+
+ $T$ | $N$ | time (secs)
+:---:|:---:|:----------:
+  100  |  10  | 0.025
+  1000  |  10  | 0.087
+  10000  |  10  | 0.398
+  100000  |  10  | 2.795
+  1000000  |  10  | 25.604
+
+
+
+
+
+
+
+
+`WeightedQuickUnionUF` Runtimes
+-------------------------------
+
+<!--
+Repeat the previous section, but use `WeightedQuickUnionUF`.
+-->
+
+<div style="float:right">(keeping $T$ constant)</div>
+
+ $T$ | $N$ | time (secs)
+:---:|:---:|:----------:
+  10000  |  5   | 0.134
+  10000  |  10  | 0.179
+  10000  |  15  | 0.358
+  10000  |  20  | 0.632
+  10000  |  25  | 1.002
+
+
+<div style="float:right">(keeping $N$ constant)</div>
+
+
+ $T$ | $N$ | time (secs)
+:---:|:---:|:----------:
+  100  |  10  | 0.019
+  1000  |  10  | 0.053
+  10000  |  10  | 0.321
+  100000  |  10  | 1.679
+  1000000  |  10  | 15.147
+
+
+
+
+
+
+
+Patterns
+--------
+
+<!--
+Run `HexBoardStats` with `N0 = 2`, `N1 = 15`, and `T = 100000`.
+What patterns do you see emerge from the probability estimates?
+Add a table or chart if necessary.
+-->
+
+<!-- ... -->
+Player 1 is always predicted to win when N is odd. Except for two times, he is predicted to lose everytime when N is even (although, player 1 only just barely loses which could be interpreted as a tie on every 
+game where N is even).
+
+
+
+Known bugs / limitations
+-------------------------
+
+<!--
+What bugs or limitations were troublesome?
+What bugs or limitations still remain?
+Are these bugs or limitations a problem in your implementation, algorithm, or something else?
+How do you know that you did not miss a bug?
+What additional tests did you run to ensure that your implementations are correct?
+-->
+
+<!-- ... -->
+There are no bugs and the only limitation is algorithm specific in that as the number of games increases above 1,000,000 or the board size increases above 200 then the time becomes unreasonably long. I ran 
+my implementation with most of the provided test files and it worked properly. Thus, I am confident I did not miss a bug.
+
+
+
+Reflection
+===========
+
+<!--
+Describe whatever help (if any) that you received.
+Don't include readings, lectures, but do include any help from people (including course staff, lab TAs, classmates, and friends) and attribute them by name.
+How did you discuss the problem with others? (ex: white-board algorithms, looking over code for bugs, looking at print out results, etc.)
+Describe any serious problems you encountered.
+How much time did you spend writing new code, debugging code, thinking about the algorithms, discussing with someone else, running tests, writing comments and documentation, etc.?
+List any other comments here.
+Feel free to provide any feedback on how much you learned from doing the assignment, and whether you enjoyed doing it.
+-->
+
+<!-- ... -->
+
+The TA Joey helped me as I worked during lab time by asking clarifying questions to make sure I understood what I was writing and to help me check myself, making sure I was writing correct code. Zack Brandon
+whiteboarded with me to solve a bug I was unable to fix by myself. My most serious problem was in setTile(). Before looking at a tile around the set tile, I checked if the surrounding tile was valid. However, my
+isValidHex method only took one argument and thus required a toIndex conversion. However, an invalid tile such as (1,-1) would become valid through toIndex: (1*5)+(-1) == 4. This caused my hasPlayer1Won()
+method to work improperly. I spent most of my time trying to conceptually understand how to implement the setTile() unions and isOnWinningPath(). I also spent a large portion of time debugging the previously mentioned
+problem. The rest of my time was spent talking with Dr. Brandle, TA Joey, and Zack Brandon to make sure that what I thought my code was conceptually doing was actually what it was doing.
+
+
+
+<!--   Feel free to modify the following to fit a theme of your choosing   -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> <!-- a sans-serif font -->
+<style>  /* A TAYLOR-INSPIRED THEME */
+    body {font-family:'Open Sans',sans-serif;}
+    .md a:link, .md a:visited {color:hsl(252,23.0%,44.3%); font-family:'Open Sans',sans-serif;}
+    .md table.table th {background-color:hsl(252,23.0%,44.3%);}
+    .md .noheader th {display:none;}
+    .md .firstcol td:first-child {white-space:pre;color:white;vertical-align:top;font-weight:bold;border-color:black;background:hsl(252,23.0%,54.3%);}
+    .md .firstcol tr:nth-child(even) td:first-child {background:hsl(252,23.0%,44.3%);}
+    .md div.tilde { margin: 5px 0 20px; }
+</style>
+
+
+<!-- ****************************** -->
+<!--    Leave the content below     -->
+<!-- ****************************** -->
+
+<!-- The script and style below are added for clarity and to workaround a bug -->
+<script>
+    // this is a hack to workaround a bug in Markdeep+Mathjax, where
+    // `&#36;`` is automatically converted to `\(`` and `\)`` too soon.
+    // the following code will replace the innerHTML of all elements
+    // with class "dollar" with a dollar sign.
+    setTimeout(function() {
+        var dollars = document.getElementsByClassName('dollar');
+        for(var i = 0; i < dollars.length; i++) {
+            dollars[i].innerHTML = '&#' + '36;'; // split to prevent conversion to $
+        }
+    }, 1000);
+</script>
+<style>
+    /* adding some styling to <code> tags (but not <pre><code> coding blocks!) */
+    :not(pre) > code {
+        background-color: rgba(0,0,0,0.05);
+        outline: 1px solid rgba(0,0,0,0.15);
+        margin-left: 0.25em;
+        margin-right: 0.25em;
+    }
+    /* fixes table of contents of medium-length document from looking weird if admonitions are behind */
+    .md div.mediumTOC { background: white; }
+    .md div.admonition { position: initial !important; }
+</style>
+
+<!--   Leave the following Markdeep formatting code, as this will format your text above to look nice in a wed browser   -->
+<style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style>
+<script src="https://casual-effects.com/markdeep/latest/markdeep.min.js"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible");</script>
