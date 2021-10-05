@@ -1065,3 +1065,1039 @@ UpdateTree (AD): 6 0
 CompilationStatus (AEW): 0 0 0
 --[ 2021.09.28.11.49.22.731.0 ]--
 DisposeComponent
+--[ 2021.09.29.19.45.26.353.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.09.29.19.45.26.437.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/readme.html
+/P02_DataTypes.iml
+
+--[ 2021.09.29.19.45.26.440.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.09.29.19.45.26.443.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+    public MinimumStack() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.09.29.19.45.26.446.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.09.29.19.45.26.448.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    public int opcount = 0;
+    public int size =0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+
+    }
+}
+
+--[ 2021.09.29.19.45.26.452.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    public OnePointerQueue() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.09.29.19.45.55.141.0 ]--
+UpdateTree (AD): 1 0
++ /.idea/vcs.xml
+
+--[ 2021.09.29.19.45.55.659.0 ]--
+DisposeComponent
+--[ 2021.09.30.21.22.49.982.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.09.30.21.22.50.058.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/readme.html
+/P02_DataTypes.iml
+
+--[ 2021.09.30.21.22.50.063.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.09.30.21.22.50.066.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.09.30.21.22.50.070.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    public OnePointerQueue() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.09.30.21.22.50.076.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+    public MinimumStack() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.09.30.21.22.50.079.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    public int opcount = 0;
+    public int size =0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+
+    }
+}
+
+--[ 2021.09.30.21.22.59.900.0 ]--
+DisposeComponent
+--[ 2021.09.30.22.03.25.287.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.09.30.22.03.25.304.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/readme.html
+/P02_DataTypes.iml
+
+--[ 2021.09.30.22.03.25.306.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.09.30.22.03.25.310.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.09.30.22.03.25.312.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    public OnePointerQueue() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.09.30.22.03.25.314.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+    public MinimumStack() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.09.30.22.03.25.317.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    public int opcount = 0;
+    public int size =0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+
+    }
+}
+
+--[ 2021.09.30.22.04.09.001.0 ]--
+DisposeComponent
+--[ 2021.10.01.13.20.31.871.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.10.01.13.20.31.954.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/readme.html
+/P02_DataTypes.iml
+
+--[ 2021.10.01.13.20.31.957.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.10.01.13.20.31.962.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.10.01.13.20.31.968.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    public OnePointerQueue() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.10.01.13.20.31.970.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+    public MinimumStack() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.10.01.13.20.31.973.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    public int opcount = 0;
+    public int size =0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+
+    }
+}
+
+--[ 2021.10.01.13.20.41.602.0 ]--
+DisposeComponent
+--[ 2021.10.05.10.00.24.535.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.10.05.10.00.24.556.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/readme.html
+/P02_DataTypes.iml
+
+--[ 2021.10.05.10.00.24.560.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.10.05.10.00.24.564.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.10.05.10.00.24.567.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    public OnePointerQueue() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.10.05.10.00.24.571.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+    public MinimumStack() {
+
+    }
+
+    // returns the number of items stored
+    public int size() {
+        return 0;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return true;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.10.05.10.00.24.573.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    public int opcount = 0;
+    public int size =0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        return null;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+
+    }
+}
+
