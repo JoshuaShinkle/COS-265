@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="P00_JavaIntro">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/P00_JavaIntro/out/production/P00_JavaIntro/stdlib.jar!/" />
+      <root url="jar://$PROJECT_DIR$/P00_JavaIntro/out/production/P00_JavaIntro/algs4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

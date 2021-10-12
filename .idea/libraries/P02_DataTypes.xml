@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="P02_DataTypes">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/P02_DataTypes/out/production/P02_DataTypes/algs4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/P02_DataTypes/out/production/P02_DataTypes/stdlib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

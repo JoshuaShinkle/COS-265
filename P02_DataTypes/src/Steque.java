@@ -64,12 +64,11 @@ public class Steque<Item> implements Iterable<Item> {
         opcount++;
         if (isEmpty()) {
             throw new NoSuchElementException("pop called on empty steque\n");
-        } else {
-            Item tmp = first.item;
-            first = first.next;
-            size++;
-            return tmp;
         }
+        Item tmp = first.item;
+        first = first.next;
+        size--;
+        return tmp;
     }
 
     // returns new Iterator<Item> that iterates over items in steque
@@ -92,7 +91,9 @@ public class Steque<Item> implements Iterable<Item> {
                 if (frozenOpCount != opcount) {
                     throw new ConcurrentModificationException("modified stegue while iterating");
                 }
-                return p.next.item;
+                Item tmp = p.next.item;
+                p = p.next;
+                return tmp;
             }
 
             @Override
@@ -105,5 +106,52 @@ public class Steque<Item> implements Iterable<Item> {
         Steque<String> testString = new Steque<>();
         assert testString.size()==0;
         assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("pushThis");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.push("push1This");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("push2This");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        // fails
+//        poppedString = testString.pop();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.pop();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+//        testString.push("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+//        StdOut.println("iterate:" + iter.next());
     }
 }

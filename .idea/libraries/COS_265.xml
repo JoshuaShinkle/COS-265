@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="COS-265">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/P02_DataTypes.zip!/" />
+      <root url="jar://$PROJECT_DIR$/P01_Hex.zip!/" />
+      <root url="jar://$PROJECT_DIR$/P03_Sorting.zip!/" />
+      <root url="jar://$PROJECT_DIR$/P00_JavaIntro.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -55,7 +55,7 @@ Author
 ------------------|-------------
 name              | Joshua Shinkle
 computer + OS     | Ubuntu Lab Machine
-time to complete  | <!-- ... -->
+time to complete  | 8
 partner           | None
 additional help   | See Reflection
 </div>
@@ -77,7 +77,14 @@ Explain briefly how you implemented the `Steque.java` class.
 How did you check that your implementation was correct?
 Include code listings, screenshots, diagrams, etc. if helpful.
 -->
-
+The implementation was very simple. I used a first and last pointer with 'next' values to manipulate the links
+in the steque to properly enqueue to the bottom and push and pop from the top. I used tmp variables often to
+hold the place of a Node so as not to lose its location as I moved pointers off of it. The linking arrows
+in the steque point and away from the top and towards the bottom.
+To check my code I really leaned into the assert statements. I also used print statements to make sure what it
+printed what I expected. My implementation keeps an
+opcount var that is incremented on each operation on the steque. This allows me to throw exceptions when
+the steque is modified during iteration.
 
 `MinimumStack` Implementation
 ------------------------------
@@ -87,7 +94,17 @@ Explain briefly how you implemented the `MinimumStack.java` class.
 How did you check that your implementation was correct?
 Include code listings, screenshots, diagrams, etc. if helpful.
 -->
-
+This implementation was rather tricky. I used Nodes again however included in them a minimumItem value. This
+value would either be inherited from the previous node (if its item value was not lower than the 'old first'
+minimum) or set to its
+item value (if it was smaller than the previous Nodes minimum). Because the Nodes inherited the minimum value
+as they were pushed on, the top of the stack always displayed the minimum. When the top was popped the Node
+below it will have an inherited minimum or its own minimum. I don't need to know which Node had the original
+minimum but just the overarching minimum. Through inheritance I prevent the minimum from being lost in a
+flurry of pops. To check my code I really leaned into the assert statements. I also used print statements to
+make sure what it printed what I expected. My implementation keeps an
+opcount var that is incremented on each operation on the stack. This allows me to throw exceptions when
+the stack is modified during iteration.
 
 `OnePointerQueue` Implementation
 -----------------------------------
@@ -97,7 +114,13 @@ Explain briefly how you implemented the `OnePointerQueue.java` class.
 How did you check that your implementation was correct?
 Include code listings, screenshots, diagrams, etc. if helpful.
 -->
-
+This implementation was also really simple. To check my code I really leaned into the assert statements.
+I also used print statements to make sure what it printed what I expected. My implementation keeps an
+opcount var that is incremented on each operation on the queue. This allows me to throw exceptions when
+the queue is modified during iteration. I use a last pointer to keep track of the end of the queue. The
+node at the end of the queue also has a next value that points to the front of the queue to allow
+for constant time enqueue and dequeue. The linking
+arrows point towards the bottom/end of the queue and move away from the front where things are dequeued.
 
 
 Memory Analysis
@@ -116,9 +139,9 @@ So, your memory analysis of `MinimumStack` should take this into account.
 
 class             | memory (bytes)
 ------------------|----------
-`Steque`          | $\sim N$
-`MinimumStack`    | $\sim N$
-`OnePointerQueue` | $\sim N$
+`Steque`          | $\sim 24 + 40N$
+`MinimumStack`    | $\sim 24 + 40N$
+`OnePointerQueue` | $\sim 24 + 40N$
 
 
 
@@ -134,7 +157,10 @@ What additional tests did you run to ensure that your implementations are correc
 -->
 
 <!-- ... -->
-
+There are no know bugs or limitations except for the fact that if a user calls next without first calling
+hasNext() the program could break in the case that there is not next value.
+I know I didn't miss a bug because I ran expansive main() functions
+containing a large amount of assert and print statements that cover all edge cases.
 
 
 Reflection
@@ -147,7 +173,8 @@ How did you discuss the problem with others? (ex: white-board algorithms, lookin
 -->
 
 <!-- ... -->
-
+Zack Brandon helped me draw and visualize a possible solution for keeping track of the minimum value in the
+stack class. I also received some help from Dr. Brandle during lab times.
 
 
 <!--
@@ -168,7 +195,9 @@ Feel free to provide any feedback on how much you learned from doing the assignm
 -->
 
 <!-- ... -->
-
+I spent the majority of my time trying to conceptually understand which direction I needed my linking arrows
+to point in order to achieve constant time for my methods. I struggled most trying to figure out how to
+iterate through a stack and prevent the minimum value from being lost if a flurry of pops occurred.
 
 
 

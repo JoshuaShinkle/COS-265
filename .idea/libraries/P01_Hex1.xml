@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="P01_Hex1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/P01_Hex/P01_Hex.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

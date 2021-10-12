@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="P01_Hex">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/P01_Hex/out/production/P01_Hex/stdlib.jar!/" />
+      <root url="jar://$PROJECT_DIR$/P01_Hex/out/production/P01_Hex/algs4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
