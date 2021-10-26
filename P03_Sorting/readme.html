@@ -53,11 +53,11 @@ Author
 <div class="noheader firstcol">
                   |             
 ------------------|-------------
-name              | <!-- ... -->
-computer + OS     | <!-- ... -->
-time to complete  | <!-- ... -->
-partner           | <!-- ... -->
-additional help   | <!-- ... -->
+name              | Joshua Shinkle
+computer + OS     | Personal MacBook Pro running macOS Big Sur
+time to complete  | 8 hours
+partner           | None
+additional help   | See Reflection
 </div>
 
 
@@ -77,7 +77,11 @@ Explain briefly how you implemented the doubling tests.
 How did you check that your implementation was correct?
 Include code listings, screenshots, diagrams, etc. if helpful.
 -->
-
+My implementation is correct because it closely follows how the textbook implements doubling tests.
+Each doubling test is composed of a for loop which doubles the input size on each loop.
+Inside the loop is another for loop that uses a constant variable to randomly generate numbers in the range -constant to +constant.
+These random numbers are used to initialize the array to be sorted. The Stopwatch object is created then the sorting algorithm is
+called. Immediately after it finishes I print out the input size, time, and ratio. This all lies within a loop to average the runtimes.
 
 Linked-List Sort Implementation
 ------------------------------
@@ -87,7 +91,11 @@ Explain briefly how you implemented the linked-list sort?
 How did you check that your implementation was correct?
 Include code listings, screenshots, diagrams, etc. if helpful.
 -->
-
+I created several functions that are called in main to test various edge cases for the linked list sort. That's how I ensure code correctness.
+The linked list is split in half, then the halves are halved, and so on until we reach a base case of one element. A head pointer and a last pointer
+are used to keep track of the front and back of each half so that we don't "lose" any nodes. When we reach the base case of one, we then begin to merge
+the fragments back up to a full sorted linked list. The merge method sorts the elements as it merges. We merge two elements of size 1 then merge that
+pair with another merged element of size 2 and so on until we merge the two halves of the list back into its full form.
 
 Median of 3/5 Implementation
 -----------------------------------
@@ -97,7 +105,11 @@ Explain briefly how you modified the provided quick sort code to use the median 
 How did you check that your implementation was correct?
 Include code listings, screenshots, diagrams, etc. if helpful.
 -->
-
+For the median of 3 implementation I used two simple if statements to determine which element was larger than one element and smaller than the other.
+Or, in the case the elements weren't all different, greater than or equal to and less than or equal to.
+The median of 5 identifies the the max and min of the 5 elements then performs the same if statements as the median of 3. In order to account for 
+input that was not all different, the max and min aren't added to the array of 3 to be evaluated but once two elements identified as max and min aren't 
+added then all subsequent elements are added even if they are equal to the max and min.
 
 Analysis
 ===============
@@ -111,8 +123,11 @@ Explain briefly what you learned or confirmed with the edge cases.
 Do you think that you have thought of all possible pathological cases?
 What do these cases say about the different sorting algorithms?
 -->
-
-
+With the edge cases I confirmed that my sorting implementations work for most edge cases.
+There are probably some pathological cases that I didn't implement but I believe I implemented the major ones.
+These cases demonstrate that different sorting algorithms depend more or less than others on the sorted nature of the data i.e. whether it's random, sorted, partially sorted, or as patterns.
+Some algorithms such as insertion sort perform better on pre-sorted data.
+Some algorithms such as quick sort perform better on random data.
 
 Runtime Analysis
 ---------------------
@@ -129,15 +144,20 @@ Do not include the time required for the allocating and initializing the arrays!
 
 sorting algorithm | time (seconds)
 ------------------|----------
-Bubble            | $\sim N$
-Insertion         | $\sim N$
-Selection         | $\sim N$
-Shellsort         | $\sim N$
-Quicksort         | $\sim N$
-QuickSortMedian3  | $\sim N$
-QuickSortMedian5  | $\sim N$
+Bubble            | $\sim N^2$
+Insertion         | $\sim N^2$
+Selection         | $\sim N^2$
+Shellsort         | $\sim N^2$
+Quicksort         | $\sim NLogN$
+QuickSortMedian3  | $\sim NLogN$
+QuickSortMedian5  | $\sim NLogN$
 
+As N doubles, the time for Bubble, Insertion, Selection, and Shell about quadruples as is the case for N^2.
+As N doubles, the time for Quick, Median3, and Median5 a little less than doubles as is the case for NLog<sub>2</sub>N.
 
+My findings do agree with what is said in class. However, it was made very apparent to me that these complexity estimates are truly ESTIMATES.
+Quite often the algorithms randomly would perform better between a few N doubles. This helped me visualize that certain patterns or random
+orderings of numbers can truly vary the performance of algorithms such that it truly is an estimate albeit a very accurate one.
 
 Known bugs / limitations
 -------------------------
@@ -150,7 +170,8 @@ How do you know that you did not miss a bug?
 What additional tests did you run to ensure that your implementations are correct?
 -->
 
-<!-- ... -->
+There are no bugs and there are no limitations. I know that I didn't miss a bug because I implemented and ran a lot of new tests and they performed as I expected. These new tests ran my code
+with many different input sizes and arrangements such that every edge case I could come up with is covered. I also used the debugger to verify each value as my code ran.
 
 
 
@@ -163,7 +184,7 @@ Don't include readings, lectures, but do include any help from people (including
 How did you discuss the problem with others? (ex: white-board algorithms, looking over code for bugs, looking at print out results, etc.)
 -->
 
-<!-- ... -->
+I received help from no one and discussed the problem with no one.
 
 
 
@@ -184,7 +205,8 @@ List any other comments here.
 Feel free to provide any feedback on how much you learned from doing the assignment, and whether you enjoyed doing it.
 -->
 
-<!-- ... -->
+I didn't encounter any serious problems. I spent the majority of the time running and writing tests and using the debugger to make sure my code did what it was supposed to. The actual
+writing of the code was super fast and easy and the conceptual understanding of it also was super simple. Thus, I spent almost no time thinking about or writing code.
 
 
 

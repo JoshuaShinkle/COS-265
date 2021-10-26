@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
  */
@@ -30,12 +33,44 @@ public class QuickSortMedian5 extends QuickSortMedian {
             Comparable a3 = a[i3];
             Comparable a4 = a[i4];
 
-            // find median in a0,a1,a2,a3,a4, and return respective index
-            // if a0 is median, return i0
-            // if a1 is median, return i1
-            // etc.
+            Comparable[] arrayOf5 = new Double[5];
+            arrayOf5[0] = a0;
+            arrayOf5[1] = a1;
+            arrayOf5[2] = a2;
+            arrayOf5[3] = a3;
+            arrayOf5[4] = a4;
 
-            return i0;
+            // find median in a0,a1,a2,a3,a4, and return respective index
+            Comparable maxNum = Collections.max(Arrays.asList(arrayOf5));
+            Comparable minNum = Collections.min(Arrays.asList(arrayOf5));
+            Comparable[] arrayOf3 = new Double[3];
+            int count = 0;
+            boolean maxRemoved = false;
+            boolean minRemoved = false;
+            for (int i=0; i<5; i++) {
+               if (arrayOf5[i] == maxNum && !maxRemoved) {
+                    maxRemoved = true;
+               } else if (arrayOf5[i] == minNum && !minRemoved) {
+                   minRemoved = true;
+               } else {
+                   arrayOf3[count] = arrayOf5[i];
+                   count++;
+               }
+            }
+
+            a0 = arrayOf3[0];
+            a1 = arrayOf3[1];
+            a2 = arrayOf3[2];
+
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
         }
     }
 
@@ -56,7 +91,7 @@ public class QuickSortMedian5 extends QuickSortMedian {
      ***********************************************************************/
 
     public static void main(String[] args) {
-        Double[] a = {0.0};
+        Double[] a = {6.0, 7.0, 3.0, 4.0, 5.0};
         QuickSortMedian5.sort(a);
     }
 }

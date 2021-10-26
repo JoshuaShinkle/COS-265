@@ -28,10 +28,15 @@ public class QuickSortMedian3 extends QuickSortMedian {
 
             // find median in a0,a1,a2, and return respective index
             // if a0 is median, return i0
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
             // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
             // if a2 is median, return i2
-
-            return i0;
+            return i2;
         }
     }
 
@@ -52,7 +57,7 @@ public class QuickSortMedian3 extends QuickSortMedian {
      ***********************************************************************/
 
     public static void main(String[] args) {
-        Double[] a = {0.0};
+        Double[] a = {0.0, 3.0, 0.0};
         QuickSortMedian3.sort(a);
     }
 }
