@@ -1,0 +1,1440 @@
+--[ 2021.11.16.13.30.15.854.0 ]--
+NewLogger: P04_Pathfinding
+Version: 1.5
+--[ 2021.11.16.13.30.15.878.0 ]--
+InitTree:
+/src/algs4.jar
+/src/Coord.java
+/src/stdlib.jar
+/src/Walker.java
+/src/Terrain.java
+/src/Pathfinder.java
+/src/TerrainEditor.java
+/src/PathfinderVisualizer.java
+/src/InteractivePathfinderVisualizer.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/.name
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/tests/.donotlog
+/tests/png2emap.py
+/tests/ramp.png.emap
+/tests/ramp2.png.emap
+/tests/ramp3.png.emap
+/tests/mazeAB.png.emap
+/tests/usa128.png.emap
+/tests/usa256.png.emap
+/tests/usa1024.png.emap
+/tests/maze32_0.png.emap
+/tests/maze32_1.png.emap
+/tests/maze232_0.png.emap
+/tests/maze320_0.png.emap
+/tests/mazeBrain.png.emap
+/.cos265
+/readme.html
+/P04_Pathfinding.iml
+
+--[ 2021.11.16.13.30.15.881.0 ]--
+InitFile: /src/Terrain.java
+import java.lang.IndexOutOfBoundsException;
+
+/**
+ * Terrain stores elevations for map and computes distance and
+ * cost in traversing the terrain.
+ */
+
+public class Terrain {
+    private int N;
+    private int[][] heights;
+
+    public Terrain(int N) {
+        this.N = N;
+        this.heights = new int[N][N];
+    }
+
+    public Terrain(int[][] heights) {
+        this.N = heights.length;
+        this.heights = heights;
+    }
+
+    public Terrain(String emapfile) {
+        In in = new In(emapfile);
+        this.N = in.readInt();
+        this.heights = new int[N][N];
+        for (int j = 0; j < N; j++) {
+            for (int i = 0; i < N; i++) {
+                this.heights[i][j] = in.readInt();
+            }
+        }
+    }
+
+    public int getN() {
+        return N;
+    }
+
+    public void setHeight(int i, int j, int h) {
+        if(i < 0 || j < 0 || i >= N || j >= N)
+            throw new IndexOutOfBoundsException("i and j must be in [0,N)");
+        heights[i][j] = h;
+    }
+    public void setHeight(int i, int j, float h) {
+        setHeight(i, j, (int) h);
+    }
+    public void setHeight(Coord loc, int h) {
+        setHeight(loc.getI(), loc.getJ(), h);
+    }
+    public void setHeight(Coord loc, float h) {
+        setHeight(loc.getI(), loc.getJ(), h);
+    }
+
+    public int getHeight(int i, int j) {
+        if(i < 0 || j < 0 || i >= N || j >= N)
+            throw new IndexOutOfBoundsException("i and j must be in [0,N)");
+        return heights[i][j];
+    }
+    public int getHeight(Coord loc) {
+        return getHeight(loc.getI(), loc.getJ());
+    }
+
+    // computes distance between (i0,j0) and (i1,j1) as the crow flies
+    public float computeDistance(int i0, int j0, int i1, int j1) {
+        return (float)Math.sqrt((i0 - i1) * (i0 - i1) + (j0 - j1) * (j0 - j1));
+    }
+    public float computeDistance(Coord c0, Coord c1) {
+        return computeDistance(c0.getI(), c0.getJ(), c1.getI(), c1.getJ());
+    }
+
+    public float computeTravelCost(int i0, int j0, int i1, int j1) {
+        float h0 = getHeight(i0, j0), h1 = getHeight(i1, j1);
+        float climb = (float)Math.pow(Math.abs(h0 - h1) * 1000.0, 1.5);
+        float dist = computeDistance(i0,j0, i1,j1);
+        return (1.0f + climb) * dist;
+    }
+    public float computeTravelCost(Coord c0, Coord c1) {
+        return computeTravelCost(c0.getI(), c0.getJ(), c1.getI(), c1.getJ());
+    }
+    public float computeTravelCost(Iterable<Coord> cs) {
+        Coord c0 = null;
+        float cost = 0.0f;
+        for(Coord c1 : cs) {
+            if(c0 != null) cost += computeTravelCost(c0, c1);
+            c0 = c1;
+        }
+        return cost;
+    }
+}
+
+--[ 2021.11.16.13.30.15.883.0 ]--
+InitFile: /src/Walker.java
+import java.util.Iterator;
+
+/**
+ * Walker takes an Iterable of Coords and simulates an individual
+ * walking along the path over the given Terrain
+ */
+public class Walker {
+
+    // terrain: the Terrain the Walker traverses
+    // path: the sequence of Coords the Walker follows
+    public Walker(Terrain terrain, Iterable<Coord> path) {
+    }
+
+    // returns the Walker's current location
+    public Coord getLocation() {
+        return null;
+    }
+
+    // returns true if Walker has reached the end Coord (last in path)
+    public boolean doneWalking() {
+        return true;
+    }
+
+    // advances the Walker along path
+    // byTime: how long the Walker should traverse (may be any non-negative value)
+    public void advance(float byTime) {
+    }
+
+}
+
+--[ 2021.11.16.13.30.15.886.0 ]--
+InitFile: /src/Coord.java
+/**
+ * Coordinates is an immutable type that store the tuple (i, j)
+ */
+public final class Coord {
+    private final int i;
+    private final int j;
+
+    public Coord(int i, int j) {
+        this.i = i;
+        this.j = j;
+    }
+
+    public int getI() { return i; }
+    public int getJ() { return j; }
+
+    public boolean isInBounds(int minI, int minJ, int maxI, int maxJ) {
+        return i >= minI && j >= minJ && i <= maxI && j <= maxJ;
+    }
+    public boolean isInBounds(Coord min, Coord max) {
+        return i >= min.i && i <= max.i && j >= min.j && j <= max.j;
+    }
+
+    public Coord add(int addI, int addJ) {
+        return new Coord(i + addI, j + addJ);
+    }
+    public Coord add(Coord that) { return new Coord(i + that.i, j + that.j); }
+
+    public String toString() { return "(" + i + "," + j + ")"; }
+
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null) return false;
+        if(o.getClass() != this.getClass()) return false;
+        Coord that = (Coord) o;
+        if(this.i != that.i) return false;
+        if(this.j != that.j) return false;
+        return true;
+    }
+}
+
+--[ 2021.11.16.13.30.15.889.0 ]--
+InitFile: /src/TerrainEditor.java
+/**
+ * The following class provides some simple terrain editing functions.
+ */
+public class TerrainEditor {
+    private static float rndRadius(float d) {
+        return (float)StdRandom.uniform(-d,d);
+    }
+
+    private static float getFractalHeight(int i, int j, float dh, Terrain terrain, boolean[] isset) {
+        int N = terrain.getN();
+        dh = Math.max(-64, Math.min(255+64, dh));   // allow the height to go just a bit out of range
+        if(!isset[i + j * N]) {
+            isset[i + j * N] = true;
+            terrain.setHeight(i, j, dh);
+        }
+        return terrain.getHeight(i,j);
+    }
+
+    private static void setFractalHeights(int i0, int j0, int i1, int j1, Terrain terrain, boolean[] isset) {
+        int id = i1-i0;
+        int jd = j1-j0;
+        int i01 = (i0+i1)/2;
+        int j01 = (j0+j1)/2;
+
+        if(id <= 1 && jd <= 1) return;
+
+        float h00 = getFractalHeight(i0,j0,32,terrain,isset);
+        float h01 = getFractalHeight(i0,j1,32,terrain,isset);
+        float h10 = getFractalHeight(i1,j0,32,terrain,isset);
+        float h11 = getFractalHeight(i1,j1,32,terrain,isset);
+
+        float d = (float)(Math.sqrt((i1-i0)*(i1-i0) + (j1-j0)*(j1-j0)) * 0.5);
+
+        float d0001 = (h00 + h01) / 2 + rndRadius(d);
+        float d0010 = (h00 + h10) / 2 + rndRadius(d);
+        float d1101 = (h11 + h01) / 2 + rndRadius(d);
+        float d1110 = (h11 + h10) / 2 + rndRadius(d);
+
+        float h0001 = getFractalHeight(i0, j01, d0001, terrain,isset);
+        float h0010 = getFractalHeight(i01, j0, d0010, terrain,isset);
+        float h1101 = getFractalHeight(i01, j1, d1101, terrain,isset);
+        float h1110 = getFractalHeight(i1, j01, d1110, terrain,isset);
+
+        float dm = (float)((h0001 + h0010 + h1101 + h1110) / 4.0);
+        float hm = getFractalHeight(i01, j01, dm, terrain,isset);
+
+        if(id > 1 && jd > 1) {
+            setFractalHeights(i0, j0, i01, j01, terrain, isset);
+            setFractalHeights(i01, j0, i1, j01, terrain, isset);
+            setFractalHeights(i0, j01, i01, j1, terrain, isset);
+            setFractalHeights(i01, j01, i1, j1, terrain, isset);
+        } else if(jd > 1) {
+            setFractalHeights(i0, j0, i1, j01, terrain, isset);
+            setFractalHeights(i0, j01, i1, j1, terrain, isset);
+        } else {
+            setFractalHeights(i0, j0, i01, j1, terrain, isset);
+            setFractalHeights(i01, j0, i1, j1, terrain, isset);
+        }
+    }
+
+    public static void setFractalHeights(Terrain terrain) {
+        int N = terrain.getN();
+        boolean[] isset = new boolean[N*N];
+        setFractalHeights(0, 0, N - 1, N - 1, terrain, isset);
+    }
+
+    public static void smoothHeights(Terrain terrain) {
+        int N = terrain.getN();
+        int radius = (int)Math.ceil(Math.sqrt(N*N/2.0f));
+        smoothHeights(N/2, N/2, radius, false, terrain);
+    }
+
+    public static void smoothHeights(int ic, int jc, int radius, boolean fallOff, Terrain terrain) {
+        final int N = terrain.getN();
+        final int w = 2*radius+1;
+        float[] s = new float[w*w];
+        for(int ia = -radius; ia <= radius; ia++) {
+            int i = ic + ia;
+            if(i < 0 || i >= N) continue;
+            for(int ja = -radius; ja <= radius; ja++) {
+                int j = jc + ja;
+                if(j < 0 || j >= N) continue;
+                int sidx = (ia+radius) + (ja+radius)*w;
+
+                float m = computeEffect(i, j, ic, jc, radius, fallOff, N);
+                if(m <= 0.0000001) {
+                    s[sidx] = terrain.getHeight(i,j);
+                    continue;
+                }
+                float h = 0;
+                int c = 0;
+                if(i > 0 && j > 0) {
+                    h += terrain.getHeight(i-1,j-1);
+                    c += 1;
+                }
+                if(i < N-1 && j > 0) {
+                    h += terrain.getHeight(i+1,j-1);
+                    c += 1;
+                }
+                if(i > 0 && j < N-1) {
+                    h += terrain.getHeight(i-1,j+1);
+                    c += 1;
+                }
+                if(i < N-1 && j < N-1) {
+                    h += terrain.getHeight(i+1,j+1);
+                    c += 1;
+                }
+                if(i > 0) {
+                    h += terrain.getHeight(i-1,j);
+                    c += 1;
+                }
+                if(j > 0) {
+                    h += terrain.getHeight(i,j-1);
+                    c += 1;
+                }
+                if(i < N-1) {
+                    h += terrain.getHeight(i+1,j);
+                    c += 1;
+                }
+                if(j < N-1) {
+                    h += terrain.getHeight(i,j+1);
+                    c += 1;
+                }
+                s[sidx] = (1-m) * terrain.getHeight(i,j) + m * h / c;
+            }
+        }
+        for(int ia = -radius; ia <= radius; ia++) {
+            int i = ic + ia;
+            if(i < 0 || i >= N) continue;
+            for(int ja = -radius; ja <= radius; ja++) {
+                int j = jc + ja;
+                if(j < 0 || j >= N) continue;
+                int sidx = (ia+radius) + (ja+radius)*w;
+                terrain.setHeight(i, j, s[sidx]);
+            }
+        }
+    }
+
+    public static void clampHeights(Terrain terrain) {
+        int N = terrain.getN();
+        for(int i = 0; i < N; i++) {
+            for(int j = 0; j < N; j++) {
+                terrain.setHeight(i, j, Math.max(0, Math.min(255, terrain.getHeight(i, j))));
+            }
+        }
+    }
+
+    private static float computeEffect(int i, int j, int ic, int jc, int radius, boolean fallOff, int N) {
+        if(i < 0 || j < 0 || i >= N || j >= N) return 0;
+        if(!fallOff) return 1;
+        int d2 = (ic-i)*(ic-i)+(jc-j)*(jc-j);
+        if(d2 > radius*radius) return 0;
+        return ((float)radius - (float)Math.sqrt(d2)) / (float)radius;
+    }
+
+    public static void addHeight(int i, int j, int radius, float add, Terrain terrain) {
+        final int N = terrain.getN();
+        for(int ja = -radius; ja <= radius; ja++) {
+            int r = j + ja;
+            if(r < 0 || r >= N) continue;
+            for(int ia = -radius; ia <= radius; ia++) {
+                int c = i + ia;
+                if(c < 0 || c >= N) continue;
+                float v = add * computeEffect(c, r, i, j, radius, true, N);
+                float h = terrain.getHeight(c, r) + v;
+                h = Math.max(0, Math.min(255, h));
+                terrain.setHeight(c, r, h);
+            }
+        }
+    }
+}
+
+--[ 2021.11.16.13.30.15.892.0 ]--
+InitFile: /P04_Pathfinding.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/.log" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.11.16.13.30.15.894.0 ]--
+InitFile: /src/PathfinderVisualizer.java
+/**
+ * PathfinderVisualizer visualizes the terrain and found path.
+ */
+
+import java.awt.Color;
+import java.awt.Font;
+
+public class PathfinderVisualizer {
+
+    // delay in milliseconds (controls animation speed)
+    private final static int DELAY = 100;
+
+    // color for different elevations.  must be in ascending order!
+    private final static int[][] elevationColors = {
+            // h    r   g   b   where h=height, r=red, g=green, b=blue
+            {  0,   0,  0,  0},
+            {  2,   0,  0,160},
+            {  4,   0,224,224},
+            { 16, 192,192,  0},
+            { 64,  16,255, 16},
+            {128,  32,224, 32},
+            {192, 128,128,  8},
+            {224, 164,164,164},
+            {255, 255,255,255}
+    };
+
+    private final static Color cStart    = new Color(128, 128, 255);
+    private final static Color cEnd      = new Color(255, 128, 128);
+    private final static Color cSolution = new Color(255, 128, 255);
+    private final static Color cSearched = new Color(128,   0, 128);
+
+    // linearly interpolating between the corresponding rgb values
+    private static Color colorLERP(float v1, int r0, int g0, int b0, int r1, int g1, int b1) {
+        v1 = Math.max(0.0f, Math.min(1.0f, v1));
+        float v0 = 1.0f - v1;
+        int r = (int)(v0 * r0 + v1 * r1);
+        int g = (int)(v0 * g0 + v1 * g1);
+        int b = (int)(v0 * b0 + v1 * b1);
+        return new Color(r, g, b);
+    }
+    private static Color colorLERP(float v1, Color c0, Color c1) {
+        v1 = Math.max(0.0f, Math.min(1.0f, v1));
+        float v0 = 1.0f - v1;
+        int r = (int)(v0 * c0.getRed()   + v1 * c1.getRed());
+        int g = (int)(v0 * c0.getGreen() + v1 * c1.getGreen());
+        int b = (int)(v0 * c0.getBlue()  + v1 * c1.getBlue());
+        int a = (int)(v0 * c0.getAlpha() + v1 * c1.getAlpha());
+        return new Color(r, g, b, a);
+    }
+
+    // returns color for given height
+    private static Color height2Color(int h) {
+        h = Math.max(0, Math.min(255, h));
+
+        int[] ec0 = elevationColors[0];  // default lower bound
+        int[] ec1 = elevationColors[1];  // default upper bound
+
+        // find upper bound while updating lower bound
+        for(int i = 1; i < elevationColors.length; i++) {
+            ec1 = elevationColors[i];
+            if(h >= ec0[0] && h <= ec1[0]) break;
+            ec0 = ec1;
+        }
+
+        int h0=ec0[0], r0=ec0[1], g0=ec0[2], b0=ec0[3];
+        int h1=ec1[0], r1=ec1[1], g1=ec1[2], b1=ec1[3];
+        float v1 = ((float)(h - h0)) / ((float)(h1 - h0));
+
+        return colorLERP(v1, r0, g0, b0, r1, g1, b1);
+    }
+
+    private static void drawCircle(int i, int j, int N, double rad) {
+        int c = (int)((i+0.5f) * 464.0f / N);
+        int r = (int)((j+0.5f) * 464.0f / N);
+        StdDraw.circle(c + 24, 464 - r + 36, rad);
+    }
+    public static void drawCircle(Coord loc, int N, double rad) {
+        drawCircle(loc.getI(), loc.getJ(), N, rad);
+    }
+
+    private static void drawPath(Iterable<Coord> path, int N) {
+        boolean first = true;
+        int c0 = 0, r0 = 0;
+        for (Coord loc : path) {
+            int c1 = (int)((loc.getI()+0.5f) * 464.0f / N);
+            int r1 = (int)((loc.getJ()+0.5f) * 464.0f / N);
+            if(!first) {
+                StdDraw.line(c0 + 24, 464 - r0 + 36, c1 + 24, 464 - r1 + 36);
+            }
+            first = false;
+            c0 = c1; r0 = r1;
+        }
+    }
+
+    // draw N-by-N pathfinding map
+    public static void draw(Terrain terrain, Pathfinder pf, Walker walker, int N) {
+        StdDraw.clear();
+        StdDraw.setXscale(0, 512);
+        StdDraw.setYscale(0, 512);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.filledSquare(256, 256 + 12, 464 / 2);
+
+        // draw terrain
+        for(int row = 0; row < 464; row++) {
+            int j = (int)((float)row/464.0f * N);
+            for(int col = 0; col < 464; col++) {
+                int i = (int)((float)col/464.0f * N);
+                Coord loc = new Coord(i,j);
+                Color c = height2Color(terrain.getHeight(loc));
+                if(pf.wasSearched(loc)) {
+                    c = colorLERP(0.50f, c, cSearched);
+                }
+                StdDraw.setPenColor(c);
+                StdDraw.filledSquare(col + 24, 464 - row + 36, 1);
+            }
+        }
+
+        // draw path start
+        if(pf.getPathStart() != null) {
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.006);
+            drawCircle(pf.getPathStart(), N, 4.0);
+
+            StdDraw.setPenColor(cStart);
+            StdDraw.setPenRadius(0.002);
+            drawCircle(pf.getPathStart(), N, 4.0);
+        }
+
+        // draw path end
+        if(pf.getPathEnd() != null) {
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.006);
+            drawCircle(pf.getPathEnd(), N, 4.0);
+
+            StdDraw.setPenColor(cEnd);
+            StdDraw.setPenRadius(0.002);
+            drawCircle(pf.getPathEnd(), N, 4.0);
+        }
+
+        // draw found path
+        if(pf.foundPath()) {
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.006);
+            drawPath(pf.getPathSolution(), N);
+
+            StdDraw.setPenColor(cSolution);
+            StdDraw.setPenRadius(0.002);
+            drawPath(pf.getPathSolution(), N);
+        }
+
+        // draw walker
+        if(walker != null) {
+            Coord loc = walker.getLocation();
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.006);
+            PathfinderVisualizer.drawCircle(loc, N, 2.0);
+
+            StdDraw.setPenColor(StdDraw.WHITE);
+            StdDraw.setPenRadius(0.002);
+            PathfinderVisualizer.drawCircle(loc, N, 2.0);
+        }
+
+        // write status text
+        StdDraw.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(96, 12, "heuristic: " + pf.getHeuristic());
+        if(pf.foundPath()) StdDraw.text(256, 12, "path: " + pf.getPathCost());
+        else               StdDraw.text(256, 12, "no path found");
+        StdDraw.text(512-96, 12, "searched: " + pf.getSearchSize() + " (" + (int)(100.0f * pf.getSearchSize() / (N*N)) + "%)");
+    }
+}
+
+--[ 2021.11.16.13.30.15.897.0 ]--
+InitFile: /src/Pathfinder.java
+import java.lang.IndexOutOfBoundsException;
+import java.lang.IllegalArgumentException;
+
+/**
+ * Pathfinder uses A* search to find a near optimal path
+ * between to locations with given terrain.
+ */
+
+public class Pathfinder {
+
+    /**
+     * PFNode will be the key for MinPQ (used in computePath())
+     */
+    private class PFNode implements Comparable<PFNode> {
+        // loc: the location of the PFNode
+        // fromNode: how did we get here? (linked list back to start)
+        public PFNode(Coord loc, PFNode fromNode) { }
+
+        // compares this with that, used to find minimum cost PFNode
+        public int compareTo(PFNode that) {
+            return 0;
+        }
+
+        // returns the cost to travel from starting point to this
+        // via the fromNode chain
+        public float getCost(float heuristic) {
+            return 0;
+        }
+
+        // returns if this PFNode is still valid
+        public boolean isValid() {
+            return false;
+        }
+
+        // invalidates the PFNode
+        public void invalidate() {
+        }
+
+        // returns if the PFNode has been used
+        public boolean isUsed() {
+            return true;
+        }
+
+        // uses the PFNode
+        public void use() { }
+
+        // returns an Iterable of PFNodes that surround this
+        public Iterable<PFNode> neighbors() {
+            Stack<PFNode> s = new Stack<>();
+            s.push(new PFNode(null, null));
+            return s;
+        }
+    }
+
+    public Pathfinder(Terrain terrain) {
+    }
+
+    public void setPathStart(Coord loc) {
+    }
+
+    public Coord getPathStart() {
+        return null;
+    }
+
+    public void setPathEnd(Coord loc) {
+    }
+
+    public Coord getPathEnd() {
+        return null;
+    }
+
+    public void setHeuristic(float v) {
+    }
+
+    public float getHeuristic() {
+        return 0;
+    }
+
+    public void resetPath() {
+    }
+
+    public void computePath() {
+    }
+
+    public boolean foundPath() {
+        return false;
+    }
+
+    public float getPathCost() {
+        return 0;
+    }
+
+    public int getSearchSize() {
+        return 0;
+    }
+
+    public Iterable<Coord> getPathSolution() {
+        return null;
+    }
+
+    public boolean wasSearched(Coord loc) {
+        return false;
+    }
+}
+
+--[ 2021.11.16.13.30.15.900.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.11.16.13.30.15.902.0 ]--
+InitFile: /src/InteractivePathfinderVisualizer.java
+import java.awt.event.KeyEvent;
+
+/**
+ * InteractivePathfinderVisualizer visualizes the terrain and the computed
+ * path and allows the user to change parameters of the Pathfinder.  Below
+ * is a list of commands and what they do.  Note: some of the commands
+ * modify the properties of the path finder and some modify the terrain.
+ *
+ * Command        Action                                      Terrain
+ * C              clear path
+ * space          recompute path
+ * S/E            set start/end location to mouse
+ * left/right     halve/double path search heuristic value
+ * 0/1            set path search heuristic to 0 or 1
+ * W              start a walker to show the path
+ * R              randomly generate a new terrain                *
+ * M              smooths terrain under mouse                    *
+ * shift+M        smooths all terrain                            *
+ * up/down        increase/decrease terrain under mouse          *
+ */
+
+public class InteractivePathfinderVisualizer {
+    private final static int DELAY = 10;
+
+    // sets how many redraws it should take for the walker to reach its destination
+    private final static float STEPS_TO_WALK = 100.0f;
+
+    // for convenience, here are the emap files that are located under heightmaps/ folder
+    // the python script in that folder converts png files to emap. \
+    // you can use it to create your own maps to test your code
+    private final static String[] emaps = {
+            "maze32_0.png.emap",    // 0   (32x32 maze)
+            "maze32_1.png.emap",    // 1   (another 32x32 maze)
+            "maze232_0.png.emap",   // 2   (232x232 maze)
+            "maze320_0.png.emap",   // 3   (same as maze32_0, only scaled up by 10x)
+            "mazeAB.png.emap",      // 4   (a maze from a site no longer online :( )
+            "mazeBrain.png.emap",   // 5   (...)
+            "ramp.png.emap",        // 6   (some tests)
+            "ramp2.png.emap",       // 7   (...)
+            "ramp3.png.emap",       // 8   (...)
+            "usa128.png.emap",      // 9   (elevation map of USA from https://bananas.openttd.org/en/heightmap/)
+            "usa256.png.emap",      // 10  (same as usa128, only higher resolution)
+            "usa1024.png.emap",     // 11  (same as usa128, only higher resolution
+    };
+
+    private final static String emapFilename = emaps[2];        // change index to load a different elevation map
+
+
+
+    public static void main(String[] args) {
+        Terrain terrain = new Terrain(emapFilename);
+        Pathfinder pf = new Pathfinder(terrain);
+        int N = terrain.getN();
+
+        StdDraw.show(0);
+
+        // set default starting and ending locations
+        pf.setPathStart(new Coord(1, 1));
+        pf.setPathEnd(new Coord(N-3, N-3));
+
+        // find a path
+        pf.resetPath();
+        pf.computePath();
+
+        PathfinderVisualizer.draw(terrain, pf, null, N);
+        StdDraw.show(DELAY);
+
+        // prevent repeated applications
+        boolean keyboardR = false;
+        boolean keyboardM = false;
+
+        Walker walker = null;
+
+        while(true) {
+            boolean recompute = false;
+            boolean redraw = false;
+
+            // mouse location on map
+            int mouseI = (int) ((StdDraw.mouseX()-24) / 464 * N);
+            int mouseJ = (int) ((464 - (StdDraw.mouseY()-36)) / 464 * N);
+            boolean isMouseOnMap = (mouseI >=0 && mouseI < N && mouseJ >= 0 && mouseJ < N);
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_LEFT) || StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)) {
+                boolean keyboardLeft = StdDraw.isKeyPressed(KeyEvent.VK_LEFT);
+                float m = keyboardLeft ? 0.5f : 2.0f;
+                float h = pf.getHeuristic() * m;
+                h = Math.max(1.0f/1024.0f, Math.min(1048576.0f, h));
+                pf.setHeuristic(h);
+                recompute = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_0) || StdDraw.isKeyPressed(KeyEvent.VK_1)) {
+                boolean keyboard0 = StdDraw.isKeyPressed(KeyEvent.VK_0);
+                float h = keyboard0 ? 0 : 1;
+                pf.setHeuristic(h);
+                recompute = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_C)) {
+                pf.resetPath();
+                walker = null;
+                redraw = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_R) && !keyboardR) {
+                TerrainEditor.setFractalHeights(terrain);
+                TerrainEditor.clampHeights(terrain);
+                recompute = true;
+            }
+            keyboardR = StdDraw.isKeyPressed(KeyEvent.VK_R);
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_M)) {
+                if(StdDraw.isKeyPressed(KeyEvent.VK_SHIFT)) {
+                    if(!keyboardM) {
+                        TerrainEditor.smoothHeights(terrain);
+                        recompute = true;
+                    }
+                } else {
+                    TerrainEditor.smoothHeights(mouseI, mouseJ, N / 20, true, terrain);
+                    recompute = true;
+                }
+            }
+            keyboardM = StdDraw.isKeyPressed(KeyEvent.VK_M);
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_SPACE)) {
+                recompute = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_UP) || StdDraw.isKeyPressed(KeyEvent.VK_DOWN)) {
+                boolean keyboardUp = StdDraw.isKeyPressed(KeyEvent.VK_UP);
+                float add = keyboardUp ? 8.0f : -8.0f;
+                TerrainEditor.addHeight(mouseI, mouseJ, N / 20, add, terrain);
+                recompute = true;
+            }
+
+            if(isMouseOnMap && StdDraw.isKeyPressed(KeyEvent.VK_S)) {
+                pf.setPathStart(new Coord(mouseI, mouseJ));
+                recompute = true;
+            }
+
+            if(isMouseOnMap && StdDraw.isKeyPressed(KeyEvent.VK_E)) {
+                pf.setPathEnd(new Coord(mouseI, mouseJ));
+                recompute = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
+                Iterable<Coord> path = pf.getPathSolution();
+                if(path != null) {
+                    walker = new Walker(terrain, pf.getPathSolution());
+                }
+            }
+
+            if(walker != null) {
+                if(walker.doneWalking()) {
+                    walker = null;
+                } else {
+                    walker.advance(pf.getPathCost() / STEPS_TO_WALK);
+                }
+                redraw = true;
+            }
+
+            if(recompute) {
+                walker = null;
+                pf.resetPath();
+                if(pf.getPathStart() != null && pf.getPathEnd() != null) {
+                    pf.computePath();
+                }
+                redraw = true;
+            }
+
+            if(redraw) {
+                PathfinderVisualizer.draw(terrain, pf, walker, N);
+                StdDraw.show(DELAY);
+            } else {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    /* do nothing */
+                }
+            }
+        }
+    }
+}
+
+--[ 2021.11.16.13.34.06.102.0 ]--
+:/src/Pathfinder.java
++ 56         
+--[ 2021.11.16.13.36.08.434.0 ]--
++ 54     
+--[ 2021.11.16.13.36.19.178.0 ]--
++ 54     \
+--[ 2021.11.16.13.36.19.631.0 ]--
+- 55
+--[ 2021.11.16.13.36.19.786.0 ]--
+r 54     
+--[ 2021.11.16.13.36.20.201.0 ]--
++ 54     
+--[ 2021.11.16.13.36.21.184.0 ]--
+r 55     C
+--[ 2021.11.16.13.36.21.500.0 ]--
+r 55     Co
+--[ 2021.11.16.13.36.21.993.0 ]--
+r 55     Coord
+--[ 2021.11.16.13.36.22.837.0 ]--
+r 55     Coord 
+--[ 2021.11.16.13.36.25.752.0 ]--
+r 55     Coord p
+--[ 2021.11.16.13.36.25.848.0 ]--
+r 55     Coord pa
+--[ 2021.11.16.13.36.25.982.0 ]--
+r 55     Coord pat
+--[ 2021.11.16.13.36.26.103.0 ]--
+r 55     Coord path
+--[ 2021.11.16.13.36.26.215.0 ]--
+r 55     Coord path 
+--[ 2021.11.16.13.36.26.715.0 ]--
+r 55     Coord path
+--[ 2021.11.16.13.36.26.929.0 ]--
+r 55     Coord pathS
+--[ 2021.11.16.13.36.27.109.0 ]--
+r 55     Coord pathSt
+--[ 2021.11.16.13.36.27.253.0 ]--
+r 55     Coord pathSta
+--[ 2021.11.16.13.36.27.350.0 ]--
+r 55     Coord pathStar
+--[ 2021.11.16.13.36.27.525.0 ]--
+r 55     Coord pathStart
+--[ 2021.11.16.13.36.29.876.0 ]--
+r 55     Coord pathStart 
+--[ 2021.11.16.13.36.30.101.0 ]--
+r 55     Coord pathStart =
+--[ 2021.11.16.13.36.30.567.0 ]--
+r 55     Coord pathStart = 
+--[ 2021.11.16.13.36.30.839.0 ]--
+r 55     Coord pathStart = n
+--[ 2021.11.16.13.36.31.108.0 ]--
+r 55     Coord pathStart = nu
+--[ 2021.11.16.13.36.31.146.0 ]--
+r 55     Coord pathStart = nul
+--[ 2021.11.16.13.36.31.275.0 ]--
+r 55     Coord pathStart = null
+--[ 2021.11.16.13.36.31.463.0 ]--
+r 55     Coord pathStart = null;
+--[ 2021.11.16.13.36.35.113.0 ]--
++ 62         
+--[ 2021.11.16.13.36.37.476.0 ]--
+r 62         p
+--[ 2021.11.16.13.36.37.931.0 ]--
+r 62         pa
+--[ 2021.11.16.13.36.38.307.0 ]--
+r 62         pathStart
+--[ 2021.11.16.13.36.38.676.0 ]--
+r 62         pathStart 
+--[ 2021.11.16.13.36.39.179.0 ]--
+r 62         pathStart =
+--[ 2021.11.16.13.36.39.641.0 ]--
+r 62         pathStart = 
+--[ 2021.11.16.13.36.39.805.0 ]--
+r 62         pathStart = l
+--[ 2021.11.16.13.36.39.954.0 ]--
+r 62         pathStart = lo
+--[ 2021.11.16.13.36.40.450.0 ]--
+r 62         pathStart = loc
+--[ 2021.11.16.13.36.40.695.0 ]--
+r 62         pathStart = loc;
+--[ 2021.11.16.13.36.48.065.0 ]--
+r 66         return p;
+--[ 2021.11.16.13.36.48.802.0 ]--
+r 66         return pathStart;
+--[ 2021.11.16.13.37.03.768.0 ]--
++ 56     
+--[ 2021.11.16.13.37.04.208.0 ]--
+r 56     Coord pathStart = null;
+--[ 2021.11.16.13.37.09.391.0 ]--
+r 56     Coord pathE = null;
+--[ 2021.11.16.13.37.09.733.0 ]--
+r 56     Coord pathEn = null;
+--[ 2021.11.16.13.37.09.821.0 ]--
+r 56     Coord pathEnd = null;
+--[ 2021.11.16.13.37.33.444.0 ]--
++ 71         
+--[ 2021.11.16.13.37.34.635.0 ]--
+r 71         p
+--[ 2021.11.16.13.37.34.738.0 ]--
+r 71         pa
+--[ 2021.11.16.13.37.34.857.0 ]--
+r 71         pat
+--[ 2021.11.16.13.37.34.962.0 ]--
+r 71         path
+--[ 2021.11.16.13.37.36.226.0 ]--
+r 71         pathe
+--[ 2021.11.16.13.37.36.954.0 ]--
+r 71         pathEnd
+--[ 2021.11.16.13.37.37.414.0 ]--
+r 71         pathEnd 
+--[ 2021.11.16.13.37.38.252.0 ]--
+r 71         pathEnd =
+--[ 2021.11.16.13.37.38.334.0 ]--
+r 71         pathEnd = 
+--[ 2021.11.16.13.37.38.603.0 ]--
+r 71         pathEnd = l
+--[ 2021.11.16.13.37.38.785.0 ]--
+r 71         pathEnd = lo
+--[ 2021.11.16.13.37.38.892.0 ]--
+r 71         pathEnd = loc
+--[ 2021.11.16.13.37.39.148.0 ]--
+r 71         pathEnd = loc;
+--[ 2021.11.16.13.37.45.334.0 ]--
+r 75         return p;
+--[ 2021.11.16.13.37.45.436.0 ]--
+r 75         return pa;
+--[ 2021.11.16.13.37.45.633.0 ]--
+r 75         return pat;
+--[ 2021.11.16.13.37.46.595.0 ]--
+r 75         return pathEnd;
+--[ 2021.11.16.13.37.47.622.0 ]--
+r 75         return pathEnd ;
+--[ 2021.11.16.13.37.48.291.0 ]--
+r 75         return pathEnd =;
+--[ 2021.11.16.13.37.48.767.0 ]--
+r 75         return pathEnd ;
+--[ 2021.11.16.13.37.49.094.0 ]--
+r 75         return pathEnd;
+--[ 2021.11.16.13.37.50.497.0 ]--
+r 54 
+r 59 
+--[ 2021.11.16.13.38.03.802.0 ]--
++ 57     
+--[ 2021.11.16.13.38.05.004.0 ]--
+r 57     f
+--[ 2021.11.16.13.38.05.100.0 ]--
+r 57     fl
+--[ 2021.11.16.13.38.05.308.0 ]--
+r 57     flo
+--[ 2021.11.16.13.38.05.386.0 ]--
+r 57     floa
+--[ 2021.11.16.13.38.05.629.0 ]--
+r 57     float
+--[ 2021.11.16.13.38.06.013.0 ]--
+r 57     float 
+--[ 2021.11.16.13.38.07.381.0 ]--
+r 57     float H
+--[ 2021.11.16.13.38.07.806.0 ]--
+r 57     float Hu
+--[ 2021.11.16.13.38.08.189.0 ]--
+r 57     float H
+--[ 2021.11.16.13.38.08.325.0 ]--
+r 57     float 
+--[ 2021.11.16.13.38.08.562.0 ]--
+r 57     float h
+--[ 2021.11.16.13.38.08.621.0 ]--
+r 57     float he
+--[ 2021.11.16.13.38.09.915.0 ]--
+r 57     float heu
+--[ 2021.11.16.13.38.10.054.0 ]--
+r 57     float heur
+--[ 2021.11.16.13.38.10.204.0 ]--
+r 57     float heuri
+--[ 2021.11.16.13.38.10.372.0 ]--
+r 57     float heuris
+--[ 2021.11.16.13.38.10.583.0 ]--
+r 57     float heurist
+--[ 2021.11.16.13.38.10.679.0 ]--
+r 57     float heuristi
+--[ 2021.11.16.13.38.10.845.0 ]--
+r 57     float heuristic
+--[ 2021.11.16.13.38.11.402.0 ]--
+r 57     float heuristic 
+--[ 2021.11.16.13.38.11.679.0 ]--
+r 57     float heuristic
+--[ 2021.11.16.13.38.12.057.0 ]--
+r 57     float heuristic 
+--[ 2021.11.16.13.38.12.404.0 ]--
+r 57     float heuristic =
+--[ 2021.11.16.13.38.12.551.0 ]--
+r 57     float heuristic = 
+--[ 2021.11.16.13.38.12.709.0 ]--
+r 57     float heuristic = n
+--[ 2021.11.16.13.38.12.872.0 ]--
+r 57     float heuristic = nu
+--[ 2021.11.16.13.38.13.040.0 ]--
+r 57     float heuristic = nul
+--[ 2021.11.16.13.38.13.168.0 ]--
+r 57     float heuristic = null
+--[ 2021.11.16.13.38.13.254.0 ]--
+r 57     float heuristic = nulle
+--[ 2021.11.16.13.38.13.565.0 ]--
+r 57     float heuristic = null
+--[ 2021.11.16.13.38.13.701.0 ]--
+r 57     float heuristic = nul
+--[ 2021.11.16.13.38.13.839.0 ]--
+r 57     float heuristic = nu
+--[ 2021.11.16.13.38.14.025.0 ]--
+r 57     float heuristic = n
+--[ 2021.11.16.13.38.14.141.0 ]--
+r 57     float heuristic = 
+--[ 2021.11.16.13.38.14.852.0 ]--
+r 57     float heuristic = 0
+--[ 2021.11.16.13.38.15.267.0 ]--
+r 57     float heuristic = 0;
+--[ 2021.11.16.13.38.20.901.0 ]--
++ 80         
+--[ 2021.11.16.13.38.22.500.0 ]--
+r 80         u
+--[ 2021.11.16.13.38.23.056.0 ]--
+r 80         
+--[ 2021.11.16.13.38.23.267.0 ]--
+r 80         h
+--[ 2021.11.16.13.38.23.413.0 ]--
+r 80         he
+--[ 2021.11.16.13.38.23.877.0 ]--
+r 80         heuristic
+--[ 2021.11.16.13.38.24.398.0 ]--
+r 80         heuristic 
+--[ 2021.11.16.13.38.24.939.0 ]--
+r 80         heuristic =
+--[ 2021.11.16.13.38.25.689.0 ]--
+r 80         heuristic =v
+--[ 2021.11.16.13.38.25.998.0 ]--
+r 80         heuristic =
+--[ 2021.11.16.13.38.26.138.0 ]--
+r 80         heuristic = 
+--[ 2021.11.16.13.38.26.206.0 ]--
+r 80         heuristic = v
+--[ 2021.11.16.13.38.26.522.0 ]--
+r 80         heuristic = v;
+--[ 2021.11.16.13.38.30.934.0 ]--
+r 84         return h;
+--[ 2021.11.16.13.38.31.237.0 ]--
+r 84         return hu;
+--[ 2021.11.16.13.38.31.300.0 ]--
+r 84         return hue;
+--[ 2021.11.16.13.38.32.131.0 ]--
+r 84         return heuristic;
+--[ 2021.11.16.13.38.44.153.0 ]--
++ 58     
+--[ 2021.11.16.13.38.44.825.0 ]--
+r 58     b
+--[ 2021.11.16.13.38.44.951.0 ]--
+r 58     bo
+--[ 2021.11.16.13.38.45.062.0 ]--
+r 58     boo
+--[ 2021.11.16.13.38.45.557.0 ]--
+r 58     boolean
+--[ 2021.11.16.13.38.58.959.0 ]--
+r 58     boolean 
+--[ 2021.11.16.13.38.59.555.0 ]--
+r 58     boolean f
+--[ 2021.11.16.13.38.59.657.0 ]--
+r 58     boolean fo
+--[ 2021.11.16.13.38.59.708.0 ]--
+r 58     boolean fou
+--[ 2021.11.16.13.38.59.971.0 ]--
+r 58     boolean foun
+--[ 2021.11.16.13.39.00.078.0 ]--
+r 58     boolean found
+--[ 2021.11.16.13.39.00.173.0 ]--
+r 58     boolean found 
+--[ 2021.11.16.13.39.00.606.0 ]--
+r 58     boolean found
+--[ 2021.11.16.13.39.00.823.0 ]--
+r 58     boolean foundP
+--[ 2021.11.16.13.39.00.982.0 ]--
+r 58     boolean foundPa
+--[ 2021.11.16.13.39.01.179.0 ]--
+r 58     boolean foundPat
+--[ 2021.11.16.13.39.01.260.0 ]--
+r 58     boolean foundPath
+--[ 2021.11.16.13.39.03.093.0 ]--
+r 58     boolean foundPath 
+--[ 2021.11.16.13.39.03.342.0 ]--
+r 58     boolean foundPath =
+--[ 2021.11.16.13.39.03.592.0 ]--
+r 58     boolean foundPath = 
+--[ 2021.11.16.13.39.04.933.0 ]--
+r 58     boolean foundPath = f
+--[ 2021.11.16.13.39.05.051.0 ]--
+r 58     boolean foundPath = fa
+--[ 2021.11.16.13.39.05.191.0 ]--
+r 58     boolean foundPath = fal
+--[ 2021.11.16.13.39.05.286.0 ]--
+r 58     boolean foundPath = fals
+--[ 2021.11.16.13.39.05.508.0 ]--
+r 58     boolean foundPath = false
+--[ 2021.11.16.13.39.05.645.0 ]--
+r 58     boolean foundPath = false;
+--[ 2021.11.16.13.39.09.468.0 ]--
+r 95         return f;
+--[ 2021.11.16.13.39.11.244.0 ]--
+r 95         return foundPath;
+--[ 2021.11.16.13.39.37.242.0 ]--
++ 59     
+--[ 2021.11.16.13.39.38.014.0 ]--
+r 59     f
+--[ 2021.11.16.13.39.38.136.0 ]--
+r 59     fl
+--[ 2021.11.16.13.39.38.311.0 ]--
+r 59     flo
+--[ 2021.11.16.13.39.38.439.0 ]--
+r 59     floa
+--[ 2021.11.16.13.39.38.861.0 ]--
+r 59     float
+--[ 2021.11.16.13.39.39.876.0 ]--
+r 59     float 
+--[ 2021.11.16.13.39.39.998.0 ]--
+r 59     float g
+--[ 2021.11.16.13.39.40.125.0 ]--
+r 59     float ge
+--[ 2021.11.16.13.39.40.189.0 ]--
+r 59     float get
+--[ 2021.11.16.13.39.40.802.0 ]--
+r 59     float getP
+--[ 2021.11.16.13.39.40.936.0 ]--
+r 59     float getPa
+--[ 2021.11.16.13.39.41.064.0 ]--
+r 59     float getPat
+--[ 2021.11.16.13.39.41.182.0 ]--
+r 59     float getPath
+--[ 2021.11.16.13.39.41.706.0 ]--
+r 59     float getPathC
+--[ 2021.11.16.13.39.41.875.0 ]--
+r 59     float getPathCo
+--[ 2021.11.16.13.39.41.944.0 ]--
+r 59     float getPathCos
+--[ 2021.11.16.13.39.42.107.0 ]--
+r 59     float getPathCost
+--[ 2021.11.16.13.39.43.636.0 ]--
+r 59     float getPathCost 
+--[ 2021.11.16.13.39.43.917.0 ]--
+r 59     float getPathCost
+--[ 2021.11.16.13.39.44.421.0 ]--
+r 59     float getPathCos
+--[ 2021.11.16.13.39.44.459.0 ]--
+r 59     float getPathCo
+--[ 2021.11.16.13.39.44.486.0 ]--
+r 59     float getPathC
+--[ 2021.11.16.13.39.44.517.0 ]--
+r 59     float getPath
+--[ 2021.11.16.13.39.44.543.0 ]--
+r 59     float getPat
+--[ 2021.11.16.13.39.44.576.0 ]--
+r 59     float getPa
+--[ 2021.11.16.13.39.44.609.0 ]--
+r 59     float getP
+--[ 2021.11.16.13.39.44.634.0 ]--
+r 59     float get
+--[ 2021.11.16.13.39.44.663.0 ]--
+r 59     float ge
+--[ 2021.11.16.13.39.44.691.0 ]--
+r 59     float g
+--[ 2021.11.16.13.39.44.996.0 ]--
+r 59     float 
+--[ 2021.11.16.13.39.46.221.0 ]--
+r 59     float p
+--[ 2021.11.16.13.39.46.317.0 ]--
+r 59     float pa
+--[ 2021.11.16.13.39.46.436.0 ]--
+r 59     float pat
+--[ 2021.11.16.13.39.46.560.0 ]--
+r 59     float path
+--[ 2021.11.16.13.39.47.037.0 ]--
+r 59     float pathC
+--[ 2021.11.16.13.39.47.267.0 ]--
+r 59     float pathCo
+--[ 2021.11.16.13.39.47.579.0 ]--
+r 59     float pathC
+--[ 2021.11.16.13.39.48.033.0 ]--
+r 59     float pathCo
+--[ 2021.11.16.13.39.48.045.0 ]--
+r 59     float pathCos
+--[ 2021.11.16.13.39.48.204.0 ]--
+r 59     float pathCost
+--[ 2021.11.16.13.39.48.512.0 ]--
+r 59     float pathCost 
+--[ 2021.11.16.13.39.50.757.0 ]--
+r 59     float pathCost =
+--[ 2021.11.16.13.39.50.933.0 ]--
+r 59     float pathCost = 
+--[ 2021.11.16.13.39.51.593.0 ]--
+r 59     float pathCost = 0
+--[ 2021.11.16.13.39.51.913.0 ]--
+r 59     float pathCost = 0;
+--[ 2021.11.16.13.39.52.612.0 ]--
++ 60     
+--[ 2021.11.16.13.39.53.956.0 ]--
+r 60     i
+--[ 2021.11.16.13.39.54.021.0 ]--
+r 60     in
+--[ 2021.11.16.13.39.54.170.0 ]--
+r 60     int
+--[ 2021.11.16.13.39.54.252.0 ]--
+r 60     int 
+--[ 2021.11.16.13.39.54.702.0 ]--
+r 60     int s
+--[ 2021.11.16.13.39.54.857.0 ]--
+r 60     int se
+--[ 2021.11.16.13.39.54.992.0 ]--
+r 60     int sea
+--[ 2021.11.16.13.39.55.100.0 ]--
+r 60     int sear
+--[ 2021.11.16.13.39.55.322.0 ]--
+r 60     int searc
+--[ 2021.11.16.13.39.55.439.0 ]--
+r 60     int search
+--[ 2021.11.16.13.39.55.683.0 ]--
+r 60     int searchS
+--[ 2021.11.16.13.39.55.817.0 ]--
+r 60     int searchSi
+--[ 2021.11.16.13.39.55.900.0 ]--
+r 60     int searchSiz
+--[ 2021.11.16.13.39.56.138.0 ]--
+r 60     int searchSize
+--[ 2021.11.16.13.39.56.448.0 ]--
+r 60     int searchSize 
+--[ 2021.11.16.13.39.57.115.0 ]--
+r 60     int searchSize =
+--[ 2021.11.16.13.39.57.404.0 ]--
+r 60     int searchSize =0
+--[ 2021.11.16.13.39.58.330.0 ]--
+r 60     int searchSize =
+--[ 2021.11.16.13.39.58.475.0 ]--
+r 60     int searchSize = 
+--[ 2021.11.16.13.39.59.509.0 ]--
+r 60     int searchSize = 0
+--[ 2021.11.16.13.39.59.908.0 ]--
+r 60     int searchSize = 0;
+--[ 2021.11.16.13.40.04.459.0 ]--
+r 101         return ;
+--[ 2021.11.16.13.40.05.940.0 ]--
+r 101         return p;
+--[ 2021.11.16.13.40.06.036.0 ]--
+r 101         return pa;
+--[ 2021.11.16.13.40.06.269.0 ]--
+r 101         return pat;
+--[ 2021.11.16.13.40.06.620.0 ]--
+r 101         return pathCost;
+--[ 2021.11.16.13.40.09.402.0 ]--
+r 105         return ;
+--[ 2021.11.16.13.40.11.179.0 ]--
+r 105         return s;
+--[ 2021.11.16.13.40.11.530.0 ]--
+r 105         return se;
+--[ 2021.11.16.13.40.12.009.0 ]--
+r 105         return searchSize;
+--[ 2021.11.16.13.40.47.607.0 ]--
+r 98     } 
+--[ 2021.11.16.13.40.47.765.0 ]--
+r 98     } /
+--[ 2021.11.16.13.40.47.925.0 ]--
+r 98     } //
+--[ 2021.11.16.13.40.48.333.0 ]--
+r 98     } // 
+--[ 2021.11.16.13.40.48.497.0 ]--
+r 98     } // t
+--[ 2021.11.16.13.40.48.605.0 ]--
+r 98     } // to
+--[ 2021.11.16.13.40.48.729.0 ]--
+r 98     } // tod
+--[ 2021.11.16.13.40.48.850.0 ]--
+r 98     } // todo
+--[ 2021.11.16.13.40.49.158.0 ]--
+r 98     } // todo 
+--[ 2021.11.16.13.40.52.764.0 ]--
+r 98     } // todo s
+--[ 2021.11.16.13.40.53.079.0 ]--
+r 98     } // todo se
+--[ 2021.11.16.13.40.53.171.0 ]--
+r 98     } // todo set
+--[ 2021.11.16.13.40.53.342.0 ]--
+r 98     } // todo set 
+--[ 2021.11.16.13.40.53.977.0 ]--
+r 98     } // todo set t
+--[ 2021.11.16.13.40.54.087.0 ]--
+r 98     } // todo set th
+--[ 2021.11.16.13.40.54.157.0 ]--
+r 98     } // todo set the
+--[ 2021.11.16.13.40.55.035.0 ]--
+r 98     } // todo set the=
+--[ 2021.11.16.13.40.55.323.0 ]--
+r 98     } // todo set the
+--[ 2021.11.16.13.40.55.436.0 ]--
+r 98     } // todo set th
+--[ 2021.11.16.13.40.55.699.0 ]--
+r 98     } // todo set thi
+--[ 2021.11.16.13.40.55.792.0 ]--
+r 98     } // todo set this
+--[ 2021.11.16.13.40.55.943.0 ]--
+r 98     } // todo set this 
+--[ 2021.11.16.13.40.56.094.0 ]--
+r 98     } // todo set this f
+--[ 2021.11.16.13.40.56.240.0 ]--
+r 98     } // todo set this fa
+--[ 2021.11.16.13.40.56.539.0 ]--
+r 98     } // todo set this f
+--[ 2021.11.16.13.40.56.648.0 ]--
+r 98     } // todo set this 
+--[ 2021.11.16.13.40.56.699.0 ]--
+r 98     } // todo set this v
+--[ 2021.11.16.13.40.56.880.0 ]--
+r 98     } // todo set this vl
+--[ 2021.11.16.13.40.57.079.0 ]--
+r 98     } // todo set this vla
+--[ 2021.11.16.13.40.57.180.0 ]--
+r 98     } // todo set this vlau
+--[ 2021.11.16.13.40.57.387.0 ]--
+r 98     } // todo set this vla
+--[ 2021.11.16.13.40.57.522.0 ]--
+r 98     } // todo set this vl
+--[ 2021.11.16.13.40.57.609.0 ]--
+r 98     } // todo set this v
+--[ 2021.11.16.13.40.57.751.0 ]--
+r 98     } // todo set this va
+--[ 2021.11.16.13.40.57.821.0 ]--
+r 98     } // todo set this val
+--[ 2021.11.16.13.40.57.960.0 ]--
+r 98     } // todo set this valu
+--[ 2021.11.16.13.40.58.068.0 ]--
+r 98     } // todo set this value
+--[ 2021.11.16.13.40.58.148.0 ]--
+r 98     } // todo set this value 
+--[ 2021.11.16.13.40.58.459.0 ]--
+r 98     } // todo set this value s
+--[ 2021.11.16.13.40.58.524.0 ]--
+r 98     } // todo set this value so
+--[ 2021.11.16.13.40.58.614.0 ]--
+r 98     } // todo set this value som
+--[ 2021.11.16.13.40.58.819.0 ]--
+r 98     } // todo set this value some
+--[ 2021.11.16.13.40.59.159.0 ]--
+r 98     } // todo set this value somew
+--[ 2021.11.16.13.40.59.418.0 ]--
+r 98     } // todo set this value somewh
+--[ 2021.11.16.13.41.00.096.0 ]--
+r 98     } // todo set this value somewher
+--[ 2021.11.16.13.41.00.116.0 ]--
+r 98     } // todo set this value somewhere
+--[ 2021.11.16.13.41.00.181.0 ]--
+r 98     } // todo set this value somewhere 
+--[ 2021.11.16.13.41.00.391.0 ]--
+r 98     } // todo set this value somewhere e
+--[ 2021.11.16.13.41.00.904.0 ]--
+r 98     } // todo set this value somewhere el
+--[ 2021.11.16.13.41.00.997.0 ]--
+r 98     } // todo set this value somewhere els
+--[ 2021.11.16.13.41.01.204.0 ]--
+r 98     } // todo set this value somewhere else
+--[ 2021.11.16.13.41.07.405.0 ]--
+r 102     } 
+--[ 2021.11.16.13.41.07.608.0 ]--
+r 102     } // todo set this value somewhere else
+--[ 2021.11.16.13.41.08.889.0 ]--
+r 106     } 
+--[ 2021.11.16.13.41.09.209.0 ]--
+r 106     } // todo set this value somewhere else

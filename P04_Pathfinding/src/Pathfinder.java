@@ -52,28 +52,39 @@ public class Pathfinder {
         }
     }
 
+    Coord pathStart = null;
+    Coord pathEnd = null;
+    float heuristic = 0;
+    boolean foundPath = false;
+    float pathCost = 0;
+    int searchSize = 0;
+
     public Pathfinder(Terrain terrain) {
+
     }
 
     public void setPathStart(Coord loc) {
+        pathStart = loc;
     }
 
     public Coord getPathStart() {
-        return null;
+        return pathStart;
     }
 
     public void setPathEnd(Coord loc) {
+        pathEnd = loc;
     }
 
     public Coord getPathEnd() {
-        return null;
+        return pathEnd;
     }
 
     public void setHeuristic(float v) {
+        heuristic = v;
     }
 
     public float getHeuristic() {
-        return 0;
+        return heuristic;
     }
 
     public void resetPath() {
@@ -83,16 +94,16 @@ public class Pathfinder {
     }
 
     public boolean foundPath() {
-        return false;
-    }
+        return foundPath;
+    } // todo set this value somewhere else
 
     public float getPathCost() {
-        return 0;
-    }
+        return pathCost;
+    } // todo set this value somewhere else
 
     public int getSearchSize() {
-        return 0;
-    }
+        return searchSize;
+    } // todo set this value somewhere else
 
     public Iterable<Coord> getPathSolution() {
         return null;
