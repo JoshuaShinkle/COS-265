@@ -12188,3 +12188,3985 @@ CompilationStatus (AEW): 0 0 0
 CompilationStatus (AEW): 0 0 0
 --[ 2021.10.25.23.57.47.608.0 ]--
 DisposeComponent
+--[ 2021.12.04.21.29.45.979.0 ]--
+NewLogger: P03_Sorting
+Version: 1.5
+--[ 2021.12.04.21.29.46.045.0 ]--
+InitTree:
+/out/production/P03_Sorting/algs4.jar
+/out/production/P03_Sorting/stdlib.jar
+/out/production/P03_Sorting/Bubble.class
+/out/production/P03_Sorting/EdgeCases.class
+/out/production/P03_Sorting/MedianOfN.class
+/out/production/P03_Sorting/LinkedList.class
+/out/production/P03_Sorting/DoublingTest.class
+/out/production/P03_Sorting/LinkedList$1.class
+/out/production/P03_Sorting/LinkedList$Node.class
+/out/production/P03_Sorting/QuickSortMedian.class
+/out/production/P03_Sorting/QuickSortMedian3.class
+/out/production/P03_Sorting/QuickSortMedian5.class
+/out/production/P03_Sorting/QuickSortMedian3$MedianOf3.class
+/out/production/P03_Sorting/QuickSortMedian5$MedianOf5.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Bubble.java
+/src/EdgeCases.java
+/src/MedianOfN.java
+/src/LinkedList.java
+/src/DoublingTest.java
+/src/QuickSortMedian.java
+/src/QuickSortMedian3.java
+/src/QuickSortMedian5.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.idea/runConfigurations.xml
+/.cos265
+/readme.html
+/P03_Sorting.iml
+/P03_Sorting.zip
+
+--[ 2021.12.04.21.29.46.048.0 ]--
+InitFile: /src/EdgeCases.java
+import java.util.function.DoubleBinaryOperator;
+
+public class EdgeCases {
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        // sorted
+        Double[] sorted = {0.0, 1.0, 2.0, 3.0, 4.0};
+        Bubble.sort(sorted);     // bubble sort
+        Selection.sort(sorted);  // selection sort
+        Insertion.sort(sorted);  // insertion sort
+        Shell.sort(sorted);      // Shellsort
+        Quick.sort(sorted);      // quicksort
+
+        // reversed
+        Double[] reversed1 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Bubble.sort(reversed1);     // bubble sort
+        Double[] reversed2 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Selection.sort(reversed2);  // selection sort
+        Double[] reversed3 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Insertion.sort(reversed3);  // insertion sort
+        Double[] reversed4 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Shell.sort(reversed4);      // Shellsort
+        Double[] reversed5 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Quick.sort(reversed5);      // quicksort
+
+        // all keys are same
+        Double[] same = {3.0, 3.0, 3.0, 3.0, 3.0};
+        Bubble.sort(same);     // bubble sort
+        Selection.sort(same);  // selection sort
+        Insertion.sort(same);  // insertion sort
+        Shell.sort(same);      // Shellsort
+        Quick.sort(same);      // quicksort
+
+        // two distinct only
+        Double[] twoDistinct1 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Bubble.sort(twoDistinct1);     // bubble sort
+        Double[] twoDistinct2 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Selection.sort(twoDistinct2);  // selection sort
+        Double[] twoDistinct3 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Insertion.sort(twoDistinct3);  // insertion sort
+        Double[] twoDistinct4 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Shell.sort(twoDistinct4);      // Shellsort
+        Double[] twoDistinct5 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Quick.sort(twoDistinct5);      // quicksort
+
+        // size 0
+        Double[] size0 = {};
+        Bubble.sort(size0);     // bubble sort
+        Selection.sort(size0);  // selection sort
+        Insertion.sort(size0);  // insertion sort
+        Shell.sort(size0);      // Shellsort
+        Quick.sort(size0);      // quicksort
+
+        // size 1
+        Double[] size1 = {0.0};
+        Bubble.sort(size1);     // bubble sort
+        Selection.sort(size1);  // selection sort
+        Insertion.sort(size1);  // insertion sort
+        Shell.sort(size1);      // Shellsort
+        Quick.sort(size1);      // quicksort
+    }
+}
+
+--[ 2021.12.04.21.29.46.051.0 ]--
+InitFile: /src/DoublingTest.java
+public class DoublingTest {
+
+    public static void sort(String method) {
+        double MAX = 1000000;
+        for (int n=1000, count=0; count < 5; n*=2, count++) {
+            double average = 0;
+            for (int j=0; j<100; j++) {
+                Double[] a = new Double[n];
+                for (int i=0; i<n; i++) {
+                    a[i] = StdRandom.uniform(-MAX, MAX);
+                }
+                Stopwatch timer = new Stopwatch();
+                switch (method) {
+                    case "Selection": Selection.sort(a);
+                        break;
+                    case "Insertion": Insertion.sort(a);
+                        break;
+                    case "Shell": Shell.sort(a);
+                        break;
+                    case "Quick": Quick.sort(a);
+                        break;
+                    case "Median3": QuickSortMedian3.sort(a);
+                        break;
+                    case "Median5": QuickSortMedian5.sort(a);
+                        break;
+                }
+                average += timer.elapsedTime();
+            }
+            average /= 5;
+            StdOut.printf("%s: N = %d || Time = %f || Ratio = %f\n", method, n, average, n/average);
+        }
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        sort("Selection");
+        StdOut.println();
+        sort("Insertion");
+        StdOut.println();
+        sort("Shell");
+        StdOut.println();
+        sort("Quick");
+        StdOut.println();
+        sort("Median3");
+        StdOut.println();
+        sort("Median5");
+        StdOut.println();
+
+        double MAX = 1000000;
+        for (int n=1000, count=0; count < 5; n*=2, count++) {
+            double average = 0;
+            for (int j=0; j<100; j++) {
+                Double[] a = new Double[n];
+                for (int i=0; i<n; i++) {
+                    a[i] = StdRandom.uniform(-MAX, MAX);
+                }
+                LinkedList<Double> linkedlist = new LinkedList<>(a);
+                Stopwatch timer = new Stopwatch();
+                linkedlist.sort();
+                average += timer.elapsedTime();
+            }
+            average /= 5;
+            StdOut.printf("Linked List: N = %d || Time = %f || Ratio = %f\n", n, average, n/average);
+        }
+    }
+}
+
+--[ 2021.12.04.21.29.46.054.0 ]--
+InitFile: /P03_Sorting.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.log" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.04.21.29.46.056.0 ]--
+InitFile: /src/MedianOfN.java
+public abstract class MedianOfN {
+    private int N;
+    private int[] indices;
+
+    public MedianOfN(int N) {
+        this.N = N;
+        indices = new int[N];
+    }
+
+    public abstract int median(Comparable[] a, int[] indices);
+
+    public int median(Comparable[] a, int lo, int hi) {
+        // if hi and lo are "close enough", simply return lo
+        if(hi - lo + 1 < N) return lo;
+        // choose N random indices in [lo, hi]
+        for(int i = 0; i < N; i++) indices[i] = StdRandom.uniform(lo, hi + 1);
+        return median(a, indices);
+    }
+}
+
+--[ 2021.12.04.21.29.46.058.0 ]--
+InitFile: /src/QuickSortMedian.java
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian {
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+
+    public static void sort(Comparable[] a, MedianOfN median) {
+        sort(a, median, 0, a.length - 1);
+    }
+
+    // quicksort the subarray from a[lo] to a[hi]
+    private static void sort(Comparable[] a, MedianOfN median, int lo, int hi) {
+        if(hi <= lo) return;
+        int j = partition(a, median, lo, hi);   // partition data into parts, returning pivot index
+        sort(a, median, lo, j-1);   // recursively sort lower part
+        sort(a, median, j+1, hi);   // recursively sort higher part
+    }
+
+    // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
+    // and return the index j.  note: v = a[j]
+    private static int partition(Comparable[] a, MedianOfN median, int lo, int hi) {
+        int i = lo;
+        int j = hi + 1;
+
+        int k = median.median(a, lo, hi);   // determine position of a pivot
+        exch(a, lo, k);                     // move pivot to lo position
+        Comparable v = a[lo];               // v is pivot value
+
+        while(true) {
+
+            // find item on lo to swap
+            while(less(a[++i], v))
+                if(i == hi) break;
+
+            // find item on hi to swap
+            while(less(v, a[--j]))
+                if(j == lo) break;      // redundant since a[lo] acts as sentinel
+
+            // check if pointers cross
+            if(i >= j) break;
+
+            exch(a, i, j);
+        }
+
+        // put partitioning item v at a[j]
+        exch(a, lo, j);
+
+        // now, a[lo .. j-1] <= a[j] <= a[j+1 .. hi]
+        return j;
+    }
+
+
+    /***********************************************************************
+     *  Helper sorting functions
+     ***********************************************************************/
+
+    // is v < w ?
+    private static boolean less(Comparable v, Comparable w) {
+        return (v.compareTo(w) < 0);
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.12.04.21.29.46.061.0 ]--
+InitFile: /src/QuickSortMedian5.java
+import java.util.Arrays;
+import java.util.Collections;
+
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian5 extends QuickSortMedian {
+
+    public static class MedianOf5 extends MedianOfN {
+        public MedianOf5() {
+            // tell QuickSortMedian.MedianOfN we will find the median of 5 items
+            super(5);
+        }
+
+        /***********************************************************
+         * Determines which index in parameter indices points to
+         * the median value in parameter a
+         * @param a the array containing values
+         * @param indices the array containing indices into a
+         * @return the index of median value
+         ***********************************************************/
+        public int median(Comparable[] a, int[] indices) {
+            // get values at specified indices
+            int i0 = indices[0];
+            int i1 = indices[1];
+            int i2 = indices[2];
+            int i3 = indices[3];
+            int i4 = indices[4];
+            Comparable a0 = a[i0];
+            Comparable a1 = a[i1];
+            Comparable a2 = a[i2];
+            Comparable a3 = a[i3];
+            Comparable a4 = a[i4];
+
+            Comparable[] arrayOf5 = new Double[5];
+            arrayOf5[0] = a0;
+            arrayOf5[1] = a1;
+            arrayOf5[2] = a2;
+            arrayOf5[3] = a3;
+            arrayOf5[4] = a4;
+
+            // find median in a0,a1,a2,a3,a4, and return respective index
+            Comparable maxNum = Collections.max(Arrays.asList(arrayOf5));
+            Comparable minNum = Collections.min(Arrays.asList(arrayOf5));
+            Comparable[] arrayOf3 = new Double[3];
+            int count = 0;
+            boolean maxRemoved = false;
+            boolean minRemoved = false;
+            for (int i=0; i<5; i++) {
+               if (arrayOf5[i] == maxNum && !maxRemoved) {
+                    maxRemoved = true;
+               } else if (arrayOf5[i] == minNum && !minRemoved) {
+                   minRemoved = true;
+               } else {
+                   arrayOf3[count] = arrayOf5[i];
+                   count++;
+               }
+            }
+
+            a0 = arrayOf3[0];
+            a1 = arrayOf3[1];
+            a2 = arrayOf3[2];
+
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
+        }
+    }
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+    public static void sort(Comparable[] a) {
+        MedianOf5 median = new MedianOf5();
+        QuickSortMedian.sort(a, median);
+    }
+
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        Double[] a = {6.0, 7.0, 3.0, 4.0, 5.0};
+        QuickSortMedian5.sort(a);
+    }
+}
+
+--[ 2021.12.04.21.29.46.066.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.04.21.29.46.070.0 ]--
+InitFile: /src/QuickSortMedian3.java
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian3 extends QuickSortMedian {
+
+    public static class MedianOf3 extends MedianOfN {
+        public MedianOf3() {
+            // tell QuickSortMedian.MedianOfN we will find the median of 3 items
+            super(3);
+        }
+
+        /***********************************************************
+         * Determines which index in parameter indices points to
+         * the median value in parameter a
+         * @param a the array containing values
+         * @param indices the array containing indices into a
+         * @return the index of median value
+         ***********************************************************/
+        public int median(Comparable[] a, int[] indices) {
+            // get values at specified indices
+            int i0 = indices[0];
+            int i1 = indices[1];
+            int i2 = indices[2];
+            Comparable a0 = a[i0];
+            Comparable a1 = a[i1];
+            Comparable a2 = a[i2];
+
+            // find median in a0,a1,a2, and return respective index
+            // if a0 is median, return i0
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
+        }
+    }
+
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+    public static void sort(Comparable[] a) {
+        MedianOf3 median = new MedianOf3();
+        sort(a, median);
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        Double[] a = {0.0, 3.0, 0.0};
+        QuickSortMedian3.sort(a);
+    }
+}
+
+--[ 2021.12.04.21.29.46.073.0 ]--
+InitFile: /src/Bubble.java
+public class Bubble {
+
+    public static void sort(Comparable[] a) {
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            for(int i = 0; i < a.length - 1; i++)
+                if(less(a[i + 1], a[i])) {
+                    sorted = false;
+                    exch(a, i, i + 1);
+                }
+        }
+    }
+
+    /***********************************************************************
+     *  Helper sorting functions
+     ***********************************************************************/
+
+    // is v < w ?
+    private static boolean less(Comparable v, Comparable w) {
+        return (v.compareTo(w) < 0);
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+    /***********************************************************************
+     *  main() function is used to experimentally verify bubble sort works
+     *  - generate a Double array
+     *  - fill array with random values
+     *  - sort
+     *  - assert that each value is smaller than or equal to next value
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        int N = 1000;
+        Double[] a = new Double[N];
+        for(int i = 0; i < N; i++) a[i] = StdRandom.uniform();
+        Bubble.sort(a);
+        for(int i = 0; i < N-1; i++) assert a[i] <= a[i+1];
+    }
+}
+
+--[ 2021.12.04.21.29.46.078.0 ]--
+InitFile: /src/LinkedList.java
+import java.util.Iterator;
+
+public class LinkedList<Item extends Comparable<Item>> implements Iterable<Item> {
+    private Node first = null;
+    private int count = 0;
+
+    private class Node {
+        final Item item;    // cannot change item once it is set in constructor
+        Node next;          // can change next, though
+
+        public Node(Item i, Node n) {
+            item = i;
+            next = n;
+        }
+    }
+
+    public LinkedList() { }
+
+    public LinkedList(Item[] fromList) {
+        for(Item item : fromList) insert(item);
+    }
+
+    public void insert(Item item) {
+        first = new Node(item, first);
+        count++;
+    }
+
+    public Item remove() {
+        Item item = first.item;
+        first = first.next;
+        count--;
+        return item;
+    }
+
+    public boolean isEmpty() { return count == 0; }
+
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            Node current = first;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public Item next() {
+                Item item = current.item;
+                current = current.next;
+                return item;
+            }
+        };
+    }
+
+    /***********************************************************************
+     * Rearranges the linked list in ascending order, using the natural order
+     * and mergesort.
+     ***********************************************************************/
+    
+    public void sort() {
+        first = sort(first, count);
+    }
+
+    private Node sort(Node head, int len) {
+        if (len <= 1) return head;
+        Node mid = head;
+        for (int i=0; i<len/2-1; i++) {
+            mid = mid.next;
+        }
+        Node tmp = mid;
+        mid = mid.next;
+        tmp.next = null;
+        head = sort(head, len/2);
+        mid = sort(mid, len-len/2);
+        return merge(head, mid);
+    }
+
+    private Node merge(Node low, Node high) {
+        Node head = null;
+        Node last = null;
+        while (low != null && high != null) {
+            if (low.item.compareTo(high.item) < 0) {
+                if (head == null) {
+                    head = low;
+                } else {
+                    last.next = low;
+                }
+                last = low;
+                low = low.next;
+            } else {
+                if (head == null) {
+                    head = high;
+                } else {
+                    last.next = high;
+                }
+                last = high;
+                high = high.next;
+            }
+        }
+        if (low == null) {
+            last.next = high;
+        } else {
+            last.next = low;
+        }
+        return head;
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void evenList() {
+        Double[] a = {5.0, 1.0, 7.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void oddList() {
+        Double[] a = {5.0, 1.0, 7.0, 3.0, 0.5};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void alreadySorted() {
+        Double[] a = {1.0, 2.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void lowRunsOut() {
+        Double[] a = {1.0, 2.0, 3.0, 7.0, 8.0, 9.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void highRunsOut() {
+        Double[] a = {7.0, 8.0, 9.0, 1.0, 2.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void lowHighEqual() {
+        Double[] a = {4.0, 3.0, 2.0, 4.0, 3.0, 2.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void main(String[] args) {
+        evenList();
+        StdOut.println();
+        oddList();
+        StdOut.println();
+        alreadySorted();
+        StdOut.println();
+        highRunsOut();
+        StdOut.println();
+        lowRunsOut();
+        StdOut.println();
+        lowHighEqual();
+    }
+}
+
+--[ 2021.12.04.21.31.33.695.0 ]--
+UpdateTree (AD): 0 1
+- /.idea/runConfigurations.xml
+
+--[ 2021.12.04.21.33.38.456.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.04.21.35.05.219.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.04.21.43.28.883.0 ]--
+DisposeComponent
+--[ 2021.12.07.10.17.52.392.0 ]--
+NewLogger: P03_Sorting
+Version: 1.5
+--[ 2021.12.07.10.17.52.511.0 ]--
+InitTree:
+/out/production/P03_Sorting/algs4.jar
+/out/production/P03_Sorting/stdlib.jar
+/out/production/P03_Sorting/Bubble.class
+/out/production/P03_Sorting/EdgeCases.class
+/out/production/P03_Sorting/MedianOfN.class
+/out/production/P03_Sorting/LinkedList.class
+/out/production/P03_Sorting/DoublingTest.class
+/out/production/P03_Sorting/LinkedList$1.class
+/out/production/P03_Sorting/LinkedList$Node.class
+/out/production/P03_Sorting/QuickSortMedian.class
+/out/production/P03_Sorting/QuickSortMedian3.class
+/out/production/P03_Sorting/QuickSortMedian5.class
+/out/production/P03_Sorting/QuickSortMedian3$MedianOf3.class
+/out/production/P03_Sorting/QuickSortMedian5$MedianOf5.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Bubble.java
+/src/EdgeCases.java
+/src/MedianOfN.java
+/src/LinkedList.java
+/src/DoublingTest.java
+/src/QuickSortMedian.java
+/src/QuickSortMedian3.java
+/src/QuickSortMedian5.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/readme.html
+/P03_Sorting.iml
+/P03_Sorting.zip
+
+--[ 2021.12.07.10.17.52.532.0 ]--
+InitFile: /src/EdgeCases.java
+import java.util.function.DoubleBinaryOperator;
+
+public class EdgeCases {
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        // sorted
+        Double[] sorted = {0.0, 1.0, 2.0, 3.0, 4.0};
+        Bubble.sort(sorted);     // bubble sort
+        Selection.sort(sorted);  // selection sort
+        Insertion.sort(sorted);  // insertion sort
+        Shell.sort(sorted);      // Shellsort
+        Quick.sort(sorted);      // quicksort
+
+        // reversed
+        Double[] reversed1 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Bubble.sort(reversed1);     // bubble sort
+        Double[] reversed2 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Selection.sort(reversed2);  // selection sort
+        Double[] reversed3 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Insertion.sort(reversed3);  // insertion sort
+        Double[] reversed4 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Shell.sort(reversed4);      // Shellsort
+        Double[] reversed5 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Quick.sort(reversed5);      // quicksort
+
+        // all keys are same
+        Double[] same = {3.0, 3.0, 3.0, 3.0, 3.0};
+        Bubble.sort(same);     // bubble sort
+        Selection.sort(same);  // selection sort
+        Insertion.sort(same);  // insertion sort
+        Shell.sort(same);      // Shellsort
+        Quick.sort(same);      // quicksort
+
+        // two distinct only
+        Double[] twoDistinct1 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Bubble.sort(twoDistinct1);     // bubble sort
+        Double[] twoDistinct2 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Selection.sort(twoDistinct2);  // selection sort
+        Double[] twoDistinct3 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Insertion.sort(twoDistinct3);  // insertion sort
+        Double[] twoDistinct4 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Shell.sort(twoDistinct4);      // Shellsort
+        Double[] twoDistinct5 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Quick.sort(twoDistinct5);      // quicksort
+
+        // size 0
+        Double[] size0 = {};
+        Bubble.sort(size0);     // bubble sort
+        Selection.sort(size0);  // selection sort
+        Insertion.sort(size0);  // insertion sort
+        Shell.sort(size0);      // Shellsort
+        Quick.sort(size0);      // quicksort
+
+        // size 1
+        Double[] size1 = {0.0};
+        Bubble.sort(size1);     // bubble sort
+        Selection.sort(size1);  // selection sort
+        Insertion.sort(size1);  // insertion sort
+        Shell.sort(size1);      // Shellsort
+        Quick.sort(size1);      // quicksort
+    }
+}
+
+--[ 2021.12.07.10.17.52.534.0 ]--
+InitFile: /src/DoublingTest.java
+public class DoublingTest {
+
+    public static void sort(String method) {
+        double MAX = 1000000;
+        for (int n=1000, count=0; count < 5; n*=2, count++) {
+            double average = 0;
+            for (int j=0; j<100; j++) {
+                Double[] a = new Double[n];
+                for (int i=0; i<n; i++) {
+                    a[i] = StdRandom.uniform(-MAX, MAX);
+                }
+                Stopwatch timer = new Stopwatch();
+                switch (method) {
+                    case "Selection": Selection.sort(a);
+                        break;
+                    case "Insertion": Insertion.sort(a);
+                        break;
+                    case "Shell": Shell.sort(a);
+                        break;
+                    case "Quick": Quick.sort(a);
+                        break;
+                    case "Median3": QuickSortMedian3.sort(a);
+                        break;
+                    case "Median5": QuickSortMedian5.sort(a);
+                        break;
+                }
+                average += timer.elapsedTime();
+            }
+            average /= 5;
+            StdOut.printf("%s: N = %d || Time = %f || Ratio = %f\n", method, n, average, n/average);
+        }
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        sort("Selection");
+        StdOut.println();
+        sort("Insertion");
+        StdOut.println();
+        sort("Shell");
+        StdOut.println();
+        sort("Quick");
+        StdOut.println();
+        sort("Median3");
+        StdOut.println();
+        sort("Median5");
+        StdOut.println();
+
+        double MAX = 1000000;
+        for (int n=1000, count=0; count < 5; n*=2, count++) {
+            double average = 0;
+            for (int j=0; j<100; j++) {
+                Double[] a = new Double[n];
+                for (int i=0; i<n; i++) {
+                    a[i] = StdRandom.uniform(-MAX, MAX);
+                }
+                LinkedList<Double> linkedlist = new LinkedList<>(a);
+                Stopwatch timer = new Stopwatch();
+                linkedlist.sort();
+                average += timer.elapsedTime();
+            }
+            average /= 5;
+            StdOut.printf("Linked List: N = %d || Time = %f || Ratio = %f\n", n, average, n/average);
+        }
+    }
+}
+
+--[ 2021.12.07.10.17.52.537.0 ]--
+InitFile: /P03_Sorting.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.log" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.07.10.17.52.540.0 ]--
+InitFile: /src/MedianOfN.java
+public abstract class MedianOfN {
+    private int N;
+    private int[] indices;
+
+    public MedianOfN(int N) {
+        this.N = N;
+        indices = new int[N];
+    }
+
+    public abstract int median(Comparable[] a, int[] indices);
+
+    public int median(Comparable[] a, int lo, int hi) {
+        // if hi and lo are "close enough", simply return lo
+        if(hi - lo + 1 < N) return lo;
+        // choose N random indices in [lo, hi]
+        for(int i = 0; i < N; i++) indices[i] = StdRandom.uniform(lo, hi + 1);
+        return median(a, indices);
+    }
+}
+
+--[ 2021.12.07.10.17.52.543.0 ]--
+InitFile: /src/QuickSortMedian.java
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian {
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+
+    public static void sort(Comparable[] a, MedianOfN median) {
+        sort(a, median, 0, a.length - 1);
+    }
+
+    // quicksort the subarray from a[lo] to a[hi]
+    private static void sort(Comparable[] a, MedianOfN median, int lo, int hi) {
+        if(hi <= lo) return;
+        int j = partition(a, median, lo, hi);   // partition data into parts, returning pivot index
+        sort(a, median, lo, j-1);   // recursively sort lower part
+        sort(a, median, j+1, hi);   // recursively sort higher part
+    }
+
+    // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
+    // and return the index j.  note: v = a[j]
+    private static int partition(Comparable[] a, MedianOfN median, int lo, int hi) {
+        int i = lo;
+        int j = hi + 1;
+
+        int k = median.median(a, lo, hi);   // determine position of a pivot
+        exch(a, lo, k);                     // move pivot to lo position
+        Comparable v = a[lo];               // v is pivot value
+
+        while(true) {
+
+            // find item on lo to swap
+            while(less(a[++i], v))
+                if(i == hi) break;
+
+            // find item on hi to swap
+            while(less(v, a[--j]))
+                if(j == lo) break;      // redundant since a[lo] acts as sentinel
+
+            // check if pointers cross
+            if(i >= j) break;
+
+            exch(a, i, j);
+        }
+
+        // put partitioning item v at a[j]
+        exch(a, lo, j);
+
+        // now, a[lo .. j-1] <= a[j] <= a[j+1 .. hi]
+        return j;
+    }
+
+
+    /***********************************************************************
+     *  Helper sorting functions
+     ***********************************************************************/
+
+    // is v < w ?
+    private static boolean less(Comparable v, Comparable w) {
+        return (v.compareTo(w) < 0);
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.12.07.10.17.52.549.0 ]--
+InitFile: /src/QuickSortMedian5.java
+import java.util.Arrays;
+import java.util.Collections;
+
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian5 extends QuickSortMedian {
+
+    public static class MedianOf5 extends MedianOfN {
+        public MedianOf5() {
+            // tell QuickSortMedian.MedianOfN we will find the median of 5 items
+            super(5);
+        }
+
+        /***********************************************************
+         * Determines which index in parameter indices points to
+         * the median value in parameter a
+         * @param a the array containing values
+         * @param indices the array containing indices into a
+         * @return the index of median value
+         ***********************************************************/
+        public int median(Comparable[] a, int[] indices) {
+            // get values at specified indices
+            int i0 = indices[0];
+            int i1 = indices[1];
+            int i2 = indices[2];
+            int i3 = indices[3];
+            int i4 = indices[4];
+            Comparable a0 = a[i0];
+            Comparable a1 = a[i1];
+            Comparable a2 = a[i2];
+            Comparable a3 = a[i3];
+            Comparable a4 = a[i4];
+
+            Comparable[] arrayOf5 = new Double[5];
+            arrayOf5[0] = a0;
+            arrayOf5[1] = a1;
+            arrayOf5[2] = a2;
+            arrayOf5[3] = a3;
+            arrayOf5[4] = a4;
+
+            // find median in a0,a1,a2,a3,a4, and return respective index
+            Comparable maxNum = Collections.max(Arrays.asList(arrayOf5));
+            Comparable minNum = Collections.min(Arrays.asList(arrayOf5));
+            Comparable[] arrayOf3 = new Double[3];
+            int count = 0;
+            boolean maxRemoved = false;
+            boolean minRemoved = false;
+            for (int i=0; i<5; i++) {
+               if (arrayOf5[i] == maxNum && !maxRemoved) {
+                    maxRemoved = true;
+               } else if (arrayOf5[i] == minNum && !minRemoved) {
+                   minRemoved = true;
+               } else {
+                   arrayOf3[count] = arrayOf5[i];
+                   count++;
+               }
+            }
+
+            a0 = arrayOf3[0];
+            a1 = arrayOf3[1];
+            a2 = arrayOf3[2];
+
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
+        }
+    }
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+    public static void sort(Comparable[] a) {
+        MedianOf5 median = new MedianOf5();
+        QuickSortMedian.sort(a, median);
+    }
+
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        Double[] a = {6.0, 7.0, 3.0, 4.0, 5.0};
+        QuickSortMedian5.sort(a);
+    }
+}
+
+--[ 2021.12.07.10.17.52.552.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.07.10.17.52.554.0 ]--
+InitFile: /src/QuickSortMedian3.java
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian3 extends QuickSortMedian {
+
+    public static class MedianOf3 extends MedianOfN {
+        public MedianOf3() {
+            // tell QuickSortMedian.MedianOfN we will find the median of 3 items
+            super(3);
+        }
+
+        /***********************************************************
+         * Determines which index in parameter indices points to
+         * the median value in parameter a
+         * @param a the array containing values
+         * @param indices the array containing indices into a
+         * @return the index of median value
+         ***********************************************************/
+        public int median(Comparable[] a, int[] indices) {
+            // get values at specified indices
+            int i0 = indices[0];
+            int i1 = indices[1];
+            int i2 = indices[2];
+            Comparable a0 = a[i0];
+            Comparable a1 = a[i1];
+            Comparable a2 = a[i2];
+
+            // find median in a0,a1,a2, and return respective index
+            // if a0 is median, return i0
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
+        }
+    }
+
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+    public static void sort(Comparable[] a) {
+        MedianOf3 median = new MedianOf3();
+        sort(a, median);
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        Double[] a = {0.0, 3.0, 0.0};
+        QuickSortMedian3.sort(a);
+    }
+}
+
+--[ 2021.12.07.10.17.52.557.0 ]--
+InitFile: /src/Bubble.java
+public class Bubble {
+
+    public static void sort(Comparable[] a) {
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            for(int i = 0; i < a.length - 1; i++)
+                if(less(a[i + 1], a[i])) {
+                    sorted = false;
+                    exch(a, i, i + 1);
+                }
+        }
+    }
+
+    /***********************************************************************
+     *  Helper sorting functions
+     ***********************************************************************/
+
+    // is v < w ?
+    private static boolean less(Comparable v, Comparable w) {
+        return (v.compareTo(w) < 0);
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+    /***********************************************************************
+     *  main() function is used to experimentally verify bubble sort works
+     *  - generate a Double array
+     *  - fill array with random values
+     *  - sort
+     *  - assert that each value is smaller than or equal to next value
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        int N = 1000;
+        Double[] a = new Double[N];
+        for(int i = 0; i < N; i++) a[i] = StdRandom.uniform();
+        Bubble.sort(a);
+        for(int i = 0; i < N-1; i++) assert a[i] <= a[i+1];
+    }
+}
+
+--[ 2021.12.07.10.17.52.564.0 ]--
+InitFile: /src/LinkedList.java
+import java.util.Iterator;
+
+public class LinkedList<Item extends Comparable<Item>> implements Iterable<Item> {
+    private Node first = null;
+    private int count = 0;
+
+    private class Node {
+        final Item item;    // cannot change item once it is set in constructor
+        Node next;          // can change next, though
+
+        public Node(Item i, Node n) {
+            item = i;
+            next = n;
+        }
+    }
+
+    public LinkedList() { }
+
+    public LinkedList(Item[] fromList) {
+        for(Item item : fromList) insert(item);
+    }
+
+    public void insert(Item item) {
+        first = new Node(item, first);
+        count++;
+    }
+
+    public Item remove() {
+        Item item = first.item;
+        first = first.next;
+        count--;
+        return item;
+    }
+
+    public boolean isEmpty() { return count == 0; }
+
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            Node current = first;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public Item next() {
+                Item item = current.item;
+                current = current.next;
+                return item;
+            }
+        };
+    }
+
+    /***********************************************************************
+     * Rearranges the linked list in ascending order, using the natural order
+     * and mergesort.
+     ***********************************************************************/
+    
+    public void sort() {
+        first = sort(first, count);
+    }
+
+    private Node sort(Node head, int len) {
+        if (len <= 1) return head;
+        Node mid = head;
+        for (int i=0; i<len/2-1; i++) {
+            mid = mid.next;
+        }
+        Node tmp = mid;
+        mid = mid.next;
+        tmp.next = null;
+        head = sort(head, len/2);
+        mid = sort(mid, len-len/2);
+        return merge(head, mid);
+    }
+
+    private Node merge(Node low, Node high) {
+        Node head = null;
+        Node last = null;
+        while (low != null && high != null) {
+            if (low.item.compareTo(high.item) < 0) {
+                if (head == null) {
+                    head = low;
+                } else {
+                    last.next = low;
+                }
+                last = low;
+                low = low.next;
+            } else {
+                if (head == null) {
+                    head = high;
+                } else {
+                    last.next = high;
+                }
+                last = high;
+                high = high.next;
+            }
+        }
+        if (low == null) {
+            last.next = high;
+        } else {
+            last.next = low;
+        }
+        return head;
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void evenList() {
+        Double[] a = {5.0, 1.0, 7.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void oddList() {
+        Double[] a = {5.0, 1.0, 7.0, 3.0, 0.5};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void alreadySorted() {
+        Double[] a = {1.0, 2.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void lowRunsOut() {
+        Double[] a = {1.0, 2.0, 3.0, 7.0, 8.0, 9.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void highRunsOut() {
+        Double[] a = {7.0, 8.0, 9.0, 1.0, 2.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void lowHighEqual() {
+        Double[] a = {4.0, 3.0, 2.0, 4.0, 3.0, 2.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void main(String[] args) {
+        evenList();
+        StdOut.println();
+        oddList();
+        StdOut.println();
+        alreadySorted();
+        StdOut.println();
+        highRunsOut();
+        StdOut.println();
+        lowRunsOut();
+        StdOut.println();
+        lowHighEqual();
+    }
+}
+
+--[ 2021.12.07.10.25.55.224.0 ]--
+:/src/MedianOfN.java
+r 3     private in[] indices;
+--[ 2021.12.07.10.25.55.349.0 ]--
+r 3     private i[] indices;
+--[ 2021.12.07.10.25.55.819.0 ]--
+r 3     private [] indices;
+--[ 2021.12.07.10.25.56.767.0 ]--
+r 3     private I[] indices;
+--[ 2021.12.07.10.25.56.902.0 ]--
+r 3     private IN[] indices;
+--[ 2021.12.07.10.25.57.742.0 ]--
+r 3     private In[] indices;
+--[ 2021.12.07.10.25.58.076.0 ]--
+r 3     private Int[] indices;
+--[ 2021.12.07.10.25.58.220.0 ]--
+r 3     private Inte[] indices;
+--[ 2021.12.07.10.25.58.500.0 ]--
+r 3     private Integ[] indices;
+--[ 2021.12.07.10.25.58.822.0 ]--
+r 3     private Integer[] indices;
+--[ 2021.12.07.10.26.05.762.0 ]--
+r 7         indices = new I[N];
+--[ 2021.12.07.10.26.06.061.0 ]--
+r 7         indices = new IN[N];
+--[ 2021.12.07.10.26.06.990.0 ]--
+r 7         indices = new I[N];
+--[ 2021.12.07.10.26.07.168.0 ]--
+r 7         indices = new In[N];
+--[ 2021.12.07.10.26.07.248.0 ]--
+r 7         indices = new Int[N];
+--[ 2021.12.07.10.26.07.512.0 ]--
+r 7         indices = new Inte[N];
+--[ 2021.12.07.10.26.07.540.0 ]--
+r 7         indices = new Inter[N];
+--[ 2021.12.07.10.26.07.811.0 ]--
+r 7         indices = new Inte[N];
+--[ 2021.12.07.10.26.08.160.0 ]--
+r 7         indices = new Inteh[N];
+--[ 2021.12.07.10.26.08.346.0 ]--
+r 7         indices = new Intehe[N];
+--[ 2021.12.07.10.26.08.484.0 ]--
+r 7         indices = new Intehert[N];
+--[ 2021.12.07.10.26.08.776.0 ]--
+r 7         indices = new Inteher[N];
+--[ 2021.12.07.10.26.08.915.0 ]--
+r 7         indices = new Intehe[N];
+--[ 2021.12.07.10.26.09.067.0 ]--
+r 7         indices = new Inteh[N];
+--[ 2021.12.07.10.26.09.262.0 ]--
+r 7         indices = new Inte[N];
+--[ 2021.12.07.10.26.09.617.0 ]--
+r 7         indices = new Integ[N];
+--[ 2021.12.07.10.26.09.767.0 ]--
+r 7         indices = new Intege[N];
+--[ 2021.12.07.10.26.09.821.0 ]--
+r 7         indices = new Integer[N];
+--[ 2021.12.07.10.26.10.208.0 ]--
+r 7         indices = new Integer[][N];
+--[ 2021.12.07.10.26.25.198.0 ]--
+r 7         indices = new Integer[N];
+--[ 2021.12.07.10.27.18.834.0 ]--
+r 7         indices = new Integer[][N];
+--[ 2021.12.07.10.27.19.163.0 ]--
+r 7         indices = new Integer[N];
+--[ 2021.12.07.10.27.19.461.0 ]--
+r 7         indices = new Inte[N];
+--[ 2021.12.07.10.27.19.712.0 ]--
+r 7         indices = new Intehert[N];
+--[ 2021.12.07.10.27.19.928.0 ]--
+r 7         indices = new Inte[N];
+--[ 2021.12.07.10.27.20.173.0 ]--
+r 7         indices = new Inter[N];
+--[ 2021.12.07.10.27.20.463.0 ]--
+r 7         indices = new I[N];
+--[ 2021.12.07.10.27.20.676.0 ]--
+r 7         indices = new IN[N];
+--[ 2021.12.07.10.27.20.857.0 ]--
+r 7         indices = new int[N];
+--[ 2021.12.07.10.27.21.509.0 ]--
+r 3     private Integ[] indices;
+--[ 2021.12.07.10.27.21.861.0 ]--
+r 3     private I[] indices;
+--[ 2021.12.07.10.27.22.186.0 ]--
+r 3     private IN[] indices;
+--[ 2021.12.07.10.27.22.610.0 ]--
+r 3     private [] indices;
+--[ 2021.12.07.10.27.23.017.0 ]--
+r 3     private int\[] indices;
+--[ 2021.12.07.10.27.25.444.0 ]--
+r 3     private int[] indices;
+--[ 2021.12.07.10.33.37.528.0 ]--
+:/src/QuickSortMedian5.java
+r 30             D a0 = a[i0];
+--[ 2021.12.07.10.33.38.863.0 ]--
+r 30             Comparable a0 = a[i0];
+--[ 2021.12.07.10.33.45.216.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.07.10.34.04.651.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.07.11.51.41.863.0 ]--
+DisposeComponent
+--[ 2021.12.07.12.17.05.556.0 ]--
+NewLogger: P03_Sorting
+Version: 1.5
+--[ 2021.12.07.12.17.05.619.0 ]--
+InitTree:
+/out/production/P03_Sorting/algs4.jar
+/out/production/P03_Sorting/stdlib.jar
+/out/production/P03_Sorting/Bubble.class
+/out/production/P03_Sorting/EdgeCases.class
+/out/production/P03_Sorting/MedianOfN.class
+/out/production/P03_Sorting/LinkedList.class
+/out/production/P03_Sorting/DoublingTest.class
+/out/production/P03_Sorting/LinkedList$1.class
+/out/production/P03_Sorting/LinkedList$Node.class
+/out/production/P03_Sorting/QuickSortMedian.class
+/out/production/P03_Sorting/QuickSortMedian3.class
+/out/production/P03_Sorting/QuickSortMedian5.class
+/out/production/P03_Sorting/QuickSortMedian3$MedianOf3.class
+/out/production/P03_Sorting/QuickSortMedian5$MedianOf5.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Bubble.java
+/src/EdgeCases.java
+/src/MedianOfN.java
+/src/LinkedList.java
+/src/DoublingTest.java
+/src/QuickSortMedian.java
+/src/QuickSortMedian3.java
+/src/QuickSortMedian5.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/readme.html
+/P03_Sorting.iml
+/P03_Sorting.zip
+
+--[ 2021.12.07.12.17.05.624.0 ]--
+InitFile: /src/EdgeCases.java
+import java.util.function.DoubleBinaryOperator;
+
+public class EdgeCases {
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        // sorted
+        Double[] sorted = {0.0, 1.0, 2.0, 3.0, 4.0};
+        Bubble.sort(sorted);     // bubble sort
+        Selection.sort(sorted);  // selection sort
+        Insertion.sort(sorted);  // insertion sort
+        Shell.sort(sorted);      // Shellsort
+        Quick.sort(sorted);      // quicksort
+
+        // reversed
+        Double[] reversed1 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Bubble.sort(reversed1);     // bubble sort
+        Double[] reversed2 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Selection.sort(reversed2);  // selection sort
+        Double[] reversed3 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Insertion.sort(reversed3);  // insertion sort
+        Double[] reversed4 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Shell.sort(reversed4);      // Shellsort
+        Double[] reversed5 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Quick.sort(reversed5);      // quicksort
+
+        // all keys are same
+        Double[] same = {3.0, 3.0, 3.0, 3.0, 3.0};
+        Bubble.sort(same);     // bubble sort
+        Selection.sort(same);  // selection sort
+        Insertion.sort(same);  // insertion sort
+        Shell.sort(same);      // Shellsort
+        Quick.sort(same);      // quicksort
+
+        // two distinct only
+        Double[] twoDistinct1 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Bubble.sort(twoDistinct1);     // bubble sort
+        Double[] twoDistinct2 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Selection.sort(twoDistinct2);  // selection sort
+        Double[] twoDistinct3 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Insertion.sort(twoDistinct3);  // insertion sort
+        Double[] twoDistinct4 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Shell.sort(twoDistinct4);      // Shellsort
+        Double[] twoDistinct5 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Quick.sort(twoDistinct5);      // quicksort
+
+        // size 0
+        Double[] size0 = {};
+        Bubble.sort(size0);     // bubble sort
+        Selection.sort(size0);  // selection sort
+        Insertion.sort(size0);  // insertion sort
+        Shell.sort(size0);      // Shellsort
+        Quick.sort(size0);      // quicksort
+
+        // size 1
+        Double[] size1 = {0.0};
+        Bubble.sort(size1);     // bubble sort
+        Selection.sort(size1);  // selection sort
+        Insertion.sort(size1);  // insertion sort
+        Shell.sort(size1);      // Shellsort
+        Quick.sort(size1);      // quicksort
+    }
+}
+
+--[ 2021.12.07.12.17.05.627.0 ]--
+InitFile: /src/DoublingTest.java
+public class DoublingTest {
+
+    public static void sort(String method) {
+        double MAX = 1000000;
+        for (int n=1000, count=0; count < 5; n*=2, count++) {
+            double average = 0;
+            for (int j=0; j<100; j++) {
+                Double[] a = new Double[n];
+                for (int i=0; i<n; i++) {
+                    a[i] = StdRandom.uniform(-MAX, MAX);
+                }
+                Stopwatch timer = new Stopwatch();
+                switch (method) {
+                    case "Selection": Selection.sort(a);
+                        break;
+                    case "Insertion": Insertion.sort(a);
+                        break;
+                    case "Shell": Shell.sort(a);
+                        break;
+                    case "Quick": Quick.sort(a);
+                        break;
+                    case "Median3": QuickSortMedian3.sort(a);
+                        break;
+                    case "Median5": QuickSortMedian5.sort(a);
+                        break;
+                }
+                average += timer.elapsedTime();
+            }
+            average /= 5;
+            StdOut.printf("%s: N = %d || Time = %f || Ratio = %f\n", method, n, average, n/average);
+        }
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        sort("Selection");
+        StdOut.println();
+        sort("Insertion");
+        StdOut.println();
+        sort("Shell");
+        StdOut.println();
+        sort("Quick");
+        StdOut.println();
+        sort("Median3");
+        StdOut.println();
+        sort("Median5");
+        StdOut.println();
+
+        double MAX = 1000000;
+        for (int n=1000, count=0; count < 5; n*=2, count++) {
+            double average = 0;
+            for (int j=0; j<100; j++) {
+                Double[] a = new Double[n];
+                for (int i=0; i<n; i++) {
+                    a[i] = StdRandom.uniform(-MAX, MAX);
+                }
+                LinkedList<Double> linkedlist = new LinkedList<>(a);
+                Stopwatch timer = new Stopwatch();
+                linkedlist.sort();
+                average += timer.elapsedTime();
+            }
+            average /= 5;
+            StdOut.printf("Linked List: N = %d || Time = %f || Ratio = %f\n", n, average, n/average);
+        }
+    }
+}
+
+--[ 2021.12.07.12.17.05.643.0 ]--
+InitFile: /P03_Sorting.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.log" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.07.12.17.05.645.0 ]--
+InitFile: /src/MedianOfN.java
+public abstract class MedianOfN {
+    private int N;
+    private int[] indices;
+
+    public MedianOfN(int N) {
+        this.N = N;
+        indices = new int[N];
+    }
+
+    public abstract int median(Comparable[] a, int[] indices);
+
+    public int median(Comparable[] a, int lo, int hi) {
+        // if hi and lo are "close enough", simply return lo
+        if(hi - lo + 1 < N) return lo;
+        // choose N random indices in [lo, hi]
+        for(int i = 0; i < N; i++) indices[i] = StdRandom.uniform(lo, hi + 1);
+        return median(a, indices);
+    }
+}
+
+--[ 2021.12.07.12.17.05.647.0 ]--
+InitFile: /src/QuickSortMedian.java
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian {
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+
+    public static void sort(Comparable[] a, MedianOfN median) {
+        sort(a, median, 0, a.length - 1);
+    }
+
+    // quicksort the subarray from a[lo] to a[hi]
+    private static void sort(Comparable[] a, MedianOfN median, int lo, int hi) {
+        if(hi <= lo) return;
+        int j = partition(a, median, lo, hi);   // partition data into parts, returning pivot index
+        sort(a, median, lo, j-1);   // recursively sort lower part
+        sort(a, median, j+1, hi);   // recursively sort higher part
+    }
+
+    // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
+    // and return the index j.  note: v = a[j]
+    private static int partition(Comparable[] a, MedianOfN median, int lo, int hi) {
+        int i = lo;
+        int j = hi + 1;
+
+        int k = median.median(a, lo, hi);   // determine position of a pivot
+        exch(a, lo, k);                     // move pivot to lo position
+        Comparable v = a[lo];               // v is pivot value
+
+        while(true) {
+
+            // find item on lo to swap
+            while(less(a[++i], v))
+                if(i == hi) break;
+
+            // find item on hi to swap
+            while(less(v, a[--j]))
+                if(j == lo) break;      // redundant since a[lo] acts as sentinel
+
+            // check if pointers cross
+            if(i >= j) break;
+
+            exch(a, i, j);
+        }
+
+        // put partitioning item v at a[j]
+        exch(a, lo, j);
+
+        // now, a[lo .. j-1] <= a[j] <= a[j+1 .. hi]
+        return j;
+    }
+
+
+    /***********************************************************************
+     *  Helper sorting functions
+     ***********************************************************************/
+
+    // is v < w ?
+    private static boolean less(Comparable v, Comparable w) {
+        return (v.compareTo(w) < 0);
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.12.07.12.17.05.651.0 ]--
+InitFile: /src/QuickSortMedian5.java
+import java.util.Arrays;
+import java.util.Collections;
+
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian5 extends QuickSortMedian {
+
+    public static class MedianOf5 extends MedianOfN {
+        public MedianOf5() {
+            // tell QuickSortMedian.MedianOfN we will find the median of 5 items
+            super(5);
+        }
+
+        /***********************************************************
+         * Determines which index in parameter indices points to
+         * the median value in parameter a
+         * @param a the array containing values
+         * @param indices the array containing indices into a
+         * @return the index of median value
+         ***********************************************************/
+        public int median(Comparable[] a, int[] indices) {
+            // get values at specified indices
+            int i0 = indices[0];
+            int i1 = indices[1];
+            int i2 = indices[2];
+            int i3 = indices[3];
+            int i4 = indices[4];
+            Comparable a0 = a[i0];
+            Comparable a1 = a[i1];
+            Comparable a2 = a[i2];
+            Comparable a3 = a[i3];
+            Comparable a4 = a[i4];
+
+            Comparable[] arrayOf5 = new Double[5];
+            arrayOf5[0] = a0;
+            arrayOf5[1] = a1;
+            arrayOf5[2] = a2;
+            arrayOf5[3] = a3;
+            arrayOf5[4] = a4;
+
+            // find median in a0,a1,a2,a3,a4, and return respective index
+            Comparable maxNum = Collections.max(Arrays.asList(arrayOf5));
+            Comparable minNum = Collections.min(Arrays.asList(arrayOf5));
+            Comparable[] arrayOf3 = new Double[3];
+            int count = 0;
+            boolean maxRemoved = false;
+            boolean minRemoved = false;
+            for (int i=0; i<5; i++) {
+               if (arrayOf5[i] == maxNum && !maxRemoved) {
+                    maxRemoved = true;
+               } else if (arrayOf5[i] == minNum && !minRemoved) {
+                   minRemoved = true;
+               } else {
+                   arrayOf3[count] = arrayOf5[i];
+                   count++;
+               }
+            }
+
+            a0 = arrayOf3[0];
+            a1 = arrayOf3[1];
+            a2 = arrayOf3[2];
+
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
+        }
+    }
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+    public static void sort(Comparable[] a) {
+        MedianOf5 median = new MedianOf5();
+        QuickSortMedian.sort(a, median);
+    }
+
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        Double[] a = {6.0, 7.0, 3.0, 4.0, 5.0};
+        QuickSortMedian5.sort(a);
+    }
+}
+
+--[ 2021.12.07.12.17.05.654.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.07.12.17.05.658.0 ]--
+InitFile: /src/QuickSortMedian3.java
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian3 extends QuickSortMedian {
+
+    public static class MedianOf3 extends MedianOfN {
+        public MedianOf3() {
+            // tell QuickSortMedian.MedianOfN we will find the median of 3 items
+            super(3);
+        }
+
+        /***********************************************************
+         * Determines which index in parameter indices points to
+         * the median value in parameter a
+         * @param a the array containing values
+         * @param indices the array containing indices into a
+         * @return the index of median value
+         ***********************************************************/
+        public int median(Comparable[] a, int[] indices) {
+            // get values at specified indices
+            int i0 = indices[0];
+            int i1 = indices[1];
+            int i2 = indices[2];
+            Comparable a0 = a[i0];
+            Comparable a1 = a[i1];
+            Comparable a2 = a[i2];
+
+            // find median in a0,a1,a2, and return respective index
+            // if a0 is median, return i0
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
+        }
+    }
+
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+    public static void sort(Comparable[] a) {
+        MedianOf3 median = new MedianOf3();
+        sort(a, median);
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        Double[] a = {0.0, 3.0, 0.0};
+        QuickSortMedian3.sort(a);
+    }
+}
+
+--[ 2021.12.07.12.17.05.660.0 ]--
+InitFile: /src/Bubble.java
+public class Bubble {
+
+    public static void sort(Comparable[] a) {
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            for(int i = 0; i < a.length - 1; i++)
+                if(less(a[i + 1], a[i])) {
+                    sorted = false;
+                    exch(a, i, i + 1);
+                }
+        }
+    }
+
+    /***********************************************************************
+     *  Helper sorting functions
+     ***********************************************************************/
+
+    // is v < w ?
+    private static boolean less(Comparable v, Comparable w) {
+        return (v.compareTo(w) < 0);
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+    /***********************************************************************
+     *  main() function is used to experimentally verify bubble sort works
+     *  - generate a Double array
+     *  - fill array with random values
+     *  - sort
+     *  - assert that each value is smaller than or equal to next value
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        int N = 1000;
+        Double[] a = new Double[N];
+        for(int i = 0; i < N; i++) a[i] = StdRandom.uniform();
+        Bubble.sort(a);
+        for(int i = 0; i < N-1; i++) assert a[i] <= a[i+1];
+    }
+}
+
+--[ 2021.12.07.12.17.05.663.0 ]--
+InitFile: /src/LinkedList.java
+import java.util.Iterator;
+
+public class LinkedList<Item extends Comparable<Item>> implements Iterable<Item> {
+    private Node first = null;
+    private int count = 0;
+
+    private class Node {
+        final Item item;    // cannot change item once it is set in constructor
+        Node next;          // can change next, though
+
+        public Node(Item i, Node n) {
+            item = i;
+            next = n;
+        }
+    }
+
+    public LinkedList() { }
+
+    public LinkedList(Item[] fromList) {
+        for(Item item : fromList) insert(item);
+    }
+
+    public void insert(Item item) {
+        first = new Node(item, first);
+        count++;
+    }
+
+    public Item remove() {
+        Item item = first.item;
+        first = first.next;
+        count--;
+        return item;
+    }
+
+    public boolean isEmpty() { return count == 0; }
+
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            Node current = first;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public Item next() {
+                Item item = current.item;
+                current = current.next;
+                return item;
+            }
+        };
+    }
+
+    /***********************************************************************
+     * Rearranges the linked list in ascending order, using the natural order
+     * and mergesort.
+     ***********************************************************************/
+    
+    public void sort() {
+        first = sort(first, count);
+    }
+
+    private Node sort(Node head, int len) {
+        if (len <= 1) return head;
+        Node mid = head;
+        for (int i=0; i<len/2-1; i++) {
+            mid = mid.next;
+        }
+        Node tmp = mid;
+        mid = mid.next;
+        tmp.next = null;
+        head = sort(head, len/2);
+        mid = sort(mid, len-len/2);
+        return merge(head, mid);
+    }
+
+    private Node merge(Node low, Node high) {
+        Node head = null;
+        Node last = null;
+        while (low != null && high != null) {
+            if (low.item.compareTo(high.item) < 0) {
+                if (head == null) {
+                    head = low;
+                } else {
+                    last.next = low;
+                }
+                last = low;
+                low = low.next;
+            } else {
+                if (head == null) {
+                    head = high;
+                } else {
+                    last.next = high;
+                }
+                last = high;
+                high = high.next;
+            }
+        }
+        if (low == null) {
+            last.next = high;
+        } else {
+            last.next = low;
+        }
+        return head;
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void evenList() {
+        Double[] a = {5.0, 1.0, 7.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void oddList() {
+        Double[] a = {5.0, 1.0, 7.0, 3.0, 0.5};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void alreadySorted() {
+        Double[] a = {1.0, 2.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void lowRunsOut() {
+        Double[] a = {1.0, 2.0, 3.0, 7.0, 8.0, 9.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void highRunsOut() {
+        Double[] a = {7.0, 8.0, 9.0, 1.0, 2.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void lowHighEqual() {
+        Double[] a = {4.0, 3.0, 2.0, 4.0, 3.0, 2.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void main(String[] args) {
+        evenList();
+        StdOut.println();
+        oddList();
+        StdOut.println();
+        alreadySorted();
+        StdOut.println();
+        highRunsOut();
+        StdOut.println();
+        lowRunsOut();
+        StdOut.println();
+        lowHighEqual();
+    }
+}
+
+--[ 2021.12.07.12.17.16.546.0 ]--
+:/src/QuickSortMedian5.java
+r 30             D a0 = a[i0];
+--[ 2021.12.07.12.17.16.727.0 ]--
+r 30             DO a0 = a[i0];
+--[ 2021.12.07.12.17.16.821.0 ]--
+r 30             DOU a0 = a[i0];
+--[ 2021.12.07.12.17.17.138.0 ]--
+r 30             DOUB a0 = a[i0];
+--[ 2021.12.07.12.17.17.173.0 ]--
+r 30             DOUBB a0 = a[i0];
+--[ 2021.12.07.12.17.17.770.0 ]--
+r 30             DOUB a0 = a[i0];
+--[ 2021.12.07.12.17.17.913.0 ]--
+r 30             DOU a0 = a[i0];
+--[ 2021.12.07.12.17.18.057.0 ]--
+r 30             DO a0 = a[i0];
+--[ 2021.12.07.12.17.18.185.0 ]--
+r 30             D a0 = a[i0];
+--[ 2021.12.07.12.17.18.832.0 ]--
+r 30             Double a0 = a[i0];
+--[ 2021.12.07.12.17.23.409.0 ]--
+r 31             D a1 = a[i1];
+--[ 2021.12.07.12.17.23.594.0 ]--
+r 31             Do a1 = a[i1];
+--[ 2021.12.07.12.17.23.624.0 ]--
+r 31             Dou a1 = a[i1];
+--[ 2021.12.07.12.17.23.697.0 ]--
+r 31             Doub a1 = a[i1];
+--[ 2021.12.07.12.17.23.784.0 ]--
+r 31             Doubl a1 = a[i1];
+--[ 2021.12.07.12.17.23.877.0 ]--
+r 31             Doubld a1 = a[i1];
+--[ 2021.12.07.12.17.24.352.0 ]--
+r 31             Doubl a1 = a[i1];
+--[ 2021.12.07.12.17.24.400.0 ]--
+r 31             Double a1 = a[i1];
+--[ 2021.12.07.12.17.25.392.0 ]--
+r 31             Double` a1 = a[i1];
+--[ 2021.12.07.12.17.26.443.0 ]--
+r 31             Double a1 = a[i1];
+--[ 2021.12.07.12.17.34.073.0 ]--
+r 32             D a2 = a[i2];
+--[ 2021.12.07.12.17.34.259.0 ]--
+r 32             Do a2 = a[i2];
+--[ 2021.12.07.12.17.34.364.0 ]--
+r 32             Dou a2 = a[i2];
+--[ 2021.12.07.12.17.34.929.0 ]--
+r 32             Double a2 = a[i2];
+--[ 2021.12.07.12.17.37.153.0 ]--
+r 33             D a3 = a[i3];
+--[ 2021.12.07.12.17.37.393.0 ]--
+r 33             Do a3 = a[i3];
+--[ 2021.12.07.12.17.37.486.0 ]--
+r 33             Dou a3 = a[i3];
+--[ 2021.12.07.12.17.37.545.0 ]--
+r 33             Doub a3 = a[i3];
+--[ 2021.12.07.12.17.37.620.0 ]--
+r 33             Doubl a3 = a[i3];
+--[ 2021.12.07.12.17.37.721.0 ]--
+r 33             Double a3 = a[i3];
+--[ 2021.12.07.12.17.41.195.0 ]--
+r 34             D a4 = a[i4];
+--[ 2021.12.07.12.17.41.376.0 ]--
+r 34             Do a4 = a[i4];
+--[ 2021.12.07.12.17.41.478.0 ]--
+r 34             Dou a4 = a[i4];
+--[ 2021.12.07.12.17.41.513.0 ]--
+r 34             Doub a4 = a[i4];
+--[ 2021.12.07.12.17.41.645.0 ]--
+r 34             Doubl a4 = a[i4];
+--[ 2021.12.07.12.17.41.873.0 ]--
+r 34             Double a4 = a[i4];
+--[ 2021.12.07.12.17.59.976.0 ]--
+r 30             Double a0 = (Double) a[i0];
+--[ 2021.12.07.12.18.07.698.0 ]--
+r 31             Double a1 = (Double) a[i1];
+--[ 2021.12.07.12.18.10.509.0 ]--
+r 32             Double a2 = (Double) a[i2];
+--[ 2021.12.07.12.18.15.614.0 ]--
+r 33             Double a3 = (Double) a[i3];
+--[ 2021.12.07.12.18.18.278.0 ]--
+r 34             Double a4 = (Double) a[i4];
+--[ 2021.12.07.12.18.29.112.0 ]--
+r 61             a0 = (Double) arrayOf3[0];
+--[ 2021.12.07.12.18.32.421.0 ]--
+r 62             a1 = (Double) arrayOf3[1];
+--[ 2021.12.07.12.18.34.897.0 ]--
+r 63             a2 = (Double) arrayOf3[2];
+--[ 2021.12.07.12.18.41.405.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.07.12.20.03.812.0 ]--
+r 44             D maxNum = Collections.max(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.04.077.0 ]--
+r 44             Do maxNum = Collections.max(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.04.251.0 ]--
+r 44             Doub maxNum = Collections.max(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.04.302.0 ]--
+r 44             Doubl maxNum = Collections.max(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.04.741.0 ]--
+r 44             Double maxNum = Collections.max(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.08.577.0 ]--
+r 45             D minNum = Collections.min(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.08.838.0 ]--
+r 45             Do minNum = Collections.min(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.08.921.0 ]--
+r 45             Dou minNum = Collections.min(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.09.132.0 ]--
+r 45             Doub minNum = Collections.min(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.09.175.0 ]--
+r 45             Doubl minNum = Collections.min(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.09.633.0 ]--
+r 45             Double minNum = Collections.min(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.18.805.0 ]--
+r 45             Doubl minNum = Collections.min(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.19.041.0 ]--
+r 45             Comparable minNum = Collections.min(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.19.321.0 ]--
+r 44             Doubl maxNum = Collections.max(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.19.465.0 ]--
+r 44             Comparable maxNum = Collections.max(Arrays.asList(arrayOf5));
+--[ 2021.12.07.12.20.19.777.0 ]--
+r 63             a2 = arrayOf3[2];
+--[ 2021.12.07.12.20.20.100.0 ]--
+r 62             a1 = arrayOf3[1];
+--[ 2021.12.07.12.20.20.273.0 ]--
+r 61             a0 = arrayOf3[0];
+--[ 2021.12.07.12.20.20.624.0 ]--
+r 34             Double a4 = a[i4];
+--[ 2021.12.07.12.20.20.951.0 ]--
+r 33             Double a3 = a[i3];
+--[ 2021.12.07.12.20.21.281.0 ]--
+r 32             Double a2 = a[i2];
+--[ 2021.12.07.12.20.21.657.0 ]--
+r 31             Double a1 = a[i1];
+--[ 2021.12.07.12.20.21.847.0 ]--
+r 30             Double a0 = a[i0];
+--[ 2021.12.07.12.20.22.224.0 ]--
+r 34             Comparable a4 = a[i4];
+--[ 2021.12.07.12.20.22.593.0 ]--
+r 33             Comparable a3 = a[i3];
+--[ 2021.12.07.12.20.22.953.0 ]--
+r 32             Dou a2 = a[i2];
+--[ 2021.12.07.12.20.23.094.0 ]--
+r 32             Comparable a2 = a[i2];
+--[ 2021.12.07.12.20.23.405.0 ]--
+r 31             Double` a1 = a[i1];
+--[ 2021.12.07.12.20.23.572.0 ]--
+r 31             Doubl a1 = a[i1];
+--[ 2021.12.07.12.20.23.715.0 ]--
+r 31             Doubld a1 = a[i1];
+--[ 2021.12.07.12.20.23.920.0 ]--
+r 31             Comparable a1 = a[i1];
+--[ 2021.12.07.12.20.24.225.0 ]--
+r 30             D a0 = a[i0];
+--[ 2021.12.07.12.20.24.393.0 ]--
+r 30             DOUBB a0 = a[i0];
+--[ 2021.12.07.12.20.24.558.0 ]--
+r 30             Comparable a0 = a[i0];
+--[ 2021.12.07.12.21.56.990.0 ]--
+r 36             D[] arrayOf5 = new Double[5];
+--[ 2021.12.07.12.21.57.425.0 ]--
+r 36             Dou[] arrayOf5 = new Double[5];
+--[ 2021.12.07.12.21.57.466.0 ]--
+r 36             Doub[] arrayOf5 = new Double[5];
+--[ 2021.12.07.12.21.57.559.0 ]--
+r 36             Doubl[] arrayOf5 = new Double[5];
+--[ 2021.12.07.12.21.57.720.0 ]--
+r 36             Double[] arrayOf5 = new Double[5];
+--[ 2021.12.07.12.22.04.736.0 ]--
+r 30             D a0 = a[i0];
+--[ 2021.12.07.12.22.04.808.0 ]--
+r 30             Do a0 = a[i0];
+--[ 2021.12.07.12.22.04.880.0 ]--
+r 30             Dou a0 = a[i0];
+--[ 2021.12.07.12.22.05.051.0 ]--
+r 30             Doub a0 = a[i0];
+--[ 2021.12.07.12.22.05.073.0 ]--
+r 30             Doubl a0 = a[i0];
+--[ 2021.12.07.12.22.05.263.0 ]--
+r 30             Double a0 = a[i0];
+--[ 2021.12.07.12.22.15.256.0 ]--
+r 30             Comparable a0 = a[i0];
+--[ 2021.12.07.12.22.16.112.0 ]--
+r 36             Comparable[] arrayOf5 = new Double[5];
+--[ 2021.12.07.12.22.33.839.0 ]--
+r 36             Comparable[] arrayOf5 = new C[5];
+--[ 2021.12.07.12.22.34.110.0 ]--
+r 36             Comparable[] arrayOf5 = new Co[5];
+--[ 2021.12.07.12.22.34.617.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[5];
+--[ 2021.12.07.12.22.34.632.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[][5];
+--[ 2021.12.07.12.22.36.624.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[5][5];
+--[ 2021.12.07.12.22.38.536.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[5];
+--[ 2021.12.07.12.22.43.676.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[5][5];
+--[ 2021.12.07.12.22.44.377.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[][5];
+--[ 2021.12.07.12.22.44.772.0 ]--
+r 36             Comparable[] arrayOf5 = new Co[5];
+--[ 2021.12.07.12.22.45.446.0 ]--
+r 36             Comparable[] arrayOf5 = new Double[5];
+--[ 2021.12.07.12.23.44.103.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.07.12.26.35.144.0 ]--
+r 36             Comparable[] arrayOf5 = new c[5];
+--[ 2021.12.07.12.26.35.416.0 ]--
+r 36             Comparable[] arrayOf5 = new co[5];
+--[ 2021.12.07.12.26.35.551.0 ]--
+r 36             Comparable[] arrayOf5 = new com[5];
+--[ 2021.12.07.12.26.36.066.0 ]--
+r 36             Comparable[] arrayOf5 = new co[5];
+--[ 2021.12.07.12.26.36.229.0 ]--
+r 36             Comparable[] arrayOf5 = new c[5];
+--[ 2021.12.07.12.26.36.380.0 ]--
+r 36             Comparable[] arrayOf5 = new [5];
+--[ 2021.12.07.12.26.36.576.0 ]--
+r 36             Comparable[] arrayOf5 = new C[5];
+--[ 2021.12.07.12.26.36.887.0 ]--
+r 36             Comparable[] arrayOf5 = new Co[5];
+--[ 2021.12.07.12.26.37.333.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[5];
+--[ 2021.12.07.12.26.37.356.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[][5];
+--[ 2021.12.07.12.26.39.024.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[[5];
+--[ 2021.12.07.12.26.39.199.0 ]--
+r 36             Comparable[] arrayOf5 = new Comparable[5];
+--[ 2021.12.07.12.26.42.378.0 ]--
+r 46             Comparable[] arrayOf3 = new Double\[3];
+--[ 2021.12.07.12.26.42.516.0 ]--
+r 46             Comparable[] arrayOf3 = new Double\\[3];
+--[ 2021.12.07.12.26.42.682.0 ]--
+r 46             Comparable[] arrayOf3 = new Double\\\[3];
+--[ 2021.12.07.12.26.42.857.0 ]--
+r 46             Comparable[] arrayOf3 = new Double\\[3];
+--[ 2021.12.07.12.26.43.000.0 ]--
+r 46             Comparable[] arrayOf3 = new Double\[3];
+--[ 2021.12.07.12.26.43.166.0 ]--
+r 46             Comparable[] arrayOf3 = new Double[3];
+--[ 2021.12.07.12.26.43.304.0 ]--
+r 46             Comparable[] arrayOf3 = new Doubl[3];
+--[ 2021.12.07.12.26.43.465.0 ]--
+r 46             Comparable[] arrayOf3 = new Doub[3];
+--[ 2021.12.07.12.26.43.629.0 ]--
+r 46             Comparable[] arrayOf3 = new Dou[3];
+--[ 2021.12.07.12.26.43.780.0 ]--
+r 46             Comparable[] arrayOf3 = new Do[3];
+--[ 2021.12.07.12.26.43.904.0 ]--
+r 46             Comparable[] arrayOf3 = new D[3];
+--[ 2021.12.07.12.26.44.441.0 ]--
+r 46             Comparable[] arrayOf3 = new [3];
+--[ 2021.12.07.12.26.44.784.0 ]--
+r 46             Comparable[] arrayOf3 = new C[3];
+--[ 2021.12.07.12.26.45.556.0 ]--
+r 46             Comparable[] arrayOf3 = new Comparable[3];
+--[ 2021.12.07.12.26.45.573.0 ]--
+r 46             Comparable[] arrayOf3 = new Comparable[][3];
+--[ 2021.12.07.12.26.46.800.0 ]--
+r 46             Comparable[] arrayOf3 = new Comparable[[3];
+--[ 2021.12.07.12.26.46.936.0 ]--
+r 46             Comparable[] arrayOf3 = new Comparable[3];
+--[ 2021.12.07.12.27.10.095.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.07.12.33.41.027.0 ]--
+r 25 //            int i0 = indices[0];
+r 26 //            int i1 = indices[1];
+r 27 //            int i2 = indices[2];
+r 28 //            int i3 = indices[3];
+r 29 //            int i4 = indices[4];
+r 30 //            Comparable a0 = a[i0];
+r 31 //            Comparable a1 = a[i1];
+r 32 //            Comparable a2 = a[i2];
+r 33 //            Comparable a3 = a[i3];
+r 34 //            Comparable a4 = a[i4];
+r 35 //
+r 36 //            Comparable[] arrayOf5 = new Comparable[5];
+r 37 //            arrayOf5[0] = a0;
+r 38 //            arrayOf5[1] = a1;
+r 39 //            arrayOf5[2] = a2;
+r 40 //            arrayOf5[3] = a3;
+r 41 //            arrayOf5[4] = a4;
+--[ 2021.12.07.12.33.44.684.0 ]--
++ 42 
+--[ 2021.12.07.12.33.44.703.0 ]--
+r 42             
+--[ 2021.12.07.12.33.45.543.0 ]--
+r 42             C
+--[ 2021.12.07.12.33.45.914.0 ]--
+r 42             Com
+--[ 2021.12.07.12.33.45.939.0 ]--
+r 42             Comp
+--[ 2021.12.07.12.33.46.038.0 ]--
+r 42             Compa
+--[ 2021.12.07.12.33.46.137.0 ]--
+r 42             Compar
+--[ 2021.12.07.12.33.46.510.0 ]--
+r 42             Comparable
+--[ 2021.12.07.12.33.47.242.0 ]--
+r 42             Comparable 
+--[ 2021.12.07.12.33.47.599.0 ]--
+r 42             Comparable a
+--[ 2021.12.07.12.33.48.513.0 ]--
+r 42             Comparable a0
+--[ 2021.12.07.12.33.50.793.0 ]--
+r 42             Comparable a0 
+--[ 2021.12.07.12.33.52.928.0 ]--
+r 42             Comparable a0
+--[ 2021.12.07.12.33.56.920.0 ]--
+r 42             Comparable a0;
+--[ 2021.12.07.12.33.57.196.0 ]--
++ 43             
+--[ 2021.12.07.12.34.00.773.0 ]--
+r 43             Comparable a0;
+--[ 2021.12.07.12.34.01.231.0 ]--
++ 44             
+--[ 2021.12.07.12.34.03.851.0 ]--
+r 44             Comparable a0;
+--[ 2021.12.07.12.34.05.294.0 ]--
+r 44             Comparable a;
+--[ 2021.12.07.12.34.05.479.0 ]--
+r 44             Comparable a2;
+--[ 2021.12.07.12.34.06.001.0 ]--
+r 43             Comparable a;
+--[ 2021.12.07.12.34.06.092.0 ]--
+r 43             Comparable a1;
+--[ 2021.12.07.12.34.10.304.0 ]--
+r 47             Comparable maxNum = Collections.max(Arrays.asList(a));
+--[ 2021.12.07.12.34.14.360.0 ]--
+r 48             Comparable minNum = Collections.min(Arrays.asList(a));
+--[ 2021.12.07.12.34.18.121.0 ]--
+r 49 //            Comparable[] arrayOf3 = new Comparable[3];
+--[ 2021.12.07.12.34.22.255.0 ]--
+r 54                if (a[i] == maxNum && !maxRemoved) {
+--[ 2021.12.07.12.34.24.335.0 ]--
+r 56                } else if (a[i] == minNum && !minRemoved) {
+--[ 2021.12.07.12.34.25.663.0 ]--
+r 59                    arrayOf3[count] = a[i];
+--[ 2021.12.07.12.34.35.688.0 ]--
+r 59                    a = a[i];
+--[ 2021.12.07.12.34.37.309.0 ]--
+r 59                    a0 = a[i];
+--[ 2021.12.07.12.34.45.973.0 ]--
++ 51             
+--[ 2021.12.07.12.34.49.997.0 ]--
+r 51             t
+--[ 2021.12.07.12.34.50.093.0 ]--
+r 51             th
+--[ 2021.12.07.12.34.50.185.0 ]--
+r 51             thr
+--[ 2021.12.07.12.34.50.252.0 ]--
+r 51             thre
+--[ 2021.12.07.12.34.50.397.0 ]--
+r 51             three
+--[ 2021.12.07.12.34.50.816.0 ]--
+r 51             threeC
+--[ 2021.12.07.12.34.51.027.0 ]--
+r 51             threeCpo
+--[ 2021.12.07.12.34.51.112.0 ]--
+r 51             threeCpou
+--[ 2021.12.07.12.34.51.496.0 ]--
+r 51             threeCpo
+--[ 2021.12.07.12.34.51.631.0 ]--
+r 51             threeCp
+--[ 2021.12.07.12.34.51.775.0 ]--
+r 51             threeC
+--[ 2021.12.07.12.34.51.939.0 ]--
+r 51             three
+--[ 2021.12.07.12.34.52.076.0 ]--
+r 51             thre
+--[ 2021.12.07.12.34.52.235.0 ]--
+r 51             thr
+--[ 2021.12.07.12.34.52.395.0 ]--
+r 51             th
+--[ 2021.12.07.12.34.52.543.0 ]--
+r 51             t
+--[ 2021.12.07.12.34.52.871.0 ]--
+r 51             
+--[ 2021.12.07.12.34.53.535.0 ]--
+r 51             a
+--[ 2021.12.07.12.34.53.796.0 ]--
+r 51             a0
+--[ 2021.12.07.12.34.54.158.0 ]--
+r 51             a0a
+--[ 2021.12.07.12.34.54.640.0 ]--
+r 51             a0a1
+--[ 2021.12.07.12.34.55.016.0 ]--
+r 51             a0a1a
+--[ 2021.12.07.12.34.55.253.0 ]--
+r 51             a0a1a2
+--[ 2021.12.07.12.34.56.489.0 ]--
+r 51             a0a1a2C
+--[ 2021.12.07.12.34.56.653.0 ]--
+r 51             a0a1a2Co
+--[ 2021.12.07.12.34.56.750.0 ]--
+r 51             a0a1a2Cou
+--[ 2021.12.07.12.34.56.947.0 ]--
+r 51             a0a1a2Coun
+--[ 2021.12.07.12.34.56.970.0 ]--
+r 51             a0a1a2Count
+--[ 2021.12.07.12.34.57.977.0 ]--
+r 51             a0a1a2Count 
+--[ 2021.12.07.12.34.58.042.0 ]--
+r 51             a0a1a2Count =
+--[ 2021.12.07.12.34.58.164.0 ]--
+r 51             a0a1a2Count = 
+--[ 2021.12.07.12.34.59.368.0 ]--
+r 51             a0a1a2Count = 0
+--[ 2021.12.07.12.34.59.580.0 ]--
+r 51             a0a1a2Count = 0;
+--[ 2021.12.07.12.35.01.998.0 ]--
+r 51             ia0a1a2Count = 0;
+--[ 2021.12.07.12.35.02.092.0 ]--
+r 51             ina0a1a2Count = 0;
+--[ 2021.12.07.12.35.02.119.0 ]--
+r 51             inta0a1a2Count = 0;
+--[ 2021.12.07.12.35.02.253.0 ]--
+r 51             int a0a1a2Count = 0;
+--[ 2021.12.07.12.35.05.855.0 ]--
++ 60                    
+--[ 2021.12.07.12.35.06.520.0 ]--
+r 60                    a
+--[ 2021.12.07.12.35.07.988.0 ]--
+r 60                    a0a1a2Count
+--[ 2021.12.07.12.35.07.995.0 ]--
+r 60                    a0a1a2Count 
+--[ 2021.12.07.12.35.10.494.0 ]--
+r 60                    ia0a1a2Count 
+--[ 2021.12.07.12.35.10.624.0 ]--
+r 60                    ifa0a1a2Count 
+--[ 2021.12.07.12.35.10.753.0 ]--
+r 60                    if a0a1a2Count 
+--[ 2021.12.07.12.35.10.974.0 ]--
+r 60                    if (a0a1a2Count 
+--[ 2021.12.07.12.35.12.406.0 ]--
+r 60                    if (a0a1a2Count  
+--[ 2021.12.07.12.35.12.900.0 ]--
+r 60                    if (a0a1a2Count = 
+--[ 2021.12.07.12.35.13.020.0 ]--
+r 60                    if (a0a1a2Count == 
+--[ 2021.12.07.12.35.13.121.0 ]--
+r 60                    if (a0a1a2Count ==  
+--[ 2021.12.07.12.35.13.338.0 ]--
+r 60                    if (a0a1a2Count == 0 
+--[ 2021.12.07.12.35.14.182.0 ]--
+r 60                    if (a0a1a2Count == 0) 
+--[ 2021.12.07.12.35.14.506.0 ]--
+r 60                    if (a0a1a2Count == 0)  
+--[ 2021.12.07.12.35.14.872.0 ]--
+r 60                    if (a0a1a2Count == 0) { 
+--[ 2021.12.07.12.35.15.076.0 ]--
++ 60                    if (a0a1a2Count == 0) {
++ 61  
+r 62 }
+--[ 2021.12.07.12.35.15.106.0 ]--
+r 61 
+r 62                    }
+--[ 2021.12.07.12.35.15.130.0 ]--
+r 61                        
+--[ 2021.12.07.12.35.16.502.0 ]--
+r 62                    } 
+--[ 2021.12.07.12.35.16.784.0 ]--
+r 62                    } e
+--[ 2021.12.07.12.35.16.916.0 ]--
+r 62                    } el
+--[ 2021.12.07.12.35.17.726.0 ]--
+r 62                    } else
+--[ 2021.12.07.12.35.17.733.0 ]--
+r 62                    } else 
+--[ 2021.12.07.12.35.18.087.0 ]--
+r 62                    } else i
+--[ 2021.12.07.12.35.18.189.0 ]--
+r 62                    } else if
+--[ 2021.12.07.12.35.18.710.0 ]--
+r 62                    } else if ()
+--[ 2021.12.07.12.35.21.615.0 ]--
+r 62                    } else if (a)
+--[ 2021.12.07.12.35.22.904.0 ]--
+r 62                    } else if (a0a1a2Count)
+--[ 2021.12.07.12.35.23.432.0 ]--
+r 62                    } else if (a0a1a2Count )
+--[ 2021.12.07.12.35.23.784.0 ]--
+r 62                    } else if (a0a1a2Count =)
+--[ 2021.12.07.12.35.23.922.0 ]--
+r 62                    } else if (a0a1a2Count ==)
+--[ 2021.12.07.12.35.24.017.0 ]--
+r 62                    } else if (a0a1a2Count ==1)
+--[ 2021.12.07.12.35.24.447.0 ]--
+r 62                    } else if (a0a1a2Count ==1 )
+--[ 2021.12.07.12.35.25.149.0 ]--
+r 62                    } else if (a0a1a2Count == 1 )
+--[ 2021.12.07.12.35.25.967.0 ]--
+r 62                    } else if (a0a1a2Count == 1)
+--[ 2021.12.07.12.35.26.856.0 ]--
+r 62                    } else if (a0a1a2Count == 1) 
+--[ 2021.12.07.12.35.27.383.0 ]--
+r 62                    } else if (a0a1a2Count == 1) {
+--[ 2021.12.07.12.35.27.595.0 ]--
++ 63 
++ 64 }
+--[ 2021.12.07.12.35.27.613.0 ]--
+r 64                    }
+--[ 2021.12.07.12.35.27.639.0 ]--
+r 63                        
+--[ 2021.12.07.12.35.29.176.0 ]--
+r 64                    } 
+--[ 2021.12.07.12.35.29.364.0 ]--
+r 64                    } s
+--[ 2021.12.07.12.35.29.462.0 ]--
+r 64                    } se
+--[ 2021.12.07.12.35.29.534.0 ]--
+r 64                    } sel
+--[ 2021.12.07.12.35.29.935.0 ]--
+r 64                    } se
+--[ 2021.12.07.12.35.30.062.0 ]--
+r 64                    } s
+--[ 2021.12.07.12.35.30.186.0 ]--
+r 64                    } 
+--[ 2021.12.07.12.35.30.271.0 ]--
+r 64                    } e
+--[ 2021.12.07.12.35.30.385.0 ]--
+r 64                    } el
+--[ 2021.12.07.12.35.30.845.0 ]--
+r 64                    } else
+--[ 2021.12.07.12.35.30.855.0 ]--
+r 64                    } else 
+--[ 2021.12.07.12.35.31.721.0 ]--
+r 64                    } else {
+--[ 2021.12.07.12.35.31.927.0 ]--
++ 65 
++ 66 }
+--[ 2021.12.07.12.35.31.938.0 ]--
+r 66                    }
+--[ 2021.12.07.12.35.31.957.0 ]--
+r 65                        
+--[ 2021.12.07.12.35.40.988.0 ]--
+r 67                    
+--[ 2021.12.07.12.35.41.654.0 ]--
+- 67
+--[ 2021.12.07.12.35.43.909.0 ]--
+- 61
+--[ 2021.12.07.12.35.44.079.0 ]--
+r 60                    if (a0a1a2Count == 0) 
+--[ 2021.12.07.12.35.45.251.0 ]--
+r 60                    if (a0a1a2Count == 0) {
+--[ 2021.12.07.12.35.45.468.0 ]--
++ 61                        
+--[ 2021.12.07.12.35.46.310.0 ]--
+r 61                        a0 = a[i];
+--[ 2021.12.07.12.35.48.230.0 ]--
+r 63                        a0 = a[i];
+--[ 2021.12.07.12.35.50.167.0 ]--
+r 63                        a = a[i];
+--[ 2021.12.07.12.35.50.282.0 ]--
+r 63                        a1 = a[i];
+--[ 2021.12.07.12.35.53.625.0 ]--
+r 65                        a0 = a[i];
+--[ 2021.12.07.12.35.55.838.0 ]--
+r 65                        a = a[i];
+--[ 2021.12.07.12.35.55.918.0 ]--
+r 65                        a2 = a[i];
+--[ 2021.12.07.12.36.00.619.0 ]--
++ 67                    
+--[ 2021.12.07.12.36.01.712.0 ]--
+r 67                    a
+--[ 2021.12.07.12.36.03.166.0 ]--
+r 67                    a0a1a2Count
+--[ 2021.12.07.12.36.04.333.0 ]--
+r 67                    a0a1a2Count+
+--[ 2021.12.07.12.36.04.475.0 ]--
+r 67                    a0a1a2Count++
+--[ 2021.12.07.12.36.05.059.0 ]--
+r 67                    a0a1a2Count++;
+--[ 2021.12.07.12.36.16.617.0 ]--
+r 72 //            a0 = arrayOf3[0];
+r 73 //            a1 = arrayOf3[1];
+r 74 //            a2 = arrayOf3[2];
+--[ 2021.12.07.12.36.26.960.0 ]--
+r 42             Comparable a0 ;
+--[ 2021.12.07.12.36.27.180.0 ]--
+r 42             Comparable a0 =;
+--[ 2021.12.07.12.36.27.623.0 ]--
+r 42             Comparable a0 = ;
+--[ 2021.12.07.12.36.27.974.0 ]--
+r 42             Comparable a0 = n;
+--[ 2021.12.07.12.36.28.204.0 ]--
+r 42             Comparable a0 = nju;
+--[ 2021.12.07.12.36.28.799.0 ]--
+r 42             Comparable a0 = nj;
+--[ 2021.12.07.12.36.28.934.0 ]--
+r 42             Comparable a0 = n;
+--[ 2021.12.07.12.36.29.070.0 ]--
+r 42             Comparable a0 = nu;
+--[ 2021.12.07.12.36.29.256.0 ]--
+r 42             Comparable a0 = nul;
+--[ 2021.12.07.12.36.29.400.0 ]--
+r 42             Comparable a0 = null;
+--[ 2021.12.07.12.36.29.689.0 ]--
++ 42             Comparable a0 = null
+r 43             ;
+--[ 2021.12.07.12.36.29.721.0 ]--
+r 43                     ;
+--[ 2021.12.07.12.36.30.454.0 ]--
+- 42
+r 42             Comparable a0 = null;
+--[ 2021.12.07.12.36.31.813.0 ]--
+r 43             Comparable a1 ;
+--[ 2021.12.07.12.36.32.238.0 ]--
+r 43             Comparable a1 =;
+--[ 2021.12.07.12.36.32.328.0 ]--
+r 43             Comparable a1 = ;
+--[ 2021.12.07.12.36.32.609.0 ]--
+r 43             Comparable a1 = n;
+--[ 2021.12.07.12.36.32.811.0 ]--
+r 43             Comparable a1 = nu;
+--[ 2021.12.07.12.36.33.102.0 ]--
+r 43             Comparable a1 = nul;
+--[ 2021.12.07.12.36.33.280.0 ]--
+r 43             Comparable a1 = null;
+--[ 2021.12.07.12.36.34.595.0 ]--
+r 44             Comparable a2 ;
+--[ 2021.12.07.12.36.34.898.0 ]--
+r 44             Comparable a2 =;
+--[ 2021.12.07.12.36.35.008.0 ]--
+r 44             Comparable a2 = ;
+--[ 2021.12.07.12.36.35.338.0 ]--
+r 44             Comparable a2 = n;
+--[ 2021.12.07.12.36.35.520.0 ]--
+r 44             Comparable a2 = nu;
+--[ 2021.12.07.12.36.35.674.0 ]--
+r 44             Comparable a2 = nul;
+--[ 2021.12.07.12.36.35.801.0 ]--
+r 44             Comparable a2 = null;
+--[ 2021.12.07.12.36.35.822.0 ]--
+r 44             Comparable a2 = nulle;
+--[ 2021.12.07.12.36.36.471.0 ]--
+r 44             Comparable a2 = null;
+--[ 2021.12.07.12.37.03.323.0 ]--
+r 25             int i0 = indices[0];
+r 26             int i1 = indices[1];
+r 27             int i2 = indices[2];
+r 28             int i3 = indices[3];
+r 29             int i4 = indices[4];
+--[ 2021.12.07.12.38.46.112.0 ]--
++ 56                    
+--[ 2021.12.07.12.38.49.792.0 ]--
+r 56                    i
+--[ 2021.12.07.12.38.50.894.0 ]--
+r 56                    i0
+--[ 2021.12.07.12.38.53.744.0 ]--
+r 56                    i0 
+--[ 2021.12.07.12.38.54.110.0 ]--
+r 56                    i0 =
+--[ 2021.12.07.12.38.54.206.0 ]--
+r 56                    i0 = 
+--[ 2021.12.07.12.38.54.630.0 ]--
+r 56                    i0 = i
+--[ 2021.12.07.12.38.54.748.0 ]--
+r 56                    i0 = in
+--[ 2021.12.07.12.38.55.505.0 ]--
+r 56                    i0 = indices
+--[ 2021.12.07.12.38.56.247.0 ]--
+r 56                    i0 = indices[]
+--[ 2021.12.07.12.39.04.286.0 ]--
+r 56                    i0 = indices[
+--[ 2021.12.07.12.39.04.779.0 ]--
+r 56                    i0 = indices
+--[ 2021.12.07.12.39.04.818.0 ]--
+r 56                    i0 = indice
+--[ 2021.12.07.12.39.04.872.0 ]--
+r 56                    i0 = indi
+--[ 2021.12.07.12.39.04.902.0 ]--
+r 56                    i0 = ind
+--[ 2021.12.07.12.39.04.943.0 ]--
+r 56                    i0 = in
+--[ 2021.12.07.12.39.04.961.0 ]--
+r 56                    i0 = i
+--[ 2021.12.07.12.39.04.996.0 ]--
+r 56                    i0 = 
+--[ 2021.12.07.12.39.05.027.0 ]--
+r 56                    i0 =
+--[ 2021.12.07.12.39.05.051.0 ]--
+r 56                    i0 
+--[ 2021.12.07.12.39.05.230.0 ]--
+r 56                    i0
+--[ 2021.12.07.12.39.05.405.0 ]--
+r 56                    i
+--[ 2021.12.07.12.39.05.578.0 ]--
+r 56                    
+--[ 2021.12.07.12.39.05.752.0 ]--
+- 56
+--[ 2021.12.07.12.39.05.973.0 ]--
+r 55                if (a[i] == maxNum && !maxRemoved) 
+--[ 2021.12.07.12.39.06.951.0 ]--
++ 55                if (a[i] == maxNum && !maxRemoved) {
+r 56                    i0 = indices[]
+--[ 2021.12.07.12.39.08.656.0 ]--
+r 56                    
+--[ 2021.12.07.12.39.08.964.0 ]--
+- 56
+--[ 2021.12.07.12.39.11.831.0 ]--
++ 60                    
+--[ 2021.12.07.12.39.15.220.0 ]--
+r 60                    i
+--[ 2021.12.07.12.39.16.745.0 ]--
+r 60                    i0
+--[ 2021.12.07.12.39.19.096.0 ]--
+r 60                    i0 
+--[ 2021.12.07.12.39.19.288.0 ]--
+r 60                    i0 =
+--[ 2021.12.07.12.39.19.438.0 ]--
+r 60                    i0 = 
+--[ 2021.12.07.12.39.20.274.0 ]--
+r 60                    i0 =
+--[ 2021.12.07.12.39.20.392.0 ]--
+r 60                    i0 
+--[ 2021.12.07.12.39.20.537.0 ]--
+r 60                    i0
+--[ 2021.12.07.12.39.20.680.0 ]--
+r 60                    i
+--[ 2021.12.07.12.39.20.819.0 ]--
+r 60                    
+--[ 2021.12.07.12.39.21.008.0 ]--
+- 60
+--[ 2021.12.07.12.39.21.155.0 ]--
+r 59                } else 
+--[ 2021.12.07.12.39.21.394.0 ]--
+r 59                } else
+--[ 2021.12.07.12.39.22.270.0 ]--
++ 59                } else {
+r 60                    i0 = 
+--[ 2021.12.07.12.39.25.569.0 ]--
+r 60                    
+--[ 2021.12.07.12.39.25.854.0 ]--
+- 60
+--[ 2021.12.07.12.39.26.484.0 ]--
++ 56                    i0 = indices[]
+--[ 2021.12.07.12.39.27.012.0 ]--
+r 56                    i0 = indices
+--[ 2021.12.07.12.39.27.374.0 ]--
+r 56                    i0 = in
+--[ 2021.12.07.12.39.27.749.0 ]--
+r 56                    
+--[ 2021.12.07.12.39.28.134.0 ]--
+- 56
+--[ 2021.12.07.12.39.29.011.0 ]--
+r 25 //            int i0 = indices[0];
+r 26 //            int i1 = indices[1];
+r 27 //            int i2 = indices[2];
+r 28 //            int i3 = indices[3];
+r 29 //            int i4 = indices[4];
+--[ 2021.12.07.12.39.33.007.0 ]--
++ 62                        
+--[ 2021.12.07.12.39.34.638.0 ]--
+r 62                        i
+--[ 2021.12.07.12.39.35.657.0 ]--
+r 62                        i0
+--[ 2021.12.07.12.39.36.503.0 ]--
+r 62                        i0 
+--[ 2021.12.07.12.39.36.707.0 ]--
+r 62                        i0 =
+--[ 2021.12.07.12.39.36.795.0 ]--
+r 62                        i0 = 
+--[ 2021.12.07.12.39.37.362.0 ]--
+r 62                        i0 =
+--[ 2021.12.07.12.39.37.496.0 ]--
+r 62                        i0 
+--[ 2021.12.07.12.39.37.653.0 ]--
+r 62                        i0
+--[ 2021.12.07.12.39.37.790.0 ]--
+r 62                        i
+--[ 2021.12.07.12.39.37.938.0 ]--
+r 62                        
+--[ 2021.12.07.12.39.38.155.0 ]--
+r 62                        i
+--[ 2021.12.07.12.39.38.282.0 ]--
+r 62                        in
+--[ 2021.12.07.12.39.38.347.0 ]--
+r 62                        int
+--[ 2021.12.07.12.39.38.460.0 ]--
+r 62                        int 
+--[ 2021.12.07.12.39.39.159.0 ]--
+r 62                        int i
+--[ 2021.12.07.12.39.39.220.0 ]--
+r 62                        int in
+--[ 2021.12.07.12.39.39.314.0 ]--
+r 62                        int ino
+--[ 2021.12.07.12.39.39.656.0 ]--
+r 62                        int in
+--[ 2021.12.07.12.39.39.788.0 ]--
+r 62                        int i
+--[ 2021.12.07.12.39.40.002.0 ]--
+r 62                        int io
+--[ 2021.12.07.12.39.40.462.0 ]--
+r 62                        int i
+--[ 2021.12.07.12.39.40.812.0 ]--
+r 62                        int i0
+--[ 2021.12.07.12.39.41.191.0 ]--
+r 62                        int i0 
+--[ 2021.12.07.12.39.41.278.0 ]--
+r 62                        int i0 =
+--[ 2021.12.07.12.39.41.383.0 ]--
+r 62                        int i0 = 
+--[ 2021.12.07.12.39.41.953.0 ]--
+r 62                        int i0 = i
+--[ 2021.12.07.12.39.42.031.0 ]--
+r 62                        int i0 = in
+--[ 2021.12.07.12.39.42.700.0 ]--
+r 62                        int i0 = indices
+--[ 2021.12.07.12.39.43.348.0 ]--
+r 62                        int i0 = indices[]
+--[ 2021.12.07.12.39.43.734.0 ]--
+r 62                        int i0 = indices[i]
+--[ 2021.12.07.12.39.47.335.0 ]--
+r 62                        int i0 = indices[i];
+--[ 2021.12.07.12.39.50.790.0 ]--
++ 65                        
+--[ 2021.12.07.12.39.51.085.0 ]--
+r 65                        int i0 = indices[i];
+--[ 2021.12.07.12.39.53.822.0 ]--
++ 68                        
+--[ 2021.12.07.12.39.54.057.0 ]--
+r 68                        int i0 = indices[i];
+--[ 2021.12.07.12.39.56.711.0 ]--
+r 68                        int i = indices[i];
+--[ 2021.12.07.12.39.56.822.0 ]--
+r 68                        int i2 = indices[i];
+--[ 2021.12.07.12.39.58.552.0 ]--
+r 65                        int i = indices[i];
+--[ 2021.12.07.12.39.58.691.0 ]--
+r 65                        int i1 = indices[i];
+--[ 2021.12.07.12.40.13.887.0 ]--
+r 25             int i0 = indices[0];
+r 26             int i1 = indices[1];
+r 27             int i2 = indices[2];
+--[ 2021.12.07.12.40.16.470.0 ]--
+r 62                        inti0 = indices[i];
+--[ 2021.12.07.12.40.16.629.0 ]--
+r 62                        ini0 = indices[i];
+--[ 2021.12.07.12.40.16.810.0 ]--
+r 62                        ii0 = indices[i];
+--[ 2021.12.07.12.40.17.122.0 ]--
+r 62                        i0 = indices[i];
+--[ 2021.12.07.12.40.18.072.0 ]--
+r 65                        int 1 = indices[i];
+--[ 2021.12.07.12.40.18.526.0 ]--
+r 65                        int1 = indices[i];
+--[ 2021.12.07.12.40.18.686.0 ]--
+r 65                        in1 = indices[i];
+--[ 2021.12.07.12.40.18.849.0 ]--
+r 65                        i1 = indices[i];
+--[ 2021.12.07.12.40.19.017.0 ]--
+r 65                        1 = indices[i];
+--[ 2021.12.07.12.40.19.705.0 ]--
+r 65                        i1 = indices[i];
+--[ 2021.12.07.12.40.21.347.0 ]--
+r 68                        inti2 = indices[i];
+--[ 2021.12.07.12.40.21.537.0 ]--
+r 68                        ini2 = indices[i];
+--[ 2021.12.07.12.40.21.706.0 ]--
+r 68                        ii2 = indices[i];
+--[ 2021.12.07.12.40.21.897.0 ]--
+r 68                        i2 = indices[i];
+--[ 2021.12.07.12.40.31.889.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.07.12.41.05.482.0 ]--
+r 109         SQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.05.667.0 ]--
+r 109         SrtQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.05.825.0 ]--
+r 109         SrtdQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.06.170.0 ]--
+r 109         SrtQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.06.279.0 ]--
+r 109         SrQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.06.412.0 ]--
+r 109         SQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.06.445.0 ]--
+r 109         StQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.06.590.0 ]--
+r 109         SteQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.07.063.0 ]--
+r 109         StQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.07.129.0 ]--
+r 109         StdQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.07.855.0 ]--
+r 109         StdOutQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.07.862.0 ]--
+r 109         StdOut QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.07.869.0 ]--
+r 109         StdOutQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.08.118.0 ]--
+r 109         StdOut.QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.08.434.0 ]--
+r 109         StdOut.pQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.09.330.0 ]--
+r 109         StdOut.printlnQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.09.364.0 ]--
+r 109         StdOut.println()QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.09.381.0 ]--
+r 109         StdOut.println();QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.12.904.0 ]--
++ 109         StdOut.println();
+r 110         QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.16.724.0 ]--
++ 109         
+--[ 2021.12.07.12.41.17.588.0 ]--
+r 109         QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.20.019.0 ]--
+r 111         
+--[ 2021.12.07.12.41.20.247.0 ]--
+- 111
+--[ 2021.12.07.12.41.22.995.0 ]--
+r 109         aQuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.23.188.0 ]--
+r 109         a QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.23.886.0 ]--
+r 109         a =QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.24.008.0 ]--
+r 109         a = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.25.597.0 ]--
+r 109         ia = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.26.344.0 ]--
+r 109         a = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.26.678.0 ]--
+r 109         ia = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.26.819.0 ]--
+r 109         ina = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.26.860.0 ]--
+r 109         inta = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.27.051.0 ]--
+r 109         int a = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.29.752.0 ]--
+r 109         a = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.30.030.0 ]--
+r 109         ia = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.30.415.0 ]--
+r 109         a = QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.31.344.0 ]--
+r 109         QuickSortMedian5.sort(a);
+--[ 2021.12.07.12.41.38.324.0 ]--
+- 110
+--[ 2021.12.07.12.41.41.700.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.07.12.42.37.488.0 ]--
+r 50 //            int count = 0;
+--[ 2021.12.07.12.42.40.470.0 ]--
+r 71 //                   count++;
+--[ 2021.12.07.12.42.45.282.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.08.16.27.38.239.0 ]--
+NewLogger: P03_Sorting
+Version: 1.5
+--[ 2021.12.08.16.27.38.383.0 ]--
+InitTree:
+/out/production/P03_Sorting/algs4.jar
+/out/production/P03_Sorting/stdlib.jar
+/out/production/P03_Sorting/Bubble.class
+/out/production/P03_Sorting/EdgeCases.class
+/out/production/P03_Sorting/MedianOfN.class
+/out/production/P03_Sorting/LinkedList.class
+/out/production/P03_Sorting/DoublingTest.class
+/out/production/P03_Sorting/LinkedList$1.class
+/out/production/P03_Sorting/LinkedList$Node.class
+/out/production/P03_Sorting/QuickSortMedian.class
+/out/production/P03_Sorting/QuickSortMedian3.class
+/out/production/P03_Sorting/QuickSortMedian5.class
+/out/production/P03_Sorting/QuickSortMedian3$MedianOf3.class
+/out/production/P03_Sorting/QuickSortMedian5$MedianOf5.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Bubble.java
+/src/EdgeCases.java
+/src/MedianOfN.java
+/src/LinkedList.java
+/src/DoublingTest.java
+/src/QuickSortMedian.java
+/src/QuickSortMedian3.java
+/src/QuickSortMedian5.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/readme.html
+/P03_Sorting.iml
+/P03_Sorting.zip
+
+--[ 2021.12.08.16.27.38.397.0 ]--
+InitFile: /src/EdgeCases.java
+import java.util.function.DoubleBinaryOperator;
+
+public class EdgeCases {
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        // sorted
+        Double[] sorted = {0.0, 1.0, 2.0, 3.0, 4.0};
+        Bubble.sort(sorted);     // bubble sort
+        Selection.sort(sorted);  // selection sort
+        Insertion.sort(sorted);  // insertion sort
+        Shell.sort(sorted);      // Shellsort
+        Quick.sort(sorted);      // quicksort
+
+        // reversed
+        Double[] reversed1 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Bubble.sort(reversed1);     // bubble sort
+        Double[] reversed2 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Selection.sort(reversed2);  // selection sort
+        Double[] reversed3 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Insertion.sort(reversed3);  // insertion sort
+        Double[] reversed4 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Shell.sort(reversed4);      // Shellsort
+        Double[] reversed5 = {4.0, 3.0, 2.0, 1.0, 0.0};
+        Quick.sort(reversed5);      // quicksort
+
+        // all keys are same
+        Double[] same = {3.0, 3.0, 3.0, 3.0, 3.0};
+        Bubble.sort(same);     // bubble sort
+        Selection.sort(same);  // selection sort
+        Insertion.sort(same);  // insertion sort
+        Shell.sort(same);      // Shellsort
+        Quick.sort(same);      // quicksort
+
+        // two distinct only
+        Double[] twoDistinct1 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Bubble.sort(twoDistinct1);     // bubble sort
+        Double[] twoDistinct2 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Selection.sort(twoDistinct2);  // selection sort
+        Double[] twoDistinct3 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Insertion.sort(twoDistinct3);  // insertion sort
+        Double[] twoDistinct4 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Shell.sort(twoDistinct4);      // Shellsort
+        Double[] twoDistinct5 = {0.0, 0.0, 5.0, 4.0, 0.0};
+        Quick.sort(twoDistinct5);      // quicksort
+
+        // size 0
+        Double[] size0 = {};
+        Bubble.sort(size0);     // bubble sort
+        Selection.sort(size0);  // selection sort
+        Insertion.sort(size0);  // insertion sort
+        Shell.sort(size0);      // Shellsort
+        Quick.sort(size0);      // quicksort
+
+        // size 1
+        Double[] size1 = {0.0};
+        Bubble.sort(size1);     // bubble sort
+        Selection.sort(size1);  // selection sort
+        Insertion.sort(size1);  // insertion sort
+        Shell.sort(size1);      // Shellsort
+        Quick.sort(size1);      // quicksort
+    }
+}
+
+--[ 2021.12.08.16.27.38.400.0 ]--
+InitFile: /src/DoublingTest.java
+public class DoublingTest {
+
+    public static void sort(String method) {
+        double MAX = 1000000;
+        for (int n=1000, count=0; count < 5; n*=2, count++) {
+            double average = 0;
+            for (int j=0; j<100; j++) {
+                Double[] a = new Double[n];
+                for (int i=0; i<n; i++) {
+                    a[i] = StdRandom.uniform(-MAX, MAX);
+                }
+                Stopwatch timer = new Stopwatch();
+                switch (method) {
+                    case "Selection": Selection.sort(a);
+                        break;
+                    case "Insertion": Insertion.sort(a);
+                        break;
+                    case "Shell": Shell.sort(a);
+                        break;
+                    case "Quick": Quick.sort(a);
+                        break;
+                    case "Median3": QuickSortMedian3.sort(a);
+                        break;
+                    case "Median5": QuickSortMedian5.sort(a);
+                        break;
+                }
+                average += timer.elapsedTime();
+            }
+            average /= 5;
+            StdOut.printf("%s: N = %d || Time = %f || Ratio = %f\n", method, n, average, n/average);
+        }
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        sort("Selection");
+        StdOut.println();
+        sort("Insertion");
+        StdOut.println();
+        sort("Shell");
+        StdOut.println();
+        sort("Quick");
+        StdOut.println();
+        sort("Median3");
+        StdOut.println();
+        sort("Median5");
+        StdOut.println();
+
+        double MAX = 1000000;
+        for (int n=1000, count=0; count < 5; n*=2, count++) {
+            double average = 0;
+            for (int j=0; j<100; j++) {
+                Double[] a = new Double[n];
+                for (int i=0; i<n; i++) {
+                    a[i] = StdRandom.uniform(-MAX, MAX);
+                }
+                LinkedList<Double> linkedlist = new LinkedList<>(a);
+                Stopwatch timer = new Stopwatch();
+                linkedlist.sort();
+                average += timer.elapsedTime();
+            }
+            average /= 5;
+            StdOut.printf("Linked List: N = %d || Time = %f || Ratio = %f\n", n, average, n/average);
+        }
+    }
+}
+
+--[ 2021.12.08.16.27.38.403.0 ]--
+InitFile: /P03_Sorting.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.log" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.08.16.27.38.406.0 ]--
+InitFile: /src/MedianOfN.java
+public abstract class MedianOfN {
+    private int N;
+    private int[] indices;
+
+    public MedianOfN(int N) {
+        this.N = N;
+        indices = new int[N];
+    }
+
+    public abstract int median(Comparable[] a, int[] indices);
+
+    public int median(Comparable[] a, int lo, int hi) {
+        // if hi and lo are "close enough", simply return lo
+        if(hi - lo + 1 < N) return lo;
+        // choose N random indices in [lo, hi]
+        for(int i = 0; i < N; i++) indices[i] = StdRandom.uniform(lo, hi + 1);
+        return median(a, indices);
+    }
+}
+
+--[ 2021.12.08.16.27.38.408.0 ]--
+InitFile: /src/QuickSortMedian.java
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian {
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+
+    public static void sort(Comparable[] a, MedianOfN median) {
+        sort(a, median, 0, a.length - 1);
+    }
+
+    // quicksort the subarray from a[lo] to a[hi]
+    private static void sort(Comparable[] a, MedianOfN median, int lo, int hi) {
+        if(hi <= lo) return;
+        int j = partition(a, median, lo, hi);   // partition data into parts, returning pivot index
+        sort(a, median, lo, j-1);   // recursively sort lower part
+        sort(a, median, j+1, hi);   // recursively sort higher part
+    }
+
+    // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
+    // and return the index j.  note: v = a[j]
+    private static int partition(Comparable[] a, MedianOfN median, int lo, int hi) {
+        int i = lo;
+        int j = hi + 1;
+
+        int k = median.median(a, lo, hi);   // determine position of a pivot
+        exch(a, lo, k);                     // move pivot to lo position
+        Comparable v = a[lo];               // v is pivot value
+
+        while(true) {
+
+            // find item on lo to swap
+            while(less(a[++i], v))
+                if(i == hi) break;
+
+            // find item on hi to swap
+            while(less(v, a[--j]))
+                if(j == lo) break;      // redundant since a[lo] acts as sentinel
+
+            // check if pointers cross
+            if(i >= j) break;
+
+            exch(a, i, j);
+        }
+
+        // put partitioning item v at a[j]
+        exch(a, lo, j);
+
+        // now, a[lo .. j-1] <= a[j] <= a[j+1 .. hi]
+        return j;
+    }
+
+
+    /***********************************************************************
+     *  Helper sorting functions
+     ***********************************************************************/
+
+    // is v < w ?
+    private static boolean less(Comparable v, Comparable w) {
+        return (v.compareTo(w) < 0);
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+
+    }
+}
+
+--[ 2021.12.08.16.27.38.412.0 ]--
+InitFile: /src/QuickSortMedian5.java
+import java.util.Arrays;
+import java.util.Collections;
+
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian5 extends QuickSortMedian {
+
+    public static class MedianOf5 extends MedianOfN {
+        public MedianOf5() {
+            // tell QuickSortMedian.MedianOfN we will find the median of 5 items
+            super(5);
+        }
+
+        /***********************************************************
+         * Determines which index in parameter indices points to
+         * the median value in parameter a
+         * @param a the array containing values
+         * @param indices the array containing indices into a
+         * @return the index of median value
+         ***********************************************************/
+        public int median(Comparable[] a, int[] indices) {
+            // get values at specified indices
+            int i0 = indices[0];
+            int i1 = indices[1];
+            int i2 = indices[2];
+//            int i3 = indices[3];
+//            int i4 = indices[4];
+//            Comparable a0 = a[i0];
+//            Comparable a1 = a[i1];
+//            Comparable a2 = a[i2];
+//            Comparable a3 = a[i3];
+//            Comparable a4 = a[i4];
+//
+//            Comparable[] arrayOf5 = new Comparable[5];
+//            arrayOf5[0] = a0;
+//            arrayOf5[1] = a1;
+//            arrayOf5[2] = a2;
+//            arrayOf5[3] = a3;
+//            arrayOf5[4] = a4;
+            Comparable a0 = null;
+            Comparable a1 = null;
+            Comparable a2 = null;
+
+            // find median in a0,a1,a2,a3,a4, and return respective index
+            Comparable maxNum = Collections.max(Arrays.asList(a));
+            Comparable minNum = Collections.min(Arrays.asList(a));
+//            Comparable[] arrayOf3 = new Comparable[3];
+//            int count = 0;
+            int a0a1a2Count = 0;
+            boolean maxRemoved = false;
+            boolean minRemoved = false;
+            for (int i=0; i<5; i++) {
+               if (a[i] == maxNum && !maxRemoved) {
+                    maxRemoved = true;
+               } else if (a[i] == minNum && !minRemoved) {
+                   minRemoved = true;
+               } else {
+                   if (a0a1a2Count == 0) {
+                       a0 = a[i];
+                       i0 = indices[i];
+                   } else if (a0a1a2Count == 1) {
+                       a1 = a[i];
+                       i1 = indices[i];
+                   } else {
+                       a2 = a[i];
+                       i2 = indices[i];
+                   }
+                   a0a1a2Count++;
+//                   count++;
+               }
+            }
+
+//            a0 = arrayOf3[0];
+//            a1 = arrayOf3[1];
+//            a2 = arrayOf3[2];
+
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
+        }
+    }
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+    public static void sort(Comparable[] a) {
+        MedianOf5 median = new MedianOf5();
+        QuickSortMedian.sort(a, median);
+    }
+
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        Double[] a = {6.0, 7.0, 3.0, 4.0, 5.0};
+        QuickSortMedian5.sort(a);
+    }
+}
+
+--[ 2021.12.08.16.27.38.415.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.08.16.27.38.417.0 ]--
+InitFile: /src/QuickSortMedian3.java
+/**
+ * The following code is *mostly* a copy of Quick class (quick sort) from algs4.jar
+ */
+
+public class QuickSortMedian3 extends QuickSortMedian {
+
+    public static class MedianOf3 extends MedianOfN {
+        public MedianOf3() {
+            // tell QuickSortMedian.MedianOfN we will find the median of 3 items
+            super(3);
+        }
+
+        /***********************************************************
+         * Determines which index in parameter indices points to
+         * the median value in parameter a
+         * @param a the array containing values
+         * @param indices the array containing indices into a
+         * @return the index of median value
+         ***********************************************************/
+        public int median(Comparable[] a, int[] indices) {
+            // get values at specified indices
+            int i0 = indices[0];
+            int i1 = indices[1];
+            int i2 = indices[2];
+            Comparable a0 = a[i0];
+            Comparable a1 = a[i1];
+            Comparable a2 = a[i2];
+
+            // find median in a0,a1,a2, and return respective index
+            // if a0 is median, return i0
+            if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
+                return i0;
+            }
+            // if a1 is median, return i1
+            if ((a1.compareTo(a0) <= 0 && a1.compareTo(a2) >= 0) || (a1.compareTo(a0) >= 0 && a1.compareTo(a2) <= 0)) {
+                return i1;
+            }
+            // if a2 is median, return i2
+            return i2;
+        }
+    }
+
+
+    /***********************************************************************
+     * Rearranges the array in ascending order, using the natural order.
+     * @param a the array to be sorted
+     ***********************************************************************/
+    public static void sort(Comparable[] a) {
+        MedianOf3 median = new MedianOf3();
+        sort(a, median);
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        Double[] a = {0.0, 3.0, 0.0};
+        QuickSortMedian3.sort(a);
+    }
+}
+
+--[ 2021.12.08.16.27.38.420.0 ]--
+InitFile: /src/Bubble.java
+public class Bubble {
+
+    public static void sort(Comparable[] a) {
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            for(int i = 0; i < a.length - 1; i++)
+                if(less(a[i + 1], a[i])) {
+                    sorted = false;
+                    exch(a, i, i + 1);
+                }
+        }
+    }
+
+    /***********************************************************************
+     *  Helper sorting functions
+     ***********************************************************************/
+
+    // is v < w ?
+    private static boolean less(Comparable v, Comparable w) {
+        return (v.compareTo(w) < 0);
+    }
+
+    // exchange a[i] and a[j]
+    private static void exch(Object[] a, int i, int j) {
+        Object swap = a[i];
+        a[i] = a[j];
+        a[j] = swap;
+    }
+
+    /***********************************************************************
+     *  main() function is used to experimentally verify bubble sort works
+     *  - generate a Double array
+     *  - fill array with random values
+     *  - sort
+     *  - assert that each value is smaller than or equal to next value
+     ***********************************************************************/
+
+    public static void main(String[] args) {
+        int N = 1000;
+        Double[] a = new Double[N];
+        for(int i = 0; i < N; i++) a[i] = StdRandom.uniform();
+        Bubble.sort(a);
+        for(int i = 0; i < N-1; i++) assert a[i] <= a[i+1];
+    }
+}
+
+--[ 2021.12.08.16.27.38.422.0 ]--
+InitFile: /src/LinkedList.java
+import java.util.Iterator;
+
+public class LinkedList<Item extends Comparable<Item>> implements Iterable<Item> {
+    private Node first = null;
+    private int count = 0;
+
+    private class Node {
+        final Item item;    // cannot change item once it is set in constructor
+        Node next;          // can change next, though
+
+        public Node(Item i, Node n) {
+            item = i;
+            next = n;
+        }
+    }
+
+    public LinkedList() { }
+
+    public LinkedList(Item[] fromList) {
+        for(Item item : fromList) insert(item);
+    }
+
+    public void insert(Item item) {
+        first = new Node(item, first);
+        count++;
+    }
+
+    public Item remove() {
+        Item item = first.item;
+        first = first.next;
+        count--;
+        return item;
+    }
+
+    public boolean isEmpty() { return count == 0; }
+
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            Node current = first;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public Item next() {
+                Item item = current.item;
+                current = current.next;
+                return item;
+            }
+        };
+    }
+
+    /***********************************************************************
+     * Rearranges the linked list in ascending order, using the natural order
+     * and mergesort.
+     ***********************************************************************/
+    
+    public void sort() {
+        first = sort(first, count);
+    }
+
+    private Node sort(Node head, int len) {
+        if (len <= 1) return head;
+        Node mid = head;
+        for (int i=0; i<len/2-1; i++) {
+            mid = mid.next;
+        }
+        Node tmp = mid;
+        mid = mid.next;
+        tmp.next = null;
+        head = sort(head, len/2);
+        mid = sort(mid, len-len/2);
+        return merge(head, mid);
+    }
+
+    private Node merge(Node low, Node high) {
+        Node head = null;
+        Node last = null;
+        while (low != null && high != null) {
+            if (low.item.compareTo(high.item) < 0) {
+                if (head == null) {
+                    head = low;
+                } else {
+                    last.next = low;
+                }
+                last = low;
+                low = low.next;
+            } else {
+                if (head == null) {
+                    head = high;
+                } else {
+                    last.next = high;
+                }
+                last = high;
+                high = high.next;
+            }
+        }
+        if (low == null) {
+            last.next = high;
+        } else {
+            last.next = low;
+        }
+        return head;
+    }
+
+    /***********************************************************************
+     *  main() function
+     *  Place all of your unit tests here
+     *  Hint: created additional functions to help organize your tests
+     ***********************************************************************/
+
+    public static void evenList() {
+        Double[] a = {5.0, 1.0, 7.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void oddList() {
+        Double[] a = {5.0, 1.0, 7.0, 3.0, 0.5};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void alreadySorted() {
+        Double[] a = {1.0, 2.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void lowRunsOut() {
+        Double[] a = {1.0, 2.0, 3.0, 7.0, 8.0, 9.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void highRunsOut() {
+        Double[] a = {7.0, 8.0, 9.0, 1.0, 2.0, 3.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void lowHighEqual() {
+        Double[] a = {4.0, 3.0, 2.0, 4.0, 3.0, 2.0};
+        LinkedList<Double> linkedlist = new LinkedList<>(a);
+        linkedlist.sort();
+        Iterator<Double> linkedListIterator = linkedlist.iterator();
+        for (int i=0; i< linkedlist.count; i++){
+            StdOut.println(linkedListIterator.next());
+        }
+    }
+
+    public static void main(String[] args) {
+        evenList();
+        StdOut.println();
+        oddList();
+        StdOut.println();
+        alreadySorted();
+        StdOut.println();
+        highRunsOut();
+        StdOut.println();
+        lowRunsOut();
+        StdOut.println();
+        lowHighEqual();
+    }
+}
+
+--[ 2021.12.08.16.28.07.967.0 ]--
+DisposeComponent

@@ -8,6 +8,7 @@ public class HexBoard {
     private WeightedQuickUnionUF uf2;
     private WeightedQuickUnionUF uf3;
     private int N;
+    private int isSet;
 
     public HexBoard(int N) {
         if (N <= 0) {throw new java.lang.IllegalArgumentException("N cannot be <= 0");}
@@ -20,6 +21,7 @@ public class HexBoard {
         uf2 = new WeightedQuickUnionUF(N*N+4);
         uf3 = new WeightedQuickUnionUF(N*N+4);
         this.N = N;
+        this.isSet = 0;
     }
 
     public int getPlayer(int row, int col) {
@@ -90,6 +92,7 @@ public class HexBoard {
                 uf2.union(toIndex(row, col), N*N+1);
             }
         }
+        isSet++;
     }
 
     public boolean hasPlayer1Won() {
@@ -103,13 +106,7 @@ public class HexBoard {
     }
 
     public int numberOfUnsetTiles() {
-        int count = 0;
-        for (int row=0; row<N; row++) {
-            for (int col=0; col<N; col++) {
-                if (!this.isSet(row, col)) {count++;}
-            }
-        }
-        return count;
+        return (N*N)-isSet;
     }
 
     private int toIndex(int row, int col) {

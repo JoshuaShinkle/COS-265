@@ -89,7 +89,7 @@ public class OnePointerQueue<Item> implements Iterable<Item> {
                 if (frozenOpCount != opcount) {
                     throw new ConcurrentModificationException("modified queue while iterating");
                 }
-                Item tmp = p.next.item;
+                Item tmp = p.item;
                 p = p.next;
                 return tmp;
             }

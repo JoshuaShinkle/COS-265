@@ -43,7 +43,7 @@ public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
             Node<Item> oldfirst = first;
             first = new Node<>(item, oldfirst, oldfirst.minimumItem);
             size++;
-            if (oldfirst.item.compareTo(item) == 1) {
+            if (oldfirst.minimumItem.compareTo(item) > 0) {
                 first.minimumItem = item;
             }
         }

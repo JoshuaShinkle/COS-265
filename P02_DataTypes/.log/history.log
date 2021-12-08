@@ -25063,3 +25063,2193 @@ CompilationStatus (AEW): 0 0 0
 CompilationStatus (AEW): 0 0 0
 --[ 2021.10.20.08.58.57.019.0 ]--
 DisposeComponent
+--[ 2021.12.04.21.18.16.979.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.12.04.21.18.17.016.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$1.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/MinimumStack$1.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/out/production/P02_DataTypes/MinimumStack$Node.class
+/out/production/P02_DataTypes/OnePointerQueue$1.class
+/out/production/P02_DataTypes/OnePointerQueue$Node.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.idea/runConfigurations.xml
+/.cos265
+/.DS_Store
+/readme.html
+/P02_DataTypes.iml
+/P02_DataTypes.zip
+
+--[ 2021.12.04.21.18.17.019.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.04.21.18.17.023.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.04.21.18.17.025.0 ]--
+InitFile: /.DS_Store
+   Bud1           	                                                           alg1Scomp                                                                                                                                                                                                                                                                                                                                                                                                                                             . i d e alg1Scomp      *�    . i d e amoDDblob      �Q��A    . i d e amodDblob      �Q��A    . i d e aph1Scomp      �     . l o glg1Scomp      t�    . l o gmoDDblob     ��Q��A    . l o gmodDblob     ��Q��A    . l o gph1Scomp      �     o u tlg1Scomp     X�    o u tmoDDblob      �Q��A    o u tmodDblob      �Q��A    o u tph1Scomp     �     s r clg1Scomp     Pt    s r cmoDDblob      �Q��A    s r cmodDblob      �Q��A    s r cph1Scomp     �                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @      �                                        @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   E  	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       DSDB                                 `          �                                         @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+
+--[ 2021.12.04.21.18.17.039.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> last = null;
+    public OnePointerQueue() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            last = new Node<>(item);
+        } else if (size() == 1) {
+            last.next = new Node<>(item);
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last = last.next;
+            last.next = tmp;
+        } else {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = new Node<>(item);
+            last = last.next;
+            last.next = tmp.next;
+        }
+        size++;
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) {
+            throw new NoSuchElementException("dequeue called on empty queue\n");
+        } else if (size()==1) {
+            size--;
+            return last.item;
+        } else if (size()==2) {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = null;
+            size--;
+            return tmp.next.item;
+        } else {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = last.next.next;
+            size--;
+            return tmp.next.item;
+        }
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            Node<Item> p = last;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified queue while iterating");
+                }
+                return p.next != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified queue while iterating");
+                }
+                Item tmp = p.next.item;
+                p = p.next;
+                return tmp;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+        OnePointerQueue<String> testString = new OnePointerQueue<>();
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("itemdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+//
+//        // fails
+//        dequeuedString = testString.dequeue();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.dequeue();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+        StdOut.println("iterate:" + iter.next());
+    }
+}
+
+--[ 2021.12.04.21.18.17.043.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+
+    private static class Node<Item> {
+        private Item item = null;
+        private Node<Item> next = null;
+        private Item minimumItem = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next, Item minimumItem) {
+            this.item = item;
+            this.next = next;
+            this.minimumItem = minimumItem;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> first = null;
+
+    public MinimumStack() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return size()==0;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            first.minimumItem = item;
+            size++;
+        } else {
+            Node<Item> oldfirst = first;
+            first = new Node<>(item, oldfirst, oldfirst.minimumItem);
+            size++;
+            if (oldfirst.item.compareTo(item) == 1) {
+                first.minimumItem = item;
+            }
+        }
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) throw new NoSuchElementException("pop called on empty stack");
+        Item item = first.item;
+        first = first.next;
+        size--;
+        return item;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        if (isEmpty()) {
+            throw new NoSuchElementException("minimum called on empty stack\n");
+        }
+        return first.minimumItem;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            private Node<Item> current = first;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stack while iterating");
+                }
+                return current != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stack while iterating");
+                }
+                Item item = current.item;
+                current = current.next;
+                return item;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    public static void main(String[] args) {
+        MinimumStack<Integer> testInt = new MinimumStack<>();
+        Iterator<Integer> iter = testInt.iterator();
+        assert testInt.isEmpty();
+        assert testInt.size() == 0;
+//        testInt.minimum();
+        assert !iter.hasNext();
+//        iter.next();
+//        testInt.pop();
+        testInt.push(5);
+        assert testInt.size() == 1;
+        assert !testInt.isEmpty();
+        StdOut.println(testInt.minimum());
+//        iter.hasNext();
+//        iter.next();
+        testInt.push(6);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 2;
+        assert !testInt.isEmpty();
+        testInt.push(4);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 3;
+        assert !testInt.isEmpty();
+        testInt.push(3);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 4;
+        assert !testInt.isEmpty();
+        testInt.push(2);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 5;
+        assert !testInt.isEmpty();
+        Iterator<Integer> iter2 = testInt.iterator();
+        assert iter2.hasNext();
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 4;
+        assert !testInt.isEmpty();
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 3;
+        assert !testInt.isEmpty();
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 2;
+        assert !testInt.isEmpty();
+    }
+}
+
+--[ 2021.12.04.21.18.17.046.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            last = first;
+        } else {
+            last.next = new Node<>(item);
+            last = last.next;
+        }
+        size++;
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            last = first;
+        } else {
+            Node<Item> tmp = new Node<>(item);
+            tmp.next = first;
+            first = tmp;
+        }
+        size++;
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) {
+            throw new NoSuchElementException("pop called on empty steque\n");
+        }
+        Item tmp = first.item;
+        first = first.next;
+        size--;
+        return tmp;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            Node<Item> p = first;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stegue while iterating");
+                }
+                return p.next != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stegue while iterating");
+                }
+                Item tmp = p.next.item;
+                p = p.next;
+                return tmp;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+        Steque<String> testString = new Steque<>();
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("pushThis");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.push("push1This");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("push2This");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        // fails
+//        poppedString = testString.pop();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.pop();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+//        testString.push("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+//        StdOut.println("iterate:" + iter.next());
+    }
+}
+
+--[ 2021.12.04.21.19.12.931.0 ]--
+UpdateTree (AD): 0 1
+- /.idea/runConfigurations.xml
+
+--[ 2021.12.04.21.25.35.220.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.04.21.27.43.504.0 ]--
+DisposeComponent
+--[ 2021.12.04.21.29.12.333.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.12.04.21.29.12.360.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$1.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/MinimumStack$1.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/out/production/P02_DataTypes/MinimumStack$Node.class
+/out/production/P02_DataTypes/OnePointerQueue$1.class
+/out/production/P02_DataTypes/OnePointerQueue$Node.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/.DS_Store
+/readme.html
+/P02_DataTypes.iml
+/P02_DataTypes.zip
+
+--[ 2021.12.04.21.29.12.363.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.04.21.29.12.374.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.04.21.29.12.377.0 ]--
+InitFile: /.DS_Store
+   Bud1           	                                                           alg1Scomp                                                                                                                                                                                                                                                                                                                                                                                                                                             . i d e alg1Scomp      *�    . i d e amoDDblob      �Q��A    . i d e amodDblob      �Q��A    . i d e aph1Scomp      �     . l o glg1Scomp      t�    . l o gmoDDblob     ��Q��A    . l o gmodDblob     ��Q��A    . l o gph1Scomp      �     o u tlg1Scomp     X�    o u tmoDDblob      �Q��A    o u tmodDblob      �Q��A    o u tph1Scomp     �     s r clg1Scomp     Pt    s r cmoDDblob      �Q��A    s r cmodDblob      �Q��A    s r cph1Scomp     �                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @      �                                        @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   E  	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       DSDB                                 `          �                                         @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+
+--[ 2021.12.04.21.29.12.380.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> last = null;
+    public OnePointerQueue() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            last = new Node<>(item);
+        } else if (size() == 1) {
+            last.next = new Node<>(item);
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last = last.next;
+            last.next = tmp;
+        } else {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = new Node<>(item);
+            last = last.next;
+            last.next = tmp.next;
+        }
+        size++;
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) {
+            throw new NoSuchElementException("dequeue called on empty queue\n");
+        } else if (size()==1) {
+            size--;
+            return last.item;
+        } else if (size()==2) {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = null;
+            size--;
+            return tmp.next.item;
+        } else {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = last.next.next;
+            size--;
+            return tmp.next.item;
+        }
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            Node<Item> p = last;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified queue while iterating");
+                }
+                return p.next != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified queue while iterating");
+                }
+                Item tmp = p.next.item;
+                p = p.next;
+                return tmp;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+        OnePointerQueue<String> testString = new OnePointerQueue<>();
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("itemdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+//
+//        // fails
+//        dequeuedString = testString.dequeue();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.dequeue();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+        StdOut.println("iterate:" + iter.next());
+    }
+}
+
+--[ 2021.12.04.21.29.12.383.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+
+    private static class Node<Item> {
+        private Item item = null;
+        private Node<Item> next = null;
+        private Item minimumItem = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next, Item minimumItem) {
+            this.item = item;
+            this.next = next;
+            this.minimumItem = minimumItem;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> first = null;
+
+    public MinimumStack() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return size()==0;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            first.minimumItem = item;
+            size++;
+        } else {
+            Node<Item> oldfirst = first;
+            first = new Node<>(item, oldfirst, oldfirst.minimumItem);
+            size++;
+            if (oldfirst.item.compareTo(item) == 1) {
+                first.minimumItem = item;
+            }
+        }
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) throw new NoSuchElementException("pop called on empty stack");
+        Item item = first.item;
+        first = first.next;
+        size--;
+        return item;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        if (isEmpty()) {
+            throw new NoSuchElementException("minimum called on empty stack\n");
+        }
+        return first.minimumItem;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            private Node<Item> current = first;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stack while iterating");
+                }
+                return current != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stack while iterating");
+                }
+                Item item = current.item;
+                current = current.next;
+                return item;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    public static void main(String[] args) {
+        MinimumStack<Integer> testInt = new MinimumStack<>();
+        Iterator<Integer> iter = testInt.iterator();
+        assert testInt.isEmpty();
+        assert testInt.size() == 0;
+//        testInt.minimum();
+        assert !iter.hasNext();
+//        iter.next();
+//        testInt.pop();
+        testInt.push(5);
+        assert testInt.size() == 1;
+        assert !testInt.isEmpty();
+        StdOut.println(testInt.minimum());
+//        iter.hasNext();
+//        iter.next();
+        testInt.push(6);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 2;
+        assert !testInt.isEmpty();
+        testInt.push(4);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 3;
+        assert !testInt.isEmpty();
+        testInt.push(3);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 4;
+        assert !testInt.isEmpty();
+        testInt.push(2);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 5;
+        assert !testInt.isEmpty();
+        Iterator<Integer> iter2 = testInt.iterator();
+        assert iter2.hasNext();
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 4;
+        assert !testInt.isEmpty();
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 3;
+        assert !testInt.isEmpty();
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 2;
+        assert !testInt.isEmpty();
+    }
+}
+
+--[ 2021.12.04.21.29.12.385.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            last = first;
+        } else {
+            last.next = new Node<>(item);
+            last = last.next;
+        }
+        size++;
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            last = first;
+        } else {
+            Node<Item> tmp = new Node<>(item);
+            tmp.next = first;
+            first = tmp;
+        }
+        size++;
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) {
+            throw new NoSuchElementException("pop called on empty steque\n");
+        }
+        Item tmp = first.item;
+        first = first.next;
+        size--;
+        return tmp;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            Node<Item> p = first;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stegue while iterating");
+                }
+                return p.next != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stegue while iterating");
+                }
+                Item tmp = p.next.item;
+                p = p.next;
+                return tmp;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+        Steque<String> testString = new Steque<>();
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("pushThis");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.push("push1This");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("push2This");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        // fails
+//        poppedString = testString.pop();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.pop();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+//        testString.push("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+//        StdOut.println("iterate:" + iter.next());
+    }
+}
+
+--[ 2021.12.04.21.29.45.792.0 ]--
+DisposeComponent
+--[ 2021.12.07.11.51.42.461.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.12.07.11.51.42.537.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$1.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/MinimumStack$1.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/out/production/P02_DataTypes/MinimumStack$Node.class
+/out/production/P02_DataTypes/OnePointerQueue$1.class
+/out/production/P02_DataTypes/OnePointerQueue$Node.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/.DS_Store
+/readme.html
+/P02_DataTypes.iml
+/P02_DataTypes.zip
+
+--[ 2021.12.07.11.51.42.540.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.07.11.51.42.546.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.07.11.51.42.548.0 ]--
+InitFile: /.DS_Store
+   Bud1           	                                                           alg1Scomp                                                                                                                                                                                                                                                                                                                                                                                                                                             . i d e alg1Scomp      *�    . i d e amoDDblob      �Q��A    . i d e amodDblob      �Q��A    . i d e aph1Scomp      �     . l o glg1Scomp      t�    . l o gmoDDblob     ��Q��A    . l o gmodDblob     ��Q��A    . l o gph1Scomp      �     o u tlg1Scomp     X�    o u tmoDDblob      �Q��A    o u tmodDblob      �Q��A    o u tph1Scomp     �     s r clg1Scomp     Pt    s r cmoDDblob      �Q��A    s r cmodDblob      �Q��A    s r cph1Scomp     �                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @      �                                        @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   E  	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       DSDB                                 `          �                                         @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+
+--[ 2021.12.07.11.51.42.579.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> last = null;
+    public OnePointerQueue() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            last = new Node<>(item);
+        } else if (size() == 1) {
+            last.next = new Node<>(item);
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last = last.next;
+            last.next = tmp;
+        } else {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = new Node<>(item);
+            last = last.next;
+            last.next = tmp.next;
+        }
+        size++;
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) {
+            throw new NoSuchElementException("dequeue called on empty queue\n");
+        } else if (size()==1) {
+            size--;
+            return last.item;
+        } else if (size()==2) {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = null;
+            size--;
+            return tmp.next.item;
+        } else {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = last.next.next;
+            size--;
+            return tmp.next.item;
+        }
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            Node<Item> p = last;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified queue while iterating");
+                }
+                return p.next != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified queue while iterating");
+                }
+                Item tmp = p.next.item;
+                p = p.next;
+                return tmp;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+        OnePointerQueue<String> testString = new OnePointerQueue<>();
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("itemdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+//
+//        // fails
+//        dequeuedString = testString.dequeue();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.dequeue();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+        StdOut.println("iterate:" + iter.next());
+    }
+}
+
+--[ 2021.12.07.11.51.42.582.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+
+    private static class Node<Item> {
+        private Item item = null;
+        private Node<Item> next = null;
+        private Item minimumItem = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next, Item minimumItem) {
+            this.item = item;
+            this.next = next;
+            this.minimumItem = minimumItem;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> first = null;
+
+    public MinimumStack() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return size()==0;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            first.minimumItem = item;
+            size++;
+        } else {
+            Node<Item> oldfirst = first;
+            first = new Node<>(item, oldfirst, oldfirst.minimumItem);
+            size++;
+            if (oldfirst.item.compareTo(item) == 1) {
+                first.minimumItem = item;
+            }
+        }
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) throw new NoSuchElementException("pop called on empty stack");
+        Item item = first.item;
+        first = first.next;
+        size--;
+        return item;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        if (isEmpty()) {
+            throw new NoSuchElementException("minimum called on empty stack\n");
+        }
+        return first.minimumItem;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            private Node<Item> current = first;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stack while iterating");
+                }
+                return current != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stack while iterating");
+                }
+                Item item = current.item;
+                current = current.next;
+                return item;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    public static void main(String[] args) {
+        MinimumStack<Integer> testInt = new MinimumStack<>();
+        Iterator<Integer> iter = testInt.iterator();
+        assert testInt.isEmpty();
+        assert testInt.size() == 0;
+//        testInt.minimum();
+        assert !iter.hasNext();
+//        iter.next();
+//        testInt.pop();
+        testInt.push(5);
+        assert testInt.size() == 1;
+        assert !testInt.isEmpty();
+        StdOut.println(testInt.minimum());
+//        iter.hasNext();
+//        iter.next();
+        testInt.push(6);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 2;
+        assert !testInt.isEmpty();
+        testInt.push(4);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 3;
+        assert !testInt.isEmpty();
+        testInt.push(3);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 4;
+        assert !testInt.isEmpty();
+        testInt.push(2);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 5;
+        assert !testInt.isEmpty();
+        Iterator<Integer> iter2 = testInt.iterator();
+        assert iter2.hasNext();
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 4;
+        assert !testInt.isEmpty();
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 3;
+        assert !testInt.isEmpty();
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 2;
+        assert !testInt.isEmpty();
+    }
+}
+
+--[ 2021.12.07.11.51.42.585.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            last = first;
+        } else {
+            last.next = new Node<>(item);
+            last = last.next;
+        }
+        size++;
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            last = first;
+        } else {
+            Node<Item> tmp = new Node<>(item);
+            tmp.next = first;
+            first = tmp;
+        }
+        size++;
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) {
+            throw new NoSuchElementException("pop called on empty steque\n");
+        }
+        Item tmp = first.item;
+        first = first.next;
+        size--;
+        return tmp;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            Node<Item> p = first;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stegue while iterating");
+                }
+                return p.next != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stegue while iterating");
+                }
+                Item tmp = p.next.item;
+                p = p.next;
+                return tmp;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+        Steque<String> testString = new Steque<>();
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("pushThis");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.push("push1This");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("push2This");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        // fails
+//        poppedString = testString.pop();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.pop();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+//        testString.push("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+//        StdOut.println("iterate:" + iter.next());
+    }
+}
+
+--[ 2021.12.07.11.58.28.966.0 ]--
+:/src/Steque.java
+r 42             last.next = new Node<>(item); 
+--[ 2021.12.07.11.58.29.213.0 ]--
+r 42             last.next = new Node<>(item); /
+--[ 2021.12.07.11.58.29.325.0 ]--
+r 42             last.next = new Node<>(item); //
+--[ 2021.12.07.11.58.29.584.0 ]--
+r 42             last.next = new Node<>(item); // 
+--[ 2021.12.07.11.58.29.948.0 ]--
+r 42             last.next = new Node<>(item); //
+--[ 2021.12.07.11.58.30.060.0 ]--
+r 42             last.next = new Node<>(item); //t
+--[ 2021.12.07.11.58.30.171.0 ]--
+r 42             last.next = new Node<>(item); //to
+--[ 2021.12.07.11.58.30.298.0 ]--
+r 42             last.next = new Node<>(item); //tod
+--[ 2021.12.07.11.58.30.371.0 ]--
+r 42             last.next = new Node<>(item); //tod 
+--[ 2021.12.07.11.58.30.862.0 ]--
+r 42             last.next = new Node<>(item); //tod
+--[ 2021.12.07.11.58.31.047.0 ]--
+r 42             last.next = new Node<>(item); //todo
+--[ 2021.12.07.11.58.31.248.0 ]--
+r 42             last.next = new Node<>(item); //todo 
+--[ 2021.12.07.11.58.31.787.0 ]--
+r 42             last.next = new Node<>(item); //todo
+--[ 2021.12.07.11.58.32.156.0 ]--
+r 42             last.next = new Node<>(item); //todo 
+--[ 2021.12.07.11.58.34.009.0 ]--
+r 42             last.next = new Node<>(item); //todo u
+--[ 2021.12.07.11.58.34.027.0 ]--
+r 42             last.next = new Node<>(item); //todo us
+--[ 2021.12.07.11.58.34.190.0 ]--
+r 42             last.next = new Node<>(item); //todo use
+--[ 2021.12.07.11.58.34.307.0 ]--
+r 42             last.next = new Node<>(item); //todo use 
+--[ 2021.12.07.11.58.34.481.0 ]--
+r 42             last.next = new Node<>(item); //todo use t
+--[ 2021.12.07.11.58.34.547.0 ]--
+r 42             last.next = new Node<>(item); //todo use tm
+--[ 2021.12.07.11.58.34.710.0 ]--
+r 42             last.next = new Node<>(item); //todo use tmp
+--[ 2021.12.07.12.03.06.194.0 ]--
+r 42             last.next = new Node<>(item); //todo
+--[ 2021.12.07.12.03.06.572.0 ]--
+r 42             last.next = new Node<>(item); //todo 
+--[ 2021.12.07.12.03.06.956.0 ]--
+r 42             last.next = new Node<>(item); //tod
+--[ 2021.12.07.12.03.07.283.0 ]--
+r 42             last.next = new Node<>(item); //tod 
+--[ 2021.12.07.12.03.07.608.0 ]--
+r 42             last.next = new Node<>(item); //
+--[ 2021.12.07.12.03.07.907.0 ]--
+r 42             last.next = new Node<>(item); // 
+--[ 2021.12.07.12.03.08.260.0 ]--
+r 42             last.next = new Node<>(item);
+--[ 2021.12.07.12.04.52.582.0 ]--
+r 94                 Item tmp = p..item;
+--[ 2021.12.07.12.04.52.827.0 ]--
+r 94                 Item tmp = p.item;
+--[ 2021.12.07.12.07.22.802.0 ]--
+:/src/OnePointerQueue.java
+r 92                 Item tmp = p..item;
+--[ 2021.12.07.12.07.23.158.0 ]--
+r 92                 Item tmp = p.item;
+--[ 2021.12.07.12.13.41.036.0 ]--
+:/src/MinimumStack.java
+r 46             if (oldfirst.item.compareTo(item) = 1) {
+--[ 2021.12.07.12.13.41.127.0 ]--
+r 46             if (oldfirst.item.compareTo(item)  1) {
+--[ 2021.12.07.12.13.41.698.0 ]--
+r 46             if (oldfirst.item.compareTo(item) > 1) {
+--[ 2021.12.07.12.13.46.913.0 ]--
+r 46             if (oldfirst.item.compareTo(item) > ) {
+--[ 2021.12.07.12.13.47.172.0 ]--
+r 46             if (oldfirst.item.compareTo(item) > 0) {
+--[ 2021.12.07.12.15.37.683.0 ]--
+r 46             if (oldfirst.m.compareTo(item) > 0) {
+--[ 2021.12.07.12.15.38.130.0 ]--
+r 46             if (oldfirst.mi.compareTo(item) > 0) {
+--[ 2021.12.07.12.15.38.206.0 ]--
+r 46             if (oldfirst.min.compareTo(item) > 0) {
+--[ 2021.12.07.12.15.38.735.0 ]--
+r 46             if (oldfirst.minimumItem.compareTo(item) > 0) {
+--[ 2021.12.07.12.17.05.032.0 ]--
+DisposeComponent
+--[ 2021.12.08.16.28.08.161.0 ]--
+NewLogger: P02_DataTypes
+Version: 1.5
+--[ 2021.12.08.16.28.08.207.0 ]--
+InitTree:
+/out/production/P02_DataTypes/algs4.jar
+/out/production/P02_DataTypes/stdlib.jar
+/out/production/P02_DataTypes/Steque.class
+/out/production/P02_DataTypes/Steque$1.class
+/out/production/P02_DataTypes/Steque$Node.class
+/out/production/P02_DataTypes/MinimumStack.class
+/out/production/P02_DataTypes/MinimumStack$1.class
+/out/production/P02_DataTypes/OnePointerQueue.class
+/out/production/P02_DataTypes/MinimumStack$Node.class
+/out/production/P02_DataTypes/OnePointerQueue$1.class
+/out/production/P02_DataTypes/OnePointerQueue$Node.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/Steque.java
+/src/MinimumStack.java
+/src/OnePointerQueue.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.cos265
+/.DS_Store
+/readme.html
+/P02_DataTypes.iml
+/P02_DataTypes.zip
+
+--[ 2021.12.08.16.28.08.219.0 ]--
+InitFile: /P02_DataTypes.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.08.16.28.08.222.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.08.16.28.08.224.0 ]--
+InitFile: /.DS_Store
+   Bud1           	                                                           alg1Scomp                                                                                                                                                                                                                                                                                                                                                                                                                                             . i d e alg1Scomp      *�    . i d e amoDDblob      �Q��A    . i d e amodDblob      �Q��A    . i d e aph1Scomp      �     . l o glg1Scomp      t�    . l o gmoDDblob     ��Q��A    . l o gmodDblob     ��Q��A    . l o gph1Scomp      �     o u tlg1Scomp     X�    o u tmoDDblob      �Q��A    o u tmodDblob      �Q��A    o u tph1Scomp     �     s r clg1Scomp     Pt    s r cmoDDblob      �Q��A    s r cmodDblob      �Q��A    s r cph1Scomp     �                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @      �                                        @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   E  	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       DSDB                                 `          �                                         @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+
+--[ 2021.12.08.16.28.08.242.0 ]--
+InitFile: /src/OnePointerQueue.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class OnePointerQueue<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> last = null;
+    public OnePointerQueue() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    // enqueue item to "back"
+    public void enqueue(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            last = new Node<>(item);
+        } else if (size() == 1) {
+            last.next = new Node<>(item);
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last = last.next;
+            last.next = tmp;
+        } else {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = new Node<>(item);
+            last = last.next;
+            last.next = tmp.next;
+        }
+        size++;
+    }
+
+    // dequeue item from "front"
+    public Item dequeue() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) {
+            throw new NoSuchElementException("dequeue called on empty queue\n");
+        } else if (size()==1) {
+            size--;
+            return last.item;
+        } else if (size()==2) {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = null;
+            size--;
+            return tmp.next.item;
+        } else {
+            Node<Item> tmp = new Node<>(last.item, last.next);
+            last.next = last.next.next;
+            size--;
+            return tmp.next.item;
+        }
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            Node<Item> p = last;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified queue while iterating");
+                }
+                return p.next != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified queue while iterating");
+                }
+                Item tmp = p.item;
+                p = p.next;
+                return tmp;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) {
+        OnePointerQueue<String> testString = new OnePointerQueue<>();
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("itemdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        dequeuedString = testString.dequeue();
+        StdOut.println(dequeuedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+//
+//        // fails
+//        dequeuedString = testString.dequeue();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.dequeue();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+        StdOut.println("iterate:" + iter.next());
+    }
+}
+
+--[ 2021.12.08.16.28.08.245.0 ]--
+InitFile: /src/MinimumStack.java
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MinimumStack<Item extends Comparable> implements Iterable<Item> {
+
+    private static class Node<Item> {
+        private Item item = null;
+        private Node<Item> next = null;
+        private Item minimumItem = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next, Item minimumItem) {
+            this.item = item;
+            this.next = next;
+            this.minimumItem = minimumItem;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> first = null;
+
+    public MinimumStack() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff empty
+    public boolean isEmpty() {
+        return size()==0;
+    }
+
+    // push item onto stack
+    public void push(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            first.minimumItem = item;
+            size++;
+        } else {
+            Node<Item> oldfirst = first;
+            first = new Node<>(item, oldfirst, oldfirst.minimumItem);
+            size++;
+            if (oldfirst.minimumItem.compareTo(item) > 0) {
+                first.minimumItem = item;
+            }
+        }
+    }
+
+    // pop and return the top item
+    public Item pop() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) throw new NoSuchElementException("pop called on empty stack");
+        Item item = first.item;
+        first = first.next;
+        size--;
+        return item;
+    }
+
+    // returns the minimum item in constant time
+    public Item minimum() throws NoSuchElementException {
+        if (isEmpty()) {
+            throw new NoSuchElementException("minimum called on empty stack\n");
+        }
+        return first.minimumItem;
+    }
+
+    // returns new Iterator<Item> that iterates over items
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            private Node<Item> current = first;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stack while iterating");
+                }
+                return current != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stack while iterating");
+                }
+                Item item = current.item;
+                current = current.next;
+                return item;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    public static void main(String[] args) {
+        MinimumStack<Integer> testInt = new MinimumStack<>();
+        Iterator<Integer> iter = testInt.iterator();
+        assert testInt.isEmpty();
+        assert testInt.size() == 0;
+//        testInt.minimum();
+        assert !iter.hasNext();
+//        iter.next();
+//        testInt.pop();
+        testInt.push(5);
+        assert testInt.size() == 1;
+        assert !testInt.isEmpty();
+        StdOut.println(testInt.minimum());
+//        iter.hasNext();
+//        iter.next();
+        testInt.push(6);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 2;
+        assert !testInt.isEmpty();
+        testInt.push(4);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 3;
+        assert !testInt.isEmpty();
+        testInt.push(3);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 4;
+        assert !testInt.isEmpty();
+        testInt.push(2);
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 5;
+        assert !testInt.isEmpty();
+        Iterator<Integer> iter2 = testInt.iterator();
+        assert iter2.hasNext();
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        StdOut.println("iter " + iter2.next());
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 4;
+        assert !testInt.isEmpty();
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 3;
+        assert !testInt.isEmpty();
+        testInt.pop();
+        StdOut.println(testInt.minimum());
+        assert testInt.size() == 2;
+        assert !testInt.isEmpty();
+    }
+}
+
+--[ 2021.12.08.16.28.08.248.0 ]--
+InitFile: /src/Steque.java
+import org.w3c.dom.traversal.NodeIterator;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Steque<Item> implements Iterable<Item> {
+    // singly-linked list
+    private static class Node<Item> {
+        Item item = null;
+        Node<Item> next = null;
+        public Node(Item item) {this.item = item;}
+        public Node(Item item, Node<Item> next) {
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    private int opcount = 0;
+    private int size = 0;
+    private Node<Item> first = null;
+    private Node<Item> last = null;
+
+    public Steque() { }
+
+    // returns the number of items stored
+    public int size() {
+        return size;
+    }
+
+    // returns true iff steque is empty
+    public boolean isEmpty() {
+        return size==0;
+    }
+
+    // enqueues item to bottom of steque
+    public void enqueue(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            last = first;
+        } else {
+            last.next = new Node<>(item);
+            last = last.next;
+        }
+        size++;
+    }
+
+    // pushes item to top of steque
+    public void push(Item item) {
+        opcount++;
+        if (isEmpty()) {
+            first = new Node<>(item);
+            last = first;
+        } else {
+            Node<Item> tmp = new Node<>(item);
+            tmp.next = first;
+            first = tmp;
+        }
+        size++;
+    }
+
+    // pops and returns top item
+    public Item pop() throws NoSuchElementException {
+        opcount++;
+        if (isEmpty()) {
+            throw new NoSuchElementException("pop called on empty steque\n");
+        }
+        Item tmp = first.item;
+        first = first.next;
+        size--;
+        return tmp;
+    }
+
+    // returns new Iterator<Item> that iterates over items in steque
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            int frozenOpCount = opcount;
+            Node<Item> p = first;
+
+            @Override
+            public boolean hasNext() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stegue while iterating");
+                }
+                return p.next != null;
+            }
+
+            @Override
+            public Item next() {
+                if (frozenOpCount != opcount) {
+                    throw new ConcurrentModificationException("modified stegue while iterating");
+                }
+                Item tmp = p.item;
+                p = p.next;
+                return tmp;
+            }
+
+            @Override
+            public void remove() {}
+        };
+    }
+
+    // perform unit testing here
+    public static void main(String[] args) throws NoSuchElementException {
+        Steque<String> testString = new Steque<>();
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.enqueue("itemuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("pushThis");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("itemtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        String poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        assert testString.size()==0;
+        assert testString.isEmpty();
+        testString.push("push1This");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.push("push2This");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        poppedString = testString.pop();
+        StdOut.println(poppedString);
+        // fails
+//        poppedString = testString.pop();
+        testString.enqueue("testuno");
+        assert testString.size()==1;
+        assert !testString.isEmpty();
+        testString.enqueue("testdos");
+        assert testString.size()==2;
+        assert !testString.isEmpty();
+        testString.enqueue("testtres");
+        assert testString.size()==3;
+        assert !testString.isEmpty();
+        Iterator<String> iter = testString.iterator();
+        StdOut.println("iterate:" + iter.next());
+        StdOut.println("iterate:" + iter.hasNext());
+//        testString.pop();
+        StdOut.println("iterate:" + iter.next());
+//        testString.enqueue("testcuatro");
+//        testString.push("testcuatro");
+        StdOut.println("iterate:" + iter.hasNext());
+//        StdOut.println("iterate:" + iter.next());
+    }
+}
+

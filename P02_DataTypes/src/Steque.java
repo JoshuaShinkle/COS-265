@@ -91,7 +91,7 @@ public class Steque<Item> implements Iterable<Item> {
                 if (frozenOpCount != opcount) {
                     throw new ConcurrentModificationException("modified stegue while iterating");
                 }
-                Item tmp = p.next.item;
+                Item tmp = p.item;
                 p = p.next;
                 return tmp;
             }

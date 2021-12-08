@@ -17144,3 +17144,714 @@ DisposeComponent
 CompilationStatus (AEW): 0 0 0
 --[ 2021.10.25.10.57.23.303.0 ]--
 DisposeComponent
+--[ 2021.12.04.21.09.52.484.0 ]--
+NewLogger: P01_Hex
+Version: 1.5
+--[ 2021.12.04.21.09.52.562.0 ]--
+InitTree:
+/out/production/P01_Hex/.donotlog
+/out/production/P01_Hex/algs4.jar
+/out/production/P01_Hex/stdlib.jar
+/out/production/P01_Hex/HexBoard.class
+/out/production/P01_Hex/input-1-p1.txt
+/out/production/P01_Hex/input-1-p2.txt
+/out/production/P01_Hex/input-3-p1.txt
+/out/production/P01_Hex/input-3-p2.txt
+/out/production/P01_Hex/input-7-p2.txt
+/out/production/P01_Hex/input-11-p2.txt
+/out/production/P01_Hex/input-17-p1.txt
+/out/production/P01_Hex/input-random-5.txt
+/out/production/P01_Hex/HexBoardStats.class
+/out/production/P01_Hex/input-random-13.txt
+/out/production/P01_Hex/input-random-49.txt
+/out/production/P01_Hex/input-random-99.txt
+/out/production/P01_Hex/input-random-199.txt
+/out/production/P01_Hex/input-1-nowinners.txt
+/out/production/P01_Hex/input-zigzag-5-p1.txt
+/out/production/P01_Hex/input-zigzag-5-p2.txt
+/out/production/P01_Hex/input-zigzag-13-p1.txt
+/out/production/P01_Hex/input-zigzag-17-p2.txt
+/out/production/P01_Hex/input-zigzag-31-p2.txt
+/out/production/P01_Hex/HexBoardVisualizer.class
+/out/production/P01_Hex/InteractiveHexBoardVisualizer.class
+/src/algs4.jar
+/src/stdlib.jar
+/src/HexBoard.java
+/src/HexBoardStats.java
+/src/HexBoardVisualizer.java
+/src/InteractiveHexBoardVisualizer.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/src.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/.name
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/.idea/runConfigurations.xml
+/tests/.donotlog
+/tests/input-1-p1.txt
+/tests/input-1-p2.txt
+/tests/input-3-p1.txt
+/tests/input-3-p2.txt
+/tests/input-7-p2.txt
+/tests/input-11-p2.txt
+/tests/input-17-p1.txt
+/tests/input-random-5.txt
+/tests/input-random-13.txt
+/tests/input-random-49.txt
+/tests/input-random-99.txt
+/tests/input-random-199.txt
+/tests/input-1-nowinners.txt
+/tests/input-zigzag-5-p1.txt
+/tests/input-zigzag-5-p2.txt
+/tests/input-zigzag-13-p1.txt
+/tests/input-zigzag-17-p2.txt
+/tests/input-zigzag-31-p2.txt
+/.cos265
+/.DS_Store
+/P01_Hex.iml
+/P01_Hex.zip
+/readme.html
+
+--[ 2021.12.04.21.09.52.565.0 ]--
+InitFile: /src/InteractiveHexBoardVisualizer.java
+/****************************************************************************
+ *  Command: InteractiveHexBoardVisualizer N
+ *
+ *  This program takes the board size N as a command-line argument.
+ *  Then, the user repeatedly clicks tiles to set with the mouse.
+ *  After each tile is set, it redraws the game board (see comments in
+ *  HexBoardVisualizer.java file for details).
+ *
+ ****************************************************************************/
+
+public class InteractiveHexBoardVisualizer {
+    private final static int DELAY = 20;
+
+    public static void main(String[] args) {
+        // N-by-N hex board game (read from command-line, default = 5)
+        int N = 5;
+        if (args.length == 1) N = Integer.parseInt(args[0]);
+
+        int player = 1;
+
+        // turn on animation mode
+        StdDraw.show(0);
+
+        StdOut.println(N);
+
+        HexBoard board = new HexBoard(N);
+
+        HexBoardVisualizer.drawBoardAndStatus(player, board, N);
+        StdDraw.show(DELAY);
+
+        while (true) {
+
+            // detected mouse click
+            if(StdDraw.mousePressed() && !board.hasPlayer1Won() && !board.hasPlayer2Won()) {
+
+                // screen coordinates
+                double x = StdDraw.mouseX();
+                double y = StdDraw.mouseY();
+
+                // find row,col of click
+                double r = (x + 1.73 * y) / 3.00;
+                double c = x / 1.5 - r;
+                int i = (int)Math.round(r);
+                int j = (int)Math.round(c);
+
+                // make sure player clicks close enough to center of tile
+                if(Math.abs(r - i) < 0.4 && Math.abs(c - j) < 0.4) {
+                    // is tile a valid position on board?
+                    if (i >= 0 && i < N && j >= 0 && j < N) {
+                        // is board tile already set?
+                        if (!board.isSet(i, j)) {
+                            StdOut.println(i + " " + j + " " + player);
+                            // set board tile
+                            board.setTile(i, j, player);
+
+                            // switch player
+                            player = (player==1) ? 2 : 1;
+
+                            // redraw board
+                            HexBoardVisualizer.drawBoardAndStatus(player, board, N);
+                        }
+                    }
+                }
+            }
+
+            StdDraw.show(DELAY);
+        }
+    }
+}
+
+--[ 2021.12.04.21.09.52.568.0 ]--
+InitFile: /src/HexBoardVisualizer.java
+/****************************************************************************
+ *  Command: HexBoardVisualizer input.txt
+ *
+ *  This program takes the name of a file as a command-line argument.
+ *  From that file, it
+ *
+ *    - Reads the board size N of the Hex game board.
+ *    - Creates an N-by-N grid of tiles (initially all unset)
+ *    - Reads in a sequence of triplets (r, c, p) to set tile row r, col c by player p.
+ *
+ *  After each tile is set, it redraws the game board.
+ *  Unset tiles are drawn in gray, tiles set by player 1 in red,
+ *  tiles set by player 2 in blue, and tiles along game-winning path
+ *  are drawn in lighter version of the player color.
+ *  Tile (0, 0) is the leftmost corner tile.
+ *
+ ****************************************************************************/
+
+import java.awt.*;
+
+public class HexBoardVisualizer {
+
+    // delay in milliseconds (controls animation speed)
+    private final static int DELAY = 100;
+
+    // colors of board when unset or set by player 1 or player 2
+    private final static Color cUnset      = new Color(192, 192, 192);
+    private final static Color cPlayer1    = new Color(240,  32,  32);
+    private final static Color cWinPath1   = new Color(255, 144, 128);
+    private final static Color cEdge1      = new Color(160,  80,  80);
+    private final static Color cPlayer2    = new Color( 32,  32, 240);
+    private final static Color cWinPath2   = new Color(128, 144, 255);
+    private final static Color cEdge2      = new Color( 80,  80, 160);
+    private final static Color cBackground = new Color( 96,  96,  96);
+    private final static Color cStatusBG   = new Color(255, 255, 255, 128);
+
+    private static void drawHexXY(double cx, double cy, Color color, double r) {
+        double px[] = { cx + 1.00*r, cx + 0.50*r, cx - 0.50*r, cx - 1.00*r, cx - 0.50*r, cx + 0.50*r };
+        double py[] = { cy + 0.00*r, cy - 0.87*r, cy - 0.87*r, cy + 0.00*r, cy + 0.87*r, cy + 0.87*r };
+        StdDraw.setPenColor(color);
+        StdDraw.filledPolygon(px, py);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.polygon(px, py);
+    }
+
+    private static void drawHexRowCol(int row, int col, Color color) {
+        double cx = row * 1.50 + col * 1.50;
+        double cy = row * 0.87 - col * 0.87;
+        drawHexXY(cx, cy, color, 1.0);
+    }
+
+    private static void setScale(int N) {
+        StdDraw.setXscale(-1.0, (N-1)*3.0+1);
+        StdDraw.setYscale(-N * 1.5, N * 1.5);
+    }
+
+    public static void drawStatus(int player, HexBoard board, int N) {
+        StdDraw.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        StdDraw.setXscale(0, 200);
+        StdDraw.setYscale(0, 200);
+
+        // draw background of status
+        StdDraw.setPenColor(cStatusBG);
+        StdDraw.filledRectangle(0,0,64,36);
+
+        // report number of unset tiles
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.textLeft(5, 12, board.numberOfUnsetTiles() + " unset tiles");
+
+        if(board.hasPlayer1Won()) {
+            StdDraw.textLeft(5, 24, "Player 1 has won!");
+        } else if(board.hasPlayer2Won()) {
+            StdDraw.textLeft(5, 24, "Player 2 has won!");
+        } else if(player == 1 || player == 2){
+            double hx = 29.0; //2.25*N;
+            double hy = 24.0;
+
+            HexBoardVisualizer.drawHexXY(hx, hy, player == 1 ? cPlayer1 : cPlayer2, 6.0);
+            StdDraw.setPenColor(StdDraw.WHITE); //(player == 1 ? StdDraw.WHITE : StdDraw.BLACK);
+            StdDraw.text(hx, hy, "" + player);
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.textLeft(5, hy, "Player");
+        } else {
+            // a special player status for playback
+            StdDraw.textLeft(5, 24, "No winner detected...");
+        }
+
+        setScale(N);
+    }
+
+    // draw N-by-N hex board
+    public static void drawBoard(HexBoard board, int N) {
+        StdDraw.clear();
+        StdDraw.clear(cBackground);
+        setScale(N);
+
+        int won = board.hasPlayer1Won() ? 1 : (board.hasPlayer2Won() ? 2 : 0);
+
+        for(int row = 0; row < N; row++) {
+            for(int col = 0; col < N; col++) {
+                Color color;
+                if(!board.isSet(row, col)) {
+                    color = cUnset;
+                } else if(won != 0 && board.isOnWinningPath(row, col)) {
+                    if(won == 1) {
+                        color = cWinPath1;
+                    } else {
+                        color = cWinPath2;
+                    }
+                } else if(board.getPlayer(row, col) == 1) {
+                    color = cPlayer1;
+                } else {
+                    color = cPlayer2;
+                }
+                drawHexRowCol(row, col, color);
+            }
+        }
+
+        // draw player 1 sides of board
+        for(int row = 0; row < N-1; row++) {
+            drawHexRowCol(row + 1, -1, cEdge1);
+            drawHexRowCol(row, N, cEdge1);
+        }
+
+        // draw player 2 sides of board
+        for(int col = 0; col < N-1; col++) {
+            drawHexRowCol(-1, col + 1, cEdge2);
+            drawHexRowCol(N, col, cEdge2);
+        }
+    }
+
+    public static void drawBoardAndStatus(int player, HexBoard board, int N) {
+        drawBoard(board, N);
+        drawStatus(player, board, N);
+    }
+
+    private static void simulateFromFile(String filename) {
+        In in = new In(filename);
+        int N = in.readInt();
+        HexBoard board = new HexBoard(N);
+
+        // turn on animation mode
+        StdDraw.show(0); 
+
+        // repeatedly read in tiles to open and drawBoard resulting system
+        drawBoardAndStatus(0, board, N);
+        StdDraw.show(DELAY);
+        while (!in.isEmpty()) {
+            int i = in.readInt();
+            int j = in.readInt();
+            int p = in.readInt();
+            board.setTile(i, j, p);
+            drawBoardAndStatus(0, board, N);
+            StdDraw.show(DELAY);
+            if(board.hasPlayer1Won() || board.hasPlayer2Won()) break;
+        }
+    }
+
+    public static void main(String[] args) {
+        String filename = args[0];
+        simulateFromFile(filename);
+    }
+}
+
+--[ 2021.12.04.21.09.52.570.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.04.21.09.52.573.0 ]--
+InitFile: /P01_Hex.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/.log" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.04.21.09.52.575.0 ]--
+InitFile: /.DS_Store
+   Bud1           
+                                                           alg1Scomp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             . i d e alg1Scomp      +�    . i d e amoDDblob      �Q��A    . i d e amodDblob      �Q��A    . i d e aph1Scomp      �     . l o glg1Scomp     	:�    . l o gmoDDblob     ��Q��A    . l o gmodDblob     ��Q��A    . l o gph1Scomp     	@     o u tlg1Scomp     m�    o u tmoDDblob      �Q��A    o u tmodDblob      �Q��A    o u tph1Scomp     p     s r clg1Scomp     ��    s r cmoDDblob     ��Q��A    s r cmodDblob     ��Q��A    s r cph1Scomp     �     t e s t slg1Scomp     �    t e s t smoDDblob      �Q��A    t e s t smodDblob      �Q��A    t e s t sph1Scomp     �                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @      �                                        @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   E  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       DSDB                                 `          �                                         @      �                                          @      �                                          @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+
+--[ 2021.12.04.21.09.52.578.0 ]--
+InitFile: /src/HexBoard.java
+/****************************************************************************
+ *  This class manages an N-by-N hex game board .
+ ****************************************************************************/
+
+public class HexBoard {
+    private int[] board;
+    private WeightedQuickUnionUF uf1;
+    private WeightedQuickUnionUF uf2;
+    private WeightedQuickUnionUF uf3;
+    private int N;
+
+    public HexBoard(int N) {
+        if (N <= 0) {throw new java.lang.IllegalArgumentException("N cannot be <= 0");}
+        board = new int[N*N+4];
+        board[N*N+0] = 1;
+        board[N*N+1] = 2;
+        board[N*N+2] = 1;
+        board[N*N+3] = 2;
+        uf1 = new WeightedQuickUnionUF(N*N+4);
+        uf2 = new WeightedQuickUnionUF(N*N+4);
+        uf3 = new WeightedQuickUnionUF(N*N+4);
+        this.N = N;
+    }
+
+    public int getPlayer(int row, int col) {
+        if (!isValidHex(row, col)) { throw new java.lang.IndexOutOfBoundsException("row or col is out of range"); }
+        return this.board[toIndex(row,col)];
+    }
+    
+    public boolean isSet(int row, int col) {
+        if (!isValidHex(row, col)) { throw new java.lang.IndexOutOfBoundsException("row or col is out of range"); }
+        if (this.board[toIndex(row, col)] == 0) { return false; }
+        return true;
+    }
+
+    public boolean isOnWinningPath(int row, int col) {
+        if (!isValidHex(row, col)) { throw new java.lang.IndexOutOfBoundsException("row or col is out of range"); }
+        if ((uf2.connected(N*N+0, toIndex(row, col)) && uf3.connected(N*N+2, toIndex(row, col))) || (uf2.connected(N*N+1, toIndex(row, col)) && uf3.connected(N*N+3, toIndex(row, col)))) { return true; }
+        return false;
+    }
+
+    public void setTile(int row, int col, int player) {
+        if (!isValidHex(row, col)) { throw new java.lang.IndexOutOfBoundsException("row or col is out of range"); }
+        if (this.isSet(row,col)) { throw new java.lang.IllegalArgumentException("Tile is already set"); }
+        this.board[toIndex(row,col)] = player;
+        if (isValidHex(row+1,col) && this.board[toIndex(row+1,col)] == player) {
+            uf1.union(toIndex(row,col), toIndex(row+1,col));
+            uf2.union(toIndex(row,col), toIndex(row+1,col));
+            uf3.union(toIndex(row,col), toIndex(row+1,col));
+        }
+        if (isValidHex(row-1,col) && this.board[toIndex(row-1,col)] == player) {
+            uf1.union(toIndex(row,col), toIndex(row-1,col));
+            uf2.union(toIndex(row,col), toIndex(row-1,col));
+            uf3.union(toIndex(row,col), toIndex(row-1,col));
+        }
+        if (isValidHex(row,col+1) && this.board[toIndex(row,col+1)] == player) {
+            uf1.union(toIndex(row,col), toIndex(row,col+1));
+            uf2.union(toIndex(row,col), toIndex(row,col+1));
+            uf3.union(toIndex(row,col), toIndex(row,col+1));
+        }
+        if (isValidHex(row,col-1) && this.board[toIndex(row,col-1)] == player) {
+            uf1.union(toIndex(row,col), toIndex(row,col-1));
+            uf2.union(toIndex(row,col), toIndex(row,col-1));
+            uf3.union(toIndex(row,col), toIndex(row,col-1));
+        }
+        if (isValidHex(row+1,col-1) && this.board[toIndex(row+1,col-1)] == player) {
+            uf1.union(toIndex(row,col), toIndex(row+1,col-1));
+            uf2.union(toIndex(row,col), toIndex(row+1,col-1));
+            uf3.union(toIndex(row,col), toIndex(row+1,col-1));
+        }
+        if (isValidHex(row-1,col+1) && this.board[toIndex(row-1,col+1)] == player) {
+            uf1.union(toIndex(row,col), toIndex(row-1,col+1));
+            uf2.union(toIndex(row,col), toIndex(row-1,col+1));
+            uf3.union(toIndex(row,col), toIndex(row-1,col+1));
+        }
+        if (player == 1) {
+            if (col == 0) {
+                uf1.union(toIndex(row, col),N*N+0);
+                uf2.union(toIndex(row, col),N*N+0);
+            } else if (col == N-1) {
+                uf1.union(toIndex(row, col), N*N+2);
+                uf3.union(toIndex(row, col), N*N+2);
+            }
+        } else if (player == 2) {
+            if (row == 0) {
+                uf1.union(toIndex(row, col), N*N+3);
+                uf3.union(toIndex(row, col), N*N+3);
+            } else if (row == N-1) {
+                uf1.union(toIndex(row, col), N*N+1);
+                uf2.union(toIndex(row, col), N*N+1);
+            }
+        }
+    }
+
+    public boolean hasPlayer1Won() {
+        if (!uf1.connected(N*N+0, N*N+2)) { return false; }
+        return true;
+    }
+
+    public boolean hasPlayer2Won() {
+        if (!uf1.connected(N*N+1, N*N+3)) { return false; }
+        return true;
+    }
+
+    public int numberOfUnsetTiles() {
+        int count = 0;
+        for (int row=0; row<N; row++) {
+            for (int col=0; col<N; col++) {
+                if (!this.isSet(row, col)) {count++;}
+            }
+        }
+        return count;
+    }
+
+    private int toIndex(int row, int col) {
+        if (!isValidHex(row, col)) { throw new java.lang.IndexOutOfBoundsException("row or col is out of range"); }
+        return (row * N) + col;
+    }
+
+    private boolean isValidHex(int row, int col) {
+        if (row < 0 || row >= N || col < 0 || col >= N) { return false; }
+        return true;
+    }
+}
+
+--[ 2021.12.04.21.09.52.580.0 ]--
+InitFile: /src/HexBoardStats.java
+/****************************************************************************
+ *  Command: HexBoardStats N0 N1 T
+ *
+ *  This program takes the board sizes N0,N1 and game count T as a command-line
+ *  arguments. Then, the program runs T games for each board size N where
+ *  N0 <= N <= N1 and where each play randomly chooses an unset tile to set in
+ *  order to estimate the probability that player 1 will win.
+ ****************************************************************************/
+
+public class HexBoardStats {
+    private int N0 = -1;
+    private int N1 = -1;
+    private int T = -1;
+    private double prob[];
+    public HexBoardStats(int N0, int N1, int T) {
+        if (N0 <= 0 || N1 < N0 || T <= 0) { throw new java.lang.IllegalArgumentException("Illegal Argument(s)"); }
+        this.N0 = N0;
+        this.N1 = N1;
+        this.T = T;
+        this.prob = new double[N1-N0+1];
+        for (int i=N0; i<=N1; i++) {
+            Stopwatch runtime = new Stopwatch();
+            for (int j=0; j<T; j++) {
+                prob[i-N0] += playAGame(i) == 1 ? 1:0;
+            }
+            prob[i-N0] = prob[i-N0]/T;
+            StdOut.println("elapsed time for " + i + ": " + runtime.elapsedTime());
+        }
+    }
+
+    public int getN0() { return this.N0; }
+
+    public int getN1() { return this.N1; }
+
+    public int getT() { return this.T; }
+
+    public double getP1WinProbabilityEstimate(int n) {
+        if (n < N0 || n > N1) { throw new java.lang.IndexOutOfBoundsException(""); }
+        return this.prob[n-N0];
+    }
+
+    public double getP2WinProbabilityEstimate(int n) {
+        return 1.0 - getP1WinProbabilityEstimate(n);
+    }
+
+    private static int playAGame(int N) {
+        HexBoard board = new HexBoard(N);
+        int player = 1;
+        while(!board.hasPlayer1Won() && !board.hasPlayer2Won()) {
+            int row = StdRandom.uniform(N);
+            int col = StdRandom.uniform(N);
+            if (board.isSet(row, col)) { continue; }
+            board.setTile(row, col, player);
+            player = player == 1 ? 2:1;
+        }
+        return board.hasPlayer1Won() ? 1:0;
+    }
+
+    private void printReport() {
+        StdOut.println("T = " + T);
+        for (int N=N0; N<=N1; N++) {
+            StdOut.print("N = " + N + " ");
+            StdOut.print("P1 = " + getP1WinProbabilityEstimate(N) + " ");
+            StdOut.print("(" + getP1WinProbabilityEstimate(N)*T + ")" + " ");
+            StdOut.print("P2 = " + getP2WinProbabilityEstimate(N) + " ");
+            StdOut.print("(" + getP2WinProbabilityEstimate(N)*T + ")" + " ");
+            StdOut.println("");
+        }
+    }
+
+    public static void main(String[] args) {
+        int N0 = Integer.parseInt(args[0]);
+        int N1 = Integer.parseInt(args[1]);
+        int T = Integer.parseInt(args[2]);
+        HexBoardStats hbs = new HexBoardStats(2,15,100000);
+        hbs.printReport();
+    }
+}
+
+--[ 2021.12.04.21.10.19.852.0 ]--
+UpdateTree (AD): 0 1
+- /.idea/runConfigurations.xml
+
+--[ 2021.12.04.21.11.37.775.0 ]--
+CompilationStatus (AEW): 0 0 0
+--[ 2021.12.04.21.15.06.515.0 ]--
+:/src/HexBoard.java
++ 11     
+--[ 2021.12.04.21.15.11.562.0 ]--
+r 11     p
+--[ 2021.12.04.21.15.11.753.0 ]--
+r 11     pri
+--[ 2021.12.04.21.15.11.875.0 ]--
+r 11     priv
+--[ 2021.12.04.21.15.12.360.0 ]--
+r 11     private
+--[ 2021.12.04.21.15.12.642.0 ]--
+r 11     private 
+--[ 2021.12.04.21.15.13.398.0 ]--
+r 11     private i
+--[ 2021.12.04.21.15.13.781.0 ]--
+r 11     private in
+--[ 2021.12.04.21.15.13.829.0 ]--
+r 11     private int
+--[ 2021.12.04.21.15.13.928.0 ]--
+r 11     private int 
+--[ 2021.12.04.21.15.14.793.0 ]--
+r 11     private int i
+--[ 2021.12.04.21.15.14.861.0 ]--
+r 11     private int is
+--[ 2021.12.04.21.15.16.082.0 ]--
+r 11     private int is 
+--[ 2021.12.04.21.15.16.357.0 ]--
+r 11     private int is
+--[ 2021.12.04.21.15.16.596.0 ]--
+r 11     private int isS
+--[ 2021.12.04.21.15.16.690.0 ]--
+r 11     private int isSe
+--[ 2021.12.04.21.15.16.841.0 ]--
+r 11     private int isSet
+--[ 2021.12.04.21.15.18.547.0 ]--
+r 11     private int isSet 
+--[ 2021.12.04.21.15.18.702.0 ]--
+r 11     private int isSet =
+--[ 2021.12.04.21.15.19.497.0 ]--
+r 11     private int isSet =0
+--[ 2021.12.04.21.15.20.374.0 ]--
+r 11     private int isSet =
+--[ 2021.12.04.21.15.20.677.0 ]--
+r 11     private int isSet = 
+--[ 2021.12.04.21.15.21.187.0 ]--
+r 11     private int isSet = 0
+--[ 2021.12.04.21.15.21.586.0 ]--
+r 11     private int isSet = 0;
+--[ 2021.12.04.21.15.29.848.0 ]--
+r 11     private int isSet = 0
+--[ 2021.12.04.21.15.29.977.0 ]--
+r 11     private int isSet = 
+--[ 2021.12.04.21.15.30.130.0 ]--
+r 11     private int isSet =
+--[ 2021.12.04.21.15.30.265.0 ]--
+r 11     private int isSet 
+--[ 2021.12.04.21.15.30.425.0 ]--
+r 11     private int isSet
+--[ 2021.12.04.21.15.32.762.0 ]--
+r 11     private int isSet 
+--[ 2021.12.04.21.15.33.079.0 ]--
+r 11     private int isSet =
+--[ 2021.12.04.21.15.33.826.0 ]--
+r 11     private int isSet 
+--[ 2021.12.04.21.15.33.938.0 ]--
+r 11     private int isSet
+--[ 2021.12.04.21.15.34.088.0 ]--
+r 11     private int isSe
+--[ 2021.12.04.21.15.34.888.0 ]--
+r 11     private int isSet
+--[ 2021.12.04.21.15.35.004.0 ]--
+r 11     private int isSet;
+--[ 2021.12.04.21.15.35.431.0 ]--
++ 12     
+--[ 2021.12.04.21.15.36.497.0 ]--
+- 12
+--[ 2021.12.04.21.15.37.776.0 ]--
++ 24         
+--[ 2021.12.04.21.15.38.234.0 ]--
+r 24         t
+--[ 2021.12.04.21.15.38.297.0 ]--
+r 24         th
+--[ 2021.12.04.21.15.38.339.0 ]--
+r 24         thi
+--[ 2021.12.04.21.15.38.442.0 ]--
+r 24         this
+--[ 2021.12.04.21.15.38.738.0 ]--
+r 24         this.
+--[ 2021.12.04.21.15.39.292.0 ]--
+r 24         this.i
+--[ 2021.12.04.21.15.39.312.0 ]--
+r 24         this.is
+--[ 2021.12.04.21.15.39.807.0 ]--
+r 24         this.isSet
+--[ 2021.12.04.21.15.40.131.0 ]--
+r 24         this.isSet 
+--[ 2021.12.04.21.15.40.664.0 ]--
+r 24         this.isSet
+--[ 2021.12.04.21.15.41.603.0 ]--
+r 24         this.isSet 
+--[ 2021.12.04.21.15.41.689.0 ]--
+r 24         this.isSet =
+--[ 2021.12.04.21.15.41.816.0 ]--
+r 24         this.isSet = 
+--[ 2021.12.04.21.15.42.304.0 ]--
+r 24         this.isSet = 0
+--[ 2021.12.04.21.15.42.668.0 ]--
+r 24         this.isSet = 0;
+--[ 2021.12.04.21.15.45.849.0 ]--
++ 45         
+--[ 2021.12.04.21.15.46.994.0 ]--
+- 45
+--[ 2021.12.04.21.15.57.369.0 ]--
++ 95         
+--[ 2021.12.04.21.15.58.609.0 ]--
+r 95         i
+--[ 2021.12.04.21.15.58.679.0 ]--
+r 95         is
+--[ 2021.12.04.21.15.59.309.0 ]--
+r 95         isSet
+--[ 2021.12.04.21.15.59.926.0 ]--
+r 95         isSet+
+--[ 2021.12.04.21.16.00.033.0 ]--
+r 95         isSet++
+--[ 2021.12.04.21.16.00.273.0 ]--
+r 95         isSet++;
+--[ 2021.12.04.21.16.11.002.0 ]--
+r 115         return N;
+--[ 2021.12.04.21.16.11.791.0 ]--
+r 115         return N-;
+--[ 2021.12.04.21.16.12.219.0 ]--
+r 115         return N-i;
+--[ 2021.12.04.21.16.12.445.0 ]--
+r 115         return N-is;
+--[ 2021.12.04.21.16.12.970.0 ]--
+r 115         return N-isSet;
+--[ 2021.12.04.21.16.16.437.0 ]--
+- 109
+- 109
+- 109
+- 109
+- 109
+r 109 
+--[ 2021.12.04.21.16.17.002.0 ]--
+- 109
+--[ 2021.12.04.21.16.41.351.0 ]--
+r 109         return N*-isSet;
+--[ 2021.12.04.21.16.42.319.0 ]--
+r 109         return N*N-isSet;
+--[ 2021.12.04.21.16.43.404.0 ]--
+r 109         return N*N)-isSet;
+--[ 2021.12.04.21.16.45.011.0 ]--
+r 109         return (N*N)-isSet;
+--[ 2021.12.04.21.18.16.369.0 ]--
+DisposeComponent

@@ -1438,3 +1438,886 @@ r 102     } // todo set this value somewhere else
 r 106     } 
 --[ 2021.11.16.13.41.09.209.0 ]--
 r 106     } // todo set this value somewhere else
+--[ 2021.12.04.21.07.25.793.0 ]--
+NewLogger: P04_Pathfinding
+Version: 1.5
+--[ 2021.12.04.21.07.25.862.0 ]--
+InitTree:
+/src/algs4.jar
+/src/Coord.java
+/src/stdlib.jar
+/src/Walker.java
+/src/Terrain.java
+/src/Pathfinder.java
+/src/TerrainEditor.java
+/src/PathfinderVisualizer.java
+/src/InteractivePathfinderVisualizer.java
+/.log/history.log
+/.idea/copyright/profiles_settings.xml
+/.idea/libraries/algs4.xml
+/.idea/libraries/stdlib.xml
+/.idea/.name
+/.idea/vcs.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/compiler.xml
+/.idea/workspace.xml
+/.idea/uiDesigner.xml
+/tests/.donotlog
+/tests/png2emap.py
+/tests/ramp.png.emap
+/tests/ramp2.png.emap
+/tests/ramp3.png.emap
+/tests/mazeAB.png.emap
+/tests/usa128.png.emap
+/tests/usa256.png.emap
+/tests/usa1024.png.emap
+/tests/maze32_0.png.emap
+/tests/maze32_1.png.emap
+/tests/maze232_0.png.emap
+/tests/maze320_0.png.emap
+/tests/mazeBrain.png.emap
+/.cos265
+/readme.html
+/P04_Pathfinding.iml
+
+--[ 2021.12.04.21.07.25.865.0 ]--
+InitFile: /src/Terrain.java
+import java.lang.IndexOutOfBoundsException;
+
+/**
+ * Terrain stores elevations for map and computes distance and
+ * cost in traversing the terrain.
+ */
+
+public class Terrain {
+    private int N;
+    private int[][] heights;
+
+    public Terrain(int N) {
+        this.N = N;
+        this.heights = new int[N][N];
+    }
+
+    public Terrain(int[][] heights) {
+        this.N = heights.length;
+        this.heights = heights;
+    }
+
+    public Terrain(String emapfile) {
+        In in = new In(emapfile);
+        this.N = in.readInt();
+        this.heights = new int[N][N];
+        for (int j = 0; j < N; j++) {
+            for (int i = 0; i < N; i++) {
+                this.heights[i][j] = in.readInt();
+            }
+        }
+    }
+
+    public int getN() {
+        return N;
+    }
+
+    public void setHeight(int i, int j, int h) {
+        if(i < 0 || j < 0 || i >= N || j >= N)
+            throw new IndexOutOfBoundsException("i and j must be in [0,N)");
+        heights[i][j] = h;
+    }
+    public void setHeight(int i, int j, float h) {
+        setHeight(i, j, (int) h);
+    }
+    public void setHeight(Coord loc, int h) {
+        setHeight(loc.getI(), loc.getJ(), h);
+    }
+    public void setHeight(Coord loc, float h) {
+        setHeight(loc.getI(), loc.getJ(), h);
+    }
+
+    public int getHeight(int i, int j) {
+        if(i < 0 || j < 0 || i >= N || j >= N)
+            throw new IndexOutOfBoundsException("i and j must be in [0,N)");
+        return heights[i][j];
+    }
+    public int getHeight(Coord loc) {
+        return getHeight(loc.getI(), loc.getJ());
+    }
+
+    // computes distance between (i0,j0) and (i1,j1) as the crow flies
+    public float computeDistance(int i0, int j0, int i1, int j1) {
+        return (float)Math.sqrt((i0 - i1) * (i0 - i1) + (j0 - j1) * (j0 - j1));
+    }
+    public float computeDistance(Coord c0, Coord c1) {
+        return computeDistance(c0.getI(), c0.getJ(), c1.getI(), c1.getJ());
+    }
+
+    public float computeTravelCost(int i0, int j0, int i1, int j1) {
+        float h0 = getHeight(i0, j0), h1 = getHeight(i1, j1);
+        float climb = (float)Math.pow(Math.abs(h0 - h1) * 1000.0, 1.5);
+        float dist = computeDistance(i0,j0, i1,j1);
+        return (1.0f + climb) * dist;
+    }
+    public float computeTravelCost(Coord c0, Coord c1) {
+        return computeTravelCost(c0.getI(), c0.getJ(), c1.getI(), c1.getJ());
+    }
+    public float computeTravelCost(Iterable<Coord> cs) {
+        Coord c0 = null;
+        float cost = 0.0f;
+        for(Coord c1 : cs) {
+            if(c0 != null) cost += computeTravelCost(c0, c1);
+            c0 = c1;
+        }
+        return cost;
+    }
+}
+
+--[ 2021.12.04.21.07.25.868.0 ]--
+InitFile: /src/Walker.java
+import java.util.Iterator;
+
+/**
+ * Walker takes an Iterable of Coords and simulates an individual
+ * walking along the path over the given Terrain
+ */
+public class Walker {
+
+    // terrain: the Terrain the Walker traverses
+    // path: the sequence of Coords the Walker follows
+    public Walker(Terrain terrain, Iterable<Coord> path) {
+    }
+
+    // returns the Walker's current location
+    public Coord getLocation() {
+        return null;
+    }
+
+    // returns true if Walker has reached the end Coord (last in path)
+    public boolean doneWalking() {
+        return true;
+    }
+
+    // advances the Walker along path
+    // byTime: how long the Walker should traverse (may be any non-negative value)
+    public void advance(float byTime) {
+    }
+
+}
+
+--[ 2021.12.04.21.07.25.871.0 ]--
+InitFile: /src/Coord.java
+/**
+ * Coordinates is an immutable type that store the tuple (i, j)
+ */
+public final class Coord {
+    private final int i;
+    private final int j;
+
+    public Coord(int i, int j) {
+        this.i = i;
+        this.j = j;
+    }
+
+    public int getI() { return i; }
+    public int getJ() { return j; }
+
+    public boolean isInBounds(int minI, int minJ, int maxI, int maxJ) {
+        return i >= minI && j >= minJ && i <= maxI && j <= maxJ;
+    }
+    public boolean isInBounds(Coord min, Coord max) {
+        return i >= min.i && i <= max.i && j >= min.j && j <= max.j;
+    }
+
+    public Coord add(int addI, int addJ) {
+        return new Coord(i + addI, j + addJ);
+    }
+    public Coord add(Coord that) { return new Coord(i + that.i, j + that.j); }
+
+    public String toString() { return "(" + i + "," + j + ")"; }
+
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null) return false;
+        if(o.getClass() != this.getClass()) return false;
+        Coord that = (Coord) o;
+        if(this.i != that.i) return false;
+        if(this.j != that.j) return false;
+        return true;
+    }
+}
+
+--[ 2021.12.04.21.07.25.874.0 ]--
+InitFile: /src/TerrainEditor.java
+/**
+ * The following class provides some simple terrain editing functions.
+ */
+public class TerrainEditor {
+    private static float rndRadius(float d) {
+        return (float)StdRandom.uniform(-d,d);
+    }
+
+    private static float getFractalHeight(int i, int j, float dh, Terrain terrain, boolean[] isset) {
+        int N = terrain.getN();
+        dh = Math.max(-64, Math.min(255+64, dh));   // allow the height to go just a bit out of range
+        if(!isset[i + j * N]) {
+            isset[i + j * N] = true;
+            terrain.setHeight(i, j, dh);
+        }
+        return terrain.getHeight(i,j);
+    }
+
+    private static void setFractalHeights(int i0, int j0, int i1, int j1, Terrain terrain, boolean[] isset) {
+        int id = i1-i0;
+        int jd = j1-j0;
+        int i01 = (i0+i1)/2;
+        int j01 = (j0+j1)/2;
+
+        if(id <= 1 && jd <= 1) return;
+
+        float h00 = getFractalHeight(i0,j0,32,terrain,isset);
+        float h01 = getFractalHeight(i0,j1,32,terrain,isset);
+        float h10 = getFractalHeight(i1,j0,32,terrain,isset);
+        float h11 = getFractalHeight(i1,j1,32,terrain,isset);
+
+        float d = (float)(Math.sqrt((i1-i0)*(i1-i0) + (j1-j0)*(j1-j0)) * 0.5);
+
+        float d0001 = (h00 + h01) / 2 + rndRadius(d);
+        float d0010 = (h00 + h10) / 2 + rndRadius(d);
+        float d1101 = (h11 + h01) / 2 + rndRadius(d);
+        float d1110 = (h11 + h10) / 2 + rndRadius(d);
+
+        float h0001 = getFractalHeight(i0, j01, d0001, terrain,isset);
+        float h0010 = getFractalHeight(i01, j0, d0010, terrain,isset);
+        float h1101 = getFractalHeight(i01, j1, d1101, terrain,isset);
+        float h1110 = getFractalHeight(i1, j01, d1110, terrain,isset);
+
+        float dm = (float)((h0001 + h0010 + h1101 + h1110) / 4.0);
+        float hm = getFractalHeight(i01, j01, dm, terrain,isset);
+
+        if(id > 1 && jd > 1) {
+            setFractalHeights(i0, j0, i01, j01, terrain, isset);
+            setFractalHeights(i01, j0, i1, j01, terrain, isset);
+            setFractalHeights(i0, j01, i01, j1, terrain, isset);
+            setFractalHeights(i01, j01, i1, j1, terrain, isset);
+        } else if(jd > 1) {
+            setFractalHeights(i0, j0, i1, j01, terrain, isset);
+            setFractalHeights(i0, j01, i1, j1, terrain, isset);
+        } else {
+            setFractalHeights(i0, j0, i01, j1, terrain, isset);
+            setFractalHeights(i01, j0, i1, j1, terrain, isset);
+        }
+    }
+
+    public static void setFractalHeights(Terrain terrain) {
+        int N = terrain.getN();
+        boolean[] isset = new boolean[N*N];
+        setFractalHeights(0, 0, N - 1, N - 1, terrain, isset);
+    }
+
+    public static void smoothHeights(Terrain terrain) {
+        int N = terrain.getN();
+        int radius = (int)Math.ceil(Math.sqrt(N*N/2.0f));
+        smoothHeights(N/2, N/2, radius, false, terrain);
+    }
+
+    public static void smoothHeights(int ic, int jc, int radius, boolean fallOff, Terrain terrain) {
+        final int N = terrain.getN();
+        final int w = 2*radius+1;
+        float[] s = new float[w*w];
+        for(int ia = -radius; ia <= radius; ia++) {
+            int i = ic + ia;
+            if(i < 0 || i >= N) continue;
+            for(int ja = -radius; ja <= radius; ja++) {
+                int j = jc + ja;
+                if(j < 0 || j >= N) continue;
+                int sidx = (ia+radius) + (ja+radius)*w;
+
+                float m = computeEffect(i, j, ic, jc, radius, fallOff, N);
+                if(m <= 0.0000001) {
+                    s[sidx] = terrain.getHeight(i,j);
+                    continue;
+                }
+                float h = 0;
+                int c = 0;
+                if(i > 0 && j > 0) {
+                    h += terrain.getHeight(i-1,j-1);
+                    c += 1;
+                }
+                if(i < N-1 && j > 0) {
+                    h += terrain.getHeight(i+1,j-1);
+                    c += 1;
+                }
+                if(i > 0 && j < N-1) {
+                    h += terrain.getHeight(i-1,j+1);
+                    c += 1;
+                }
+                if(i < N-1 && j < N-1) {
+                    h += terrain.getHeight(i+1,j+1);
+                    c += 1;
+                }
+                if(i > 0) {
+                    h += terrain.getHeight(i-1,j);
+                    c += 1;
+                }
+                if(j > 0) {
+                    h += terrain.getHeight(i,j-1);
+                    c += 1;
+                }
+                if(i < N-1) {
+                    h += terrain.getHeight(i+1,j);
+                    c += 1;
+                }
+                if(j < N-1) {
+                    h += terrain.getHeight(i,j+1);
+                    c += 1;
+                }
+                s[sidx] = (1-m) * terrain.getHeight(i,j) + m * h / c;
+            }
+        }
+        for(int ia = -radius; ia <= radius; ia++) {
+            int i = ic + ia;
+            if(i < 0 || i >= N) continue;
+            for(int ja = -radius; ja <= radius; ja++) {
+                int j = jc + ja;
+                if(j < 0 || j >= N) continue;
+                int sidx = (ia+radius) + (ja+radius)*w;
+                terrain.setHeight(i, j, s[sidx]);
+            }
+        }
+    }
+
+    public static void clampHeights(Terrain terrain) {
+        int N = terrain.getN();
+        for(int i = 0; i < N; i++) {
+            for(int j = 0; j < N; j++) {
+                terrain.setHeight(i, j, Math.max(0, Math.min(255, terrain.getHeight(i, j))));
+            }
+        }
+    }
+
+    private static float computeEffect(int i, int j, int ic, int jc, int radius, boolean fallOff, int N) {
+        if(i < 0 || j < 0 || i >= N || j >= N) return 0;
+        if(!fallOff) return 1;
+        int d2 = (ic-i)*(ic-i)+(jc-j)*(jc-j);
+        if(d2 > radius*radius) return 0;
+        return ((float)radius - (float)Math.sqrt(d2)) / (float)radius;
+    }
+
+    public static void addHeight(int i, int j, int radius, float add, Terrain terrain) {
+        final int N = terrain.getN();
+        for(int ja = -radius; ja <= radius; ja++) {
+            int r = j + ja;
+            if(r < 0 || r >= N) continue;
+            for(int ia = -radius; ia <= radius; ia++) {
+                int c = i + ia;
+                if(c < 0 || c >= N) continue;
+                float v = add * computeEffect(c, r, i, j, radius, true, N);
+                float h = terrain.getHeight(c, r) + v;
+                h = Math.max(0, Math.min(255, h));
+                terrain.setHeight(c, r, h);
+            }
+        }
+    }
+}
+
+--[ 2021.12.04.21.07.25.878.0 ]--
+InitFile: /P04_Pathfinding.iml
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/.log" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="stdlib" level="project" />
+  </component>
+</module>
+
+--[ 2021.12.04.21.07.25.882.0 ]--
+InitFile: /src/PathfinderVisualizer.java
+/**
+ * PathfinderVisualizer visualizes the terrain and found path.
+ */
+
+import java.awt.Color;
+import java.awt.Font;
+
+public class PathfinderVisualizer {
+
+    // delay in milliseconds (controls animation speed)
+    private final static int DELAY = 100;
+
+    // color for different elevations.  must be in ascending order!
+    private final static int[][] elevationColors = {
+            // h    r   g   b   where h=height, r=red, g=green, b=blue
+            {  0,   0,  0,  0},
+            {  2,   0,  0,160},
+            {  4,   0,224,224},
+            { 16, 192,192,  0},
+            { 64,  16,255, 16},
+            {128,  32,224, 32},
+            {192, 128,128,  8},
+            {224, 164,164,164},
+            {255, 255,255,255}
+    };
+
+    private final static Color cStart    = new Color(128, 128, 255);
+    private final static Color cEnd      = new Color(255, 128, 128);
+    private final static Color cSolution = new Color(255, 128, 255);
+    private final static Color cSearched = new Color(128,   0, 128);
+
+    // linearly interpolating between the corresponding rgb values
+    private static Color colorLERP(float v1, int r0, int g0, int b0, int r1, int g1, int b1) {
+        v1 = Math.max(0.0f, Math.min(1.0f, v1));
+        float v0 = 1.0f - v1;
+        int r = (int)(v0 * r0 + v1 * r1);
+        int g = (int)(v0 * g0 + v1 * g1);
+        int b = (int)(v0 * b0 + v1 * b1);
+        return new Color(r, g, b);
+    }
+    private static Color colorLERP(float v1, Color c0, Color c1) {
+        v1 = Math.max(0.0f, Math.min(1.0f, v1));
+        float v0 = 1.0f - v1;
+        int r = (int)(v0 * c0.getRed()   + v1 * c1.getRed());
+        int g = (int)(v0 * c0.getGreen() + v1 * c1.getGreen());
+        int b = (int)(v0 * c0.getBlue()  + v1 * c1.getBlue());
+        int a = (int)(v0 * c0.getAlpha() + v1 * c1.getAlpha());
+        return new Color(r, g, b, a);
+    }
+
+    // returns color for given height
+    private static Color height2Color(int h) {
+        h = Math.max(0, Math.min(255, h));
+
+        int[] ec0 = elevationColors[0];  // default lower bound
+        int[] ec1 = elevationColors[1];  // default upper bound
+
+        // find upper bound while updating lower bound
+        for(int i = 1; i < elevationColors.length; i++) {
+            ec1 = elevationColors[i];
+            if(h >= ec0[0] && h <= ec1[0]) break;
+            ec0 = ec1;
+        }
+
+        int h0=ec0[0], r0=ec0[1], g0=ec0[2], b0=ec0[3];
+        int h1=ec1[0], r1=ec1[1], g1=ec1[2], b1=ec1[3];
+        float v1 = ((float)(h - h0)) / ((float)(h1 - h0));
+
+        return colorLERP(v1, r0, g0, b0, r1, g1, b1);
+    }
+
+    private static void drawCircle(int i, int j, int N, double rad) {
+        int c = (int)((i+0.5f) * 464.0f / N);
+        int r = (int)((j+0.5f) * 464.0f / N);
+        StdDraw.circle(c + 24, 464 - r + 36, rad);
+    }
+    public static void drawCircle(Coord loc, int N, double rad) {
+        drawCircle(loc.getI(), loc.getJ(), N, rad);
+    }
+
+    private static void drawPath(Iterable<Coord> path, int N) {
+        boolean first = true;
+        int c0 = 0, r0 = 0;
+        for (Coord loc : path) {
+            int c1 = (int)((loc.getI()+0.5f) * 464.0f / N);
+            int r1 = (int)((loc.getJ()+0.5f) * 464.0f / N);
+            if(!first) {
+                StdDraw.line(c0 + 24, 464 - r0 + 36, c1 + 24, 464 - r1 + 36);
+            }
+            first = false;
+            c0 = c1; r0 = r1;
+        }
+    }
+
+    // draw N-by-N pathfinding map
+    public static void draw(Terrain terrain, Pathfinder pf, Walker walker, int N) {
+        StdDraw.clear();
+        StdDraw.setXscale(0, 512);
+        StdDraw.setYscale(0, 512);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.filledSquare(256, 256 + 12, 464 / 2);
+
+        // draw terrain
+        for(int row = 0; row < 464; row++) {
+            int j = (int)((float)row/464.0f * N);
+            for(int col = 0; col < 464; col++) {
+                int i = (int)((float)col/464.0f * N);
+                Coord loc = new Coord(i,j);
+                Color c = height2Color(terrain.getHeight(loc));
+                if(pf.wasSearched(loc)) {
+                    c = colorLERP(0.50f, c, cSearched);
+                }
+                StdDraw.setPenColor(c);
+                StdDraw.filledSquare(col + 24, 464 - row + 36, 1);
+            }
+        }
+
+        // draw path start
+        if(pf.getPathStart() != null) {
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.006);
+            drawCircle(pf.getPathStart(), N, 4.0);
+
+            StdDraw.setPenColor(cStart);
+            StdDraw.setPenRadius(0.002);
+            drawCircle(pf.getPathStart(), N, 4.0);
+        }
+
+        // draw path end
+        if(pf.getPathEnd() != null) {
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.006);
+            drawCircle(pf.getPathEnd(), N, 4.0);
+
+            StdDraw.setPenColor(cEnd);
+            StdDraw.setPenRadius(0.002);
+            drawCircle(pf.getPathEnd(), N, 4.0);
+        }
+
+        // draw found path
+        if(pf.foundPath()) {
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.006);
+            drawPath(pf.getPathSolution(), N);
+
+            StdDraw.setPenColor(cSolution);
+            StdDraw.setPenRadius(0.002);
+            drawPath(pf.getPathSolution(), N);
+        }
+
+        // draw walker
+        if(walker != null) {
+            Coord loc = walker.getLocation();
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.006);
+            PathfinderVisualizer.drawCircle(loc, N, 2.0);
+
+            StdDraw.setPenColor(StdDraw.WHITE);
+            StdDraw.setPenRadius(0.002);
+            PathfinderVisualizer.drawCircle(loc, N, 2.0);
+        }
+
+        // write status text
+        StdDraw.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(96, 12, "heuristic: " + pf.getHeuristic());
+        if(pf.foundPath()) StdDraw.text(256, 12, "path: " + pf.getPathCost());
+        else               StdDraw.text(256, 12, "no path found");
+        StdDraw.text(512-96, 12, "searched: " + pf.getSearchSize() + " (" + (int)(100.0f * pf.getSearchSize() / (N*N)) + "%)");
+    }
+}
+
+--[ 2021.12.04.21.07.25.885.0 ]--
+InitFile: /src/Pathfinder.java
+import java.lang.IndexOutOfBoundsException;
+import java.lang.IllegalArgumentException;
+
+/**
+ * Pathfinder uses A* search to find a near optimal path
+ * between to locations with given terrain.
+ */
+
+public class Pathfinder {
+
+    /**
+     * PFNode will be the key for MinPQ (used in computePath())
+     */
+    private class PFNode implements Comparable<PFNode> {
+        // loc: the location of the PFNode
+        // fromNode: how did we get here? (linked list back to start)
+        public PFNode(Coord loc, PFNode fromNode) { }
+
+        // compares this with that, used to find minimum cost PFNode
+        public int compareTo(PFNode that) {
+            return 0;
+        }
+
+        // returns the cost to travel from starting point to this
+        // via the fromNode chain
+        public float getCost(float heuristic) {
+            return 0;
+        }
+
+        // returns if this PFNode is still valid
+        public boolean isValid() {
+            return false;
+        }
+
+        // invalidates the PFNode
+        public void invalidate() {
+        }
+
+        // returns if the PFNode has been used
+        public boolean isUsed() {
+            return true;
+        }
+
+        // uses the PFNode
+        public void use() { }
+
+        // returns an Iterable of PFNodes that surround this
+        public Iterable<PFNode> neighbors() {
+            Stack<PFNode> s = new Stack<>();
+            s.push(new PFNode(null, null));
+            return s;
+        }
+    }
+
+    Coord pathStart = null;
+    Coord pathEnd = null;
+    float heuristic = 0;
+    boolean foundPath = false;
+    float pathCost = 0;
+    int searchSize = 0;
+
+    public Pathfinder(Terrain terrain) {
+
+    }
+
+    public void setPathStart(Coord loc) {
+        pathStart = loc;
+    }
+
+    public Coord getPathStart() {
+        return pathStart;
+    }
+
+    public void setPathEnd(Coord loc) {
+        pathEnd = loc;
+    }
+
+    public Coord getPathEnd() {
+        return pathEnd;
+    }
+
+    public void setHeuristic(float v) {
+        heuristic = v;
+    }
+
+    public float getHeuristic() {
+        return heuristic;
+    }
+
+    public void resetPath() {
+    }
+
+    public void computePath() {
+    }
+
+    public boolean foundPath() {
+        return foundPath;
+    } // todo set this value somewhere else
+
+    public float getPathCost() {
+        return pathCost;
+    } // todo set this value somewhere else
+
+    public int getSearchSize() {
+        return searchSize;
+    } // todo set this value somewhere else
+
+    public Iterable<Coord> getPathSolution() {
+        return null;
+    }
+
+    public boolean wasSearched(Coord loc) {
+        return false;
+    }
+}
+
+--[ 2021.12.04.21.07.25.888.0 ]--
+InitFile: /.cos265
+
+
+--[ 2021.12.04.21.07.25.890.0 ]--
+InitFile: /src/InteractivePathfinderVisualizer.java
+import java.awt.event.KeyEvent;
+
+/**
+ * InteractivePathfinderVisualizer visualizes the terrain and the computed
+ * path and allows the user to change parameters of the Pathfinder.  Below
+ * is a list of commands and what they do.  Note: some of the commands
+ * modify the properties of the path finder and some modify the terrain.
+ *
+ * Command        Action                                      Terrain
+ * C              clear path
+ * space          recompute path
+ * S/E            set start/end location to mouse
+ * left/right     halve/double path search heuristic value
+ * 0/1            set path search heuristic to 0 or 1
+ * W              start a walker to show the path
+ * R              randomly generate a new terrain                *
+ * M              smooths terrain under mouse                    *
+ * shift+M        smooths all terrain                            *
+ * up/down        increase/decrease terrain under mouse          *
+ */
+
+public class InteractivePathfinderVisualizer {
+    private final static int DELAY = 10;
+
+    // sets how many redraws it should take for the walker to reach its destination
+    private final static float STEPS_TO_WALK = 100.0f;
+
+    // for convenience, here are the emap files that are located under heightmaps/ folder
+    // the python script in that folder converts png files to emap. \
+    // you can use it to create your own maps to test your code
+    private final static String[] emaps = {
+            "maze32_0.png.emap",    // 0   (32x32 maze)
+            "maze32_1.png.emap",    // 1   (another 32x32 maze)
+            "maze232_0.png.emap",   // 2   (232x232 maze)
+            "maze320_0.png.emap",   // 3   (same as maze32_0, only scaled up by 10x)
+            "mazeAB.png.emap",      // 4   (a maze from a site no longer online :( )
+            "mazeBrain.png.emap",   // 5   (...)
+            "ramp.png.emap",        // 6   (some tests)
+            "ramp2.png.emap",       // 7   (...)
+            "ramp3.png.emap",       // 8   (...)
+            "usa128.png.emap",      // 9   (elevation map of USA from https://bananas.openttd.org/en/heightmap/)
+            "usa256.png.emap",      // 10  (same as usa128, only higher resolution)
+            "usa1024.png.emap",     // 11  (same as usa128, only higher resolution
+    };
+
+    private final static String emapFilename = emaps[2];        // change index to load a different elevation map
+
+
+
+    public static void main(String[] args) {
+        Terrain terrain = new Terrain(emapFilename);
+        Pathfinder pf = new Pathfinder(terrain);
+        int N = terrain.getN();
+
+        StdDraw.show(0);
+
+        // set default starting and ending locations
+        pf.setPathStart(new Coord(1, 1));
+        pf.setPathEnd(new Coord(N-3, N-3));
+
+        // find a path
+        pf.resetPath();
+        pf.computePath();
+
+        PathfinderVisualizer.draw(terrain, pf, null, N);
+        StdDraw.show(DELAY);
+
+        // prevent repeated applications
+        boolean keyboardR = false;
+        boolean keyboardM = false;
+
+        Walker walker = null;
+
+        while(true) {
+            boolean recompute = false;
+            boolean redraw = false;
+
+            // mouse location on map
+            int mouseI = (int) ((StdDraw.mouseX()-24) / 464 * N);
+            int mouseJ = (int) ((464 - (StdDraw.mouseY()-36)) / 464 * N);
+            boolean isMouseOnMap = (mouseI >=0 && mouseI < N && mouseJ >= 0 && mouseJ < N);
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_LEFT) || StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)) {
+                boolean keyboardLeft = StdDraw.isKeyPressed(KeyEvent.VK_LEFT);
+                float m = keyboardLeft ? 0.5f : 2.0f;
+                float h = pf.getHeuristic() * m;
+                h = Math.max(1.0f/1024.0f, Math.min(1048576.0f, h));
+                pf.setHeuristic(h);
+                recompute = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_0) || StdDraw.isKeyPressed(KeyEvent.VK_1)) {
+                boolean keyboard0 = StdDraw.isKeyPressed(KeyEvent.VK_0);
+                float h = keyboard0 ? 0 : 1;
+                pf.setHeuristic(h);
+                recompute = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_C)) {
+                pf.resetPath();
+                walker = null;
+                redraw = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_R) && !keyboardR) {
+                TerrainEditor.setFractalHeights(terrain);
+                TerrainEditor.clampHeights(terrain);
+                recompute = true;
+            }
+            keyboardR = StdDraw.isKeyPressed(KeyEvent.VK_R);
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_M)) {
+                if(StdDraw.isKeyPressed(KeyEvent.VK_SHIFT)) {
+                    if(!keyboardM) {
+                        TerrainEditor.smoothHeights(terrain);
+                        recompute = true;
+                    }
+                } else {
+                    TerrainEditor.smoothHeights(mouseI, mouseJ, N / 20, true, terrain);
+                    recompute = true;
+                }
+            }
+            keyboardM = StdDraw.isKeyPressed(KeyEvent.VK_M);
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_SPACE)) {
+                recompute = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_UP) || StdDraw.isKeyPressed(KeyEvent.VK_DOWN)) {
+                boolean keyboardUp = StdDraw.isKeyPressed(KeyEvent.VK_UP);
+                float add = keyboardUp ? 8.0f : -8.0f;
+                TerrainEditor.addHeight(mouseI, mouseJ, N / 20, add, terrain);
+                recompute = true;
+            }
+
+            if(isMouseOnMap && StdDraw.isKeyPressed(KeyEvent.VK_S)) {
+                pf.setPathStart(new Coord(mouseI, mouseJ));
+                recompute = true;
+            }
+
+            if(isMouseOnMap && StdDraw.isKeyPressed(KeyEvent.VK_E)) {
+                pf.setPathEnd(new Coord(mouseI, mouseJ));
+                recompute = true;
+            }
+
+            if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
+                Iterable<Coord> path = pf.getPathSolution();
+                if(path != null) {
+                    walker = new Walker(terrain, pf.getPathSolution());
+                }
+            }
+
+            if(walker != null) {
+                if(walker.doneWalking()) {
+                    walker = null;
+                } else {
+                    walker.advance(pf.getPathCost() / STEPS_TO_WALK);
+                }
+                redraw = true;
+            }
+
+            if(recompute) {
+                walker = null;
+                pf.resetPath();
+                if(pf.getPathStart() != null && pf.getPathEnd() != null) {
+                    pf.computePath();
+                }
+                redraw = true;
+            }
+
+            if(redraw) {
+                PathfinderVisualizer.draw(terrain, pf, walker, N);
+                StdDraw.show(DELAY);
+            } else {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    /* do nothing */
+                }
+            }
+        }
+    }
+}
+
+--[ 2021.12.04.21.09.11.140.0 ]--
+DisposeComponent

@@ -25,42 +25,56 @@ public class QuickSortMedian5 extends QuickSortMedian {
             int i0 = indices[0];
             int i1 = indices[1];
             int i2 = indices[2];
-            int i3 = indices[3];
-            int i4 = indices[4];
-            Comparable a0 = a[i0];
-            Comparable a1 = a[i1];
-            Comparable a2 = a[i2];
-            Comparable a3 = a[i3];
-            Comparable a4 = a[i4];
-
-            Comparable[] arrayOf5 = new Double[5];
-            arrayOf5[0] = a0;
-            arrayOf5[1] = a1;
-            arrayOf5[2] = a2;
-            arrayOf5[3] = a3;
-            arrayOf5[4] = a4;
+//            int i3 = indices[3];
+//            int i4 = indices[4];
+//            Comparable a0 = a[i0];
+//            Comparable a1 = a[i1];
+//            Comparable a2 = a[i2];
+//            Comparable a3 = a[i3];
+//            Comparable a4 = a[i4];
+//
+//            Comparable[] arrayOf5 = new Comparable[5];
+//            arrayOf5[0] = a0;
+//            arrayOf5[1] = a1;
+//            arrayOf5[2] = a2;
+//            arrayOf5[3] = a3;
+//            arrayOf5[4] = a4;
+            Comparable a0 = null;
+            Comparable a1 = null;
+            Comparable a2 = null;
 
             // find median in a0,a1,a2,a3,a4, and return respective index
-            Comparable maxNum = Collections.max(Arrays.asList(arrayOf5));
-            Comparable minNum = Collections.min(Arrays.asList(arrayOf5));
-            Comparable[] arrayOf3 = new Double[3];
-            int count = 0;
+            Comparable maxNum = Collections.max(Arrays.asList(a));
+            Comparable minNum = Collections.min(Arrays.asList(a));
+//            Comparable[] arrayOf3 = new Comparable[3];
+//            int count = 0;
+            int a0a1a2Count = 0;
             boolean maxRemoved = false;
             boolean minRemoved = false;
             for (int i=0; i<5; i++) {
-               if (arrayOf5[i] == maxNum && !maxRemoved) {
+               if (a[i] == maxNum && !maxRemoved) {
                     maxRemoved = true;
-               } else if (arrayOf5[i] == minNum && !minRemoved) {
+               } else if (a[i] == minNum && !minRemoved) {
                    minRemoved = true;
                } else {
-                   arrayOf3[count] = arrayOf5[i];
-                   count++;
+                   if (a0a1a2Count == 0) {
+                       a0 = a[i];
+                       i0 = indices[i];
+                   } else if (a0a1a2Count == 1) {
+                       a1 = a[i];
+                       i1 = indices[i];
+                   } else {
+                       a2 = a[i];
+                       i2 = indices[i];
+                   }
+                   a0a1a2Count++;
+//                   count++;
                }
             }
 
-            a0 = arrayOf3[0];
-            a1 = arrayOf3[1];
-            a2 = arrayOf3[2];
+//            a0 = arrayOf3[0];
+//            a1 = arrayOf3[1];
+//            a2 = arrayOf3[2];
 
             if ((a0.compareTo(a1) <= 0 && a0.compareTo(a2) >= 0) || (a0.compareTo(a1) >= 0 && a0.compareTo(a2) <= 0)) {
                 return i0;
